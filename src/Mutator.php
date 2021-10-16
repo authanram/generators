@@ -9,10 +9,12 @@ use Illuminate\Support\Stringable;
 
 abstract class Mutator
 {
-    protected static string $attribute = '';
-    protected static string $placeholder = '';
-
     abstract public function handle(Stringable $subject): Stringable|string;
+
+    public static function make(...$args): static
+    {
+        return new static($args);
+    }
 
     public static function resolve(Closure $callback, Generator $passable, string $attribute = null): Generator
     {
