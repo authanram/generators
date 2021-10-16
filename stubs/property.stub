@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+{{ uses }}
+
+trait {{ class }}
+{
+    /**
+     * {{ comment }}
+     *
+     * @var {{ type_doc }}
+     */
+    public {{ type }} ${{ variable }} = {{ value }};
+
+    /**
+     * Get the {{ variable_doc }}.
+     *
+     * @return {{ type_doc }}
+     */
+    public function {{ getter }}(): {{ type }}
+    {
+        return $this->{{ variable }};
+    }
+
+    /**
+     * Set the {{ variable_doc }}.
+     *
+     * @param {{ type_doc }} ${{ variable }}
+     *
+     * @return static
+     */
+    public function {{ setter }}({{ type }} ${{ variable }}): static
+    {
+        $this->{{ variable }} = ${{ variable }};
+
+        return $this;
+    }
+}
