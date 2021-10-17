@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Mutators\Php;
 
+use Authanram\Generators\Mutators\Mutator;
 use Authanram\Generators\Subject;
 use Authanram\Generators\TYPE as TYPES;
 
-trait Type
+class Type extends Mutator
 {
-    public static function type(Subject $subject): string
+    public static function handle(Subject $subject): string
     {
         return TYPES::resolve($subject->value)->typeHint();
     }

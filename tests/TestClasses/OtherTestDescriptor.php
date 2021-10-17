@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Authanram\Generators\Tests\TestClasses;
 
 use Authanram\Generators\Descriptor;
-use Authanram\Generators\Mutators\Php as PHP;
-use Authanram\Generators\Mutators\Stringable;
+use Authanram\Generators\Mutators\Php;
 
 class OtherTestDescriptor extends Descriptor
 {
@@ -18,18 +17,18 @@ class OtherTestDescriptor extends Descriptor
     public static function placeholders(): array
     {
         return [
-            [Stringable::CAMEL, 'foo', 'bar'],
-            (Stringable::CAMEL)::make('foo', 'bar'),
-            (Stringable::CAMEL)(),
-//            Mutators\Comment::class,
-//            PHP::GETTER,
-//            PHP::setter(),
-//            Mutators\Type::class,
-//            Mutators\TypeDoc::class,
-//            Mutators\Uses::class,
-//            Mutators\Value::class,
-//            Mutators\Variable::class,
-//            Mutators\VariableDoc::class,
+            'namespace' => Php\NamespaceName::class,
+            'uses' => Php\Uses::class,
+            'class' => Php\Classname::class,
+            'extends' => 'extends',
+            'implements' => 'implements',
+            'traits' => Php\Uses::class,
+            'comment' => 'comment',
+            'type' => Php\Type::class,
+            'property' => Php\Variable::class,
+            'value' => Php\Value::class,
+            'getter' => Php\Getter::class,
+            'setter' => Php\Setter::class,
         ];
     }
 }

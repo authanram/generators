@@ -13,28 +13,28 @@ class {{ class }} extends {{ extends }} implements {{ implements }}
     /**
      * {{ comment }}
      *
-     * @var {{ doc:type }}
+     * @var {{ type::doc }}
      */
     public {{ type }} ${{ property }} = {{ value }};
 
     /**
-     * Get the {{ doc:property }}.
+     * Get the {{ property::doc }}.
      *
-     * @return {{ doc:type }}
+     * @return {{ type::doc }}
      */
-    public function {{ getter:property }}(): {{ type }}
+    public function {{ getter }}(): {{ type }}
     {
         return $this->{{ property }};
     }
 
     /**
-     * Set the {{ doc:property }}.
+     * Set the {{ property::doc }}.
      *
-     * @param {{ doc:type }} ${{ property }}
+     * @param {{ type::doc }} ${{ property }}
      *
      * @return static
      */
-    public function {{ setter:property }}({{ type }} ${{ property }}): static
+    public function {{ setter }}({{ type }} ${{ property }}): static
     {
         $this->{{ property }} = ${{ property }};
 

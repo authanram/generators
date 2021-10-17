@@ -6,15 +6,15 @@ namespace Authanram\Generators;
 
 class Passable
 {
-    public function __construct(private Descriptor $description) {}
+    public function __construct(private Descriptor $descriptor) {}
 
-    public static function create(Descriptor $description): static
+    public static function create(Descriptor $descriptor): static
     {
-        return new static($description);
+        return new static($descriptor);
     }
 
     public function describe(): Descriptor
     {
-        return $this->description;
+        return $this->descriptor;
     }
 }

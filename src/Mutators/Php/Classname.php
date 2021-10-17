@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Mutators\Php;
 
-use Authanram\Generators\Contracts\Stringable;
+use Authanram\Generators\Mutators\Mutator;
 use Authanram\Generators\Subject;
+use Illuminate\Support\Stringable;
 
-trait Classname
+class Classname extends Mutator
 {
-    public static function classname(Subject $subject): Stringable
+    public static function handle(Subject $subject): Stringable|string
     {
         return $subject->value->studly();
     }

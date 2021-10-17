@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Authanram\Generators;
 
 use Illuminate\Support\Fluent;
+use Illuminate\Support\Stringable;
 
 class Subject
 {
-    public Fluent $options;
+    public Fluent $payload;
 
-    public function __construct(public Stringable $value, public string $placeholder, array $options = [])
+    public function __construct(public Stringable $value, public string $placeholder, array $payload = [])
     {
-        $this->options = new Fluent($options);
+        $this->payload = new Fluent($payload);
     }
 
     public static function make(Stringable $value, string $placeholder, array $options = []): static

@@ -6,6 +6,7 @@ namespace Authanram\Generators;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\Stringable;
 
 class Generator
 {

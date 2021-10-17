@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Mutators\Php;
 
+use Authanram\Generators\Mutators\Mutator;
 use Authanram\Generators\Subject;
 
-trait Uses
+class Uses extends Mutator
 {
-    public static function uses(Subject $subject): string
+    public static function handle(Subject $subject): string
     {
-        // @todo wrap via Stringable
-        return sprintf('use %s;', $subject);
+        return sprintf('use %s;', $subject->value);
     }
 }
