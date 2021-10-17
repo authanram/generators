@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Authanram\JetstreamPlugin\Generators;
-
-use Authanram\Generators\Contracts\Descriptor;
+namespace Authanram\Generators;
 
 class Passable
 {

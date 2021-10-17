@@ -4,10 +4,19 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
+use Authanram\Generators\Mutators;
+
 abstract class Descriptor
 {
-    abstract public function stub(): string;
+    public const TYPE = TYPE::class;
 
-    /** @return Mutator[]|string[] */
-    abstract public function placeholders(): array;
+    abstract public static function stub(): string;
+
+    /** @return Mutators\Mutator[]|string[] */
+    abstract public static function placeholders(): array;
+
+    public static function mutators(): Mutators\Mutators|string
+    {
+        return Mutators\Mutators::class;
+    }
 }

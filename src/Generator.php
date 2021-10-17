@@ -4,29 +4,23 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Closure;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
+use Illuminate\Support\Fluent;
 
 class Generator
 {
-    private function __construct(private array $attributes, private string $code) {}
+    private function __construct(protected Fluent $attributes, protected string $code) {}
 
     public static function make(array $attributes, string $code): static
     {
-        return new static($attributes, $code);
+        return new static(new Fluent($attributes), $code);
     }
 
-    public function out(): string
+    public function handle(callable $callback, Subject $subject): static
     {
-        return $this->code;
-    }
+        $output = $this->generate($callback, $subject->value);
 
-    public function handle(Closure $callback, string $placeholder, string $attribute): static
-    {
-        $output = $this->generate($callback, $this->attributes[$attribute]);
-
-        return $this->replace($placeholder, $output);
+        return $this->replace($subject->placeholder, $output);
     }
 
     private function replace(string $search, string $replace): static
@@ -36,10 +30,10 @@ class Generator
         return $this;
     }
 
-    private function generate(Closure $callback, array|string $attribute): string
+    private function generate(callable $callback, array|string $attribute): string
     {
         return $this->toCollection($attribute)
-            ->map(fn (string $item) => $callback(Str::of($item)))
+            ->map(fn (string $item) => $callback(new Stringable($item)))
             ->implode("\n");
     }
 

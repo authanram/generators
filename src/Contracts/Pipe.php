@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Contracts;
 
-use Closure;
+use Authanram\Generators\Descriptor;
 
 interface Pipe
 {
     /**
      * @param Descriptor $descriptor
-     * @param Closure $next
+     * @param callable $next
      * @return Descriptor
      * @noinspection PhpMissingParamTypeInspection
      */

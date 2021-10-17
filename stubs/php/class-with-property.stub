@@ -1,0 +1,43 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+{{ uses }}
+
+class {{ class }} extends {{ extends }} implements {{ implements }}
+{
+    {{ traits }}
+
+    /**
+     * {{ comment }}
+     *
+     * @var {{ doc:type }}
+     */
+    public {{ type }} ${{ property }} = {{ value }};
+
+    /**
+     * Get the {{ doc:property }}.
+     *
+     * @return {{ doc:type }}
+     */
+    public function {{ getter:property }}(): {{ type }}
+    {
+        return $this->{{ property }};
+    }
+
+    /**
+     * Set the {{ doc:property }}.
+     *
+     * @param {{ doc:type }} ${{ property }}
+     *
+     * @return static
+     */
+    public function {{ setter:property }}({{ type }} ${{ property }}): static
+    {
+        $this->{{ property }} = ${{ property }};
+
+        return $this;
+    }
+}
