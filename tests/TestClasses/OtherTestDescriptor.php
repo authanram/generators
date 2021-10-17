@@ -14,7 +14,7 @@ class OtherTestDescriptor extends Descriptor
         return 'property.stub';
     }
 
-    public static function placeholders(): array
+    public static function fill($input): array
     {
         return [
             'namespace' => Php\NamespaceName::class,
