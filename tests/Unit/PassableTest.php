@@ -8,7 +8,7 @@ use Authanram\Generators\Passable;
 use Authanram\Generators\Tests\TestClasses\TestDescriptor;
 
 beforeEach(function () {
-    $this->markers = mock(Markers::class);
+    $this->markers = Mockery::spy(Markers::class);
 });
 
 it('throws if {$descriptor} is not a class', function () {
@@ -37,5 +37,5 @@ it('resolves all properties', function () {
     expect($passable->descriptor)->toEqual(TestDescriptor::class);
     expect($passable->pattern)->toEqual('pattern');
     expect($passable->text)->toEqual('text');
-    expect($passable->markers)->toBeInstanceOf(MarkersContract::class);
+    expect($passable->markers)->toBeInstanceOf(Markers::class);
 });
