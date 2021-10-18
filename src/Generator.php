@@ -4,49 +4,23 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Stringable;
-
 class Generator
 {
-    private function __construct(protected Descriptor $descriptor) {}
+    use AuthorizeGenerator;
 
-    public static function make(Descriptor $descriptor): static
+    public function __construct(protected Descriptor|string $descriptor, protected array $pipes)
     {
-        return new static($descriptor);
+        static::authorizeMake($descriptor, $pipes);
     }
 
-    public function generate(array $data, string $text): string
+    public function generate(string $stub, array $markers): string
     {
-        static::authorize($data, $text);
+        static::authorizeGenerate($stub, $markers);
 
-        collect($data)->map(function (array $item) {
-            return $this->descriptor::fill($item);
-        })->implode("\n");
+        static::authorizeMarkers($markers);
 
-        return '';
-    }
+        $passable = Passable::create($this->descriptor, $markers, $stub);
 
-    private static function authorize(array $data, string $text): void
-    {
-        if (trim($text) === '') {
-            throw new \InvalidArgumentException('Argument {$text} must not be empty.');
-        }
-
-        if (count($data) === 0) {
-            throw new \InvalidArgumentException('Argument {$data} must not be empty.');
-        }
-    }
-
-    private static function runCallback(callable $callback, array|string $subject): string
-    {
-        return static::toCollection($subject)
-            ->map(fn (string $item) => $callback(new Stringable($item)))
-            ->implode("\n");
-    }
-
-    private static function toCollection(array|string $subject): Collection
-    {
-        return collect(is_array($subject) ? $subject : [$subject]);
+        return Pipeline::handle($passable, $this->pipes)->text;
     }
 }

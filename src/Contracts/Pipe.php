@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Contracts;
 
-use Authanram\Generators\Descriptor;
+use Authanram\Generators\Passable;
 
 interface Pipe
 {
     /**
-     * @param Descriptor $descriptor
+     * @param Passable $passable
      * @param callable $next
-     * @return Descriptor
+     * @return Passable
      * @noinspection PhpMissingParamTypeInspection
      */
-    public function handle(Descriptor $descriptor, $next): Descriptor;
+    public static function handle(Passable $passable, $next): Passable;
 }
