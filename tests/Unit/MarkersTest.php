@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 use Authanram\Generators\Markers;
 
-it('throws if {$items} is empty', function () {
-    Markers::make([]);
-})->expectExceptionMessage(Markers::$messageMarkers);
-
 it('throws if {$items} is not assoc', function () {
     Markers::make(['first']);
 })->expectExceptionMessage(sprintf(Markers::$messageMarkerKey, '0'));
@@ -21,7 +17,7 @@ it('throws if {$items} are not callable|string', function () {
 })->expectExceptionMessage(sprintf(Markers::$messageMarkerValue, 'second', '0'));
 
 it('allows to force instantiation while items are empty', function () {
-    $markers = Markers::make([], true);
+    $markers = Markers::make();
 
     expect($markers)->toBeInstanceOf(Markers::class);
     expect($markers)->toHaveCount(0);

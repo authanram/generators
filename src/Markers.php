@@ -7,23 +7,46 @@ namespace Authanram\Generators;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
-class Markers extends Collection
+class Markers implements Contracts\Markers
 {
-    public static $messageMarkers = 'Argument {$items} must not be empty.';
     public static $messageMarkerKey = 'Argument {$items} must only contain keys of type "string".';
     public static $messageMarkerValue = 'Argument {$items[%s]} expected "callable|string", got [%s].';
 
+    protected array $items = [];
+
     protected function __construct(array $items)
     {
-        parent::__construct($items);
+        static::authorize($items);
+
+        $this->items = $items;
     }
 
-    public static function make($items = [], bool $forceAllowEmpty = false): static
+    public static function make(array $items = []): static
     {
-        if ($forceAllowEmpty === false && count($items) === 0) {
-            throw new InvalidArgumentException(static::$messageMarkers);
-        }
+        return new static($items);
+    }
 
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    public function setItems(array $items): static
+    {
+        static::authorize($items);
+
+        $this->items = $items;
+
+        return $this;
+    }
+
+    public function toCollection(): Collection
+    {
+        return new Collection($this->items);
+    }
+
+    protected static function authorize(array $items): void
+    {
         foreach ($items as $key => $value) {
             if (is_string($key) === false) {
                 throw new InvalidArgumentException(
@@ -37,7 +60,5 @@ class Markers extends Collection
                 );
             }
         }
-
-        return parent::make($items);
     }
 }

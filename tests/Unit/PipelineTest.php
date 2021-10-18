@@ -9,7 +9,7 @@ use Authanram\Generators\Pipeline;
 use Authanram\Generators\Tests\TestClasses\TestDescriptor;
 
 it('throws if pipes are empty', function () {
-    $markers = Markers::make([], true);
+    $markers = Markers::make();
 
     $passable = new Passable(
         TestDescriptor::class,
@@ -22,7 +22,7 @@ it('throws if pipes are empty', function () {
 })->expectExceptionMessage(Pipeline::$messagePipes);
 
 it('throws if {$items} contains entries not implementing '. Pipe::class, function () {
-    $markers = Markers::make([], true);
+    $markers = Markers::make();
 
     $passable = new Passable(
         TestDescriptor::class,
