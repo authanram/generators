@@ -6,8 +6,11 @@ namespace Authanram\Generators;
 
 class Generator
 {
+    protected array $callbacks = [];
+
     /** @var Pipe[] */
     protected array $pipes = [
+        Pipes\ReadFromPath::class,
         Pipes\ExecuteFillCallback::class,
         Pipes\ResolveMarkers::class,
         Pipes\ReplaceMarkers::class,
