@@ -21,12 +21,7 @@ class Generator
 
     public function generate(string $stub, array $markers, string $pattern = '{{ %s }}'): string
     {
-        $passable = new Passable(
-            $this->descriptor,
-            $pattern,
-            $stub,
-            Markers::make($markers, true),
-        );
+        $passable = new Passable($this->descriptor, $pattern, $stub, Markers::make($markers));
 
         return Pipeline::handle($passable, $this->pipes)->text;
     }

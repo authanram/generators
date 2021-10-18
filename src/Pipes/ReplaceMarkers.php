@@ -12,9 +12,10 @@ class ReplaceMarkers implements Pipe
 {
     public static function handle(Passable $passable, $next): Passable
     {
-        foreach ($passable->markers as $marker => $value) {
+        foreach ($passable->markers->toCollection() as $marker => $value) {
             $marker = sprintf($passable->pattern, $marker);
             $value = static::value($value);
+
             $passable->text = str_replace($marker, $value, $passable->text);
         }
 

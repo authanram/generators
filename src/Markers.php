@@ -12,6 +12,7 @@ class Markers implements Contracts\Markers
     public static $messageMarkerKey = 'Argument {$items} must only contain keys of type "string".';
     public static $messageMarkerValue = 'Argument {$items[%s]} expected "callable|string", got [%s].';
 
+    protected Collection $collection;
     protected array $items = [];
 
     protected function __construct(array $items)
@@ -19,6 +20,7 @@ class Markers implements Contracts\Markers
         static::authorize($items);
 
         $this->items = $items;
+        $this->collection = new Collection($items);
     }
 
     public static function make(array $items = []): static
@@ -42,7 +44,7 @@ class Markers implements Contracts\Markers
 
     public function toCollection(): Collection
     {
-        return new Collection($this->items);
+        return $this->collection;
     }
 
     protected static function authorize(array $items): void
