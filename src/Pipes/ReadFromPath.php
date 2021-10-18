@@ -11,6 +11,8 @@ class ReadFromPath implements Pipe
 {
     public static function handle(Passable $passable, $next): Passable
     {
+        dd($passable);
+
         return $next($passable);
     }
 }

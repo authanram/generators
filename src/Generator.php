@@ -6,7 +6,7 @@ namespace Authanram\Generators;
 
 class Generator
 {
-    protected array $callbacks = [];
+    use GeneratorProperties;
 
     /** @var Pipe[] */
     protected array $pipes = [
@@ -17,14 +17,19 @@ class Generator
         Pipes\PostConditions::class,
     ];
 
-    public function __construct(protected Descriptor|string $descriptor, array $pipes = null)
+    public static function fromPath(string $path): static
     {
-        $this->pipes = $pipes ?? $this->pipes;
+        return (new static)->setPath($path);
     }
 
-    public function generate(string $stub, array $markers, string $pattern = '{{ %s }}'): string
+    public function generate(): string
     {
-        $passable = new Passable($this->descriptor, $pattern, $stub, Markers::make($markers));
+        $passable = new Passable(
+            $this->descriptor,
+            $this->pattern,
+            $this->stub,
+            Markers::make($this->pipes),
+        );
 
         return Pipeline::handle($passable, $this->pipes)->text;
     }
