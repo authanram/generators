@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Pipes;
 
-use Authanram\Generators\Pipe;
-use Authanram\Generators\MarkersResolver;
 use Authanram\Generators\Passable;
+use Authanram\Generators\Pipe;
+use Illuminate\Support\Str;
 
-class ResolveMarkers implements Pipe
+class PostConditions implements Pipe
 {
     public static function handle(Passable $passable, $next): Passable
     {
-//        $passable->markers = MarkerResolver::resolve($passable->text);
+        $passable->text = (string)Str::of($passable->text)
+            ->replace("\n\n\n", "\n");
 
         return $next($passable);
     }

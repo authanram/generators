@@ -6,20 +6,27 @@ namespace Authanram\Generators;
 
 class Generator
 {
-    use AuthorizeGenerator;
+    /** @var Pipe[] */
+    protected array $pipes = [
+        Pipes\ExecuteFillCallback::class,
+        Pipes\ResolveMarkers::class,
+        Pipes\ReplaceMarkers::class,
+        Pipes\PostConditions::class,
+    ];
 
-    public function __construct(protected Descriptor|string $descriptor, protected array $pipes)
+    public function __construct(protected Descriptor|string $descriptor, array $pipes = null)
     {
-        static::authorizeMake($descriptor, $pipes);
+        $this->pipes = $pipes ?? $this->pipes;
     }
 
-    public function generate(string $stub, array $markers): string
+    public function generate(string $stub, array $markers, string $pattern = '{{ %s }}'): string
     {
-        static::authorizeGenerate($stub, $markers);
-
-        static::authorizeMarkers($markers);
-
-        $passable = Passable::create($this->descriptor, $markers, $stub);
+        $passable = new Passable(
+            $this->descriptor,
+            $pattern,
+            $stub,
+            Markers::make($markers, true),
+        );
 
         return Pipeline::handle($passable, $this->pipes)->text;
     }

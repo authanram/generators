@@ -2,30 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Authanram\JetstreamPlugin\Generators;
+namespace Authanram\Generators\Tests\TestClasses;
 
 use Authanram\Generators\Descriptor;
+use Authanram\Generators\Markers;
 
 class TestDescriptor extends Descriptor
 {
-    public static function stub(): string
-    {
-        return 'property.stub';
-    }
-
-    public static function placeholders(): array
+    public static function fill(Markers $markers): array
     {
         return [
-            'namespace' => '',
-            'uses' => '',
-            'class' => '',
-            'extends' => '',
-            'implements' => '',
-            'traits' => '',
-            'comment' => '',
-            'type' => '',
-            'property' => '',
-            'value' => '',
+            'second' => $markers->get('second'),
+            'fourth' => $markers->get('fourth'),
         ];
     }
 }

@@ -6,8 +6,6 @@ namespace Authanram\Generators;
 
 abstract class Descriptor
 {
-    abstract public static function template(): string;
-
     /** @return string[] */
-    abstract public static function fill(Marker $data): array;
+    abstract public static function fill(Markers $markers): array;
 }
