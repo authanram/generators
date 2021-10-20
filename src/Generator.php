@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
+use Authanram\Generators\Contracts\Descriptor;
+use Authanram\Generators\Contracts\Pipe;
+
 class Generator
 {
     use GeneratorProperties;
@@ -17,18 +20,18 @@ class Generator
         Pipes\PostConditions::class,
     ];
 
-    public static function fromPath(string $path): static
+    public static function make(Descriptor|string $descriptor, string $stub): static
     {
-        return (new static)->setPath($path);
+        return (new static)->setDescriptor($descriptor)->setStub($stub);
     }
 
-    public function generate(): string
+    public function generate(array $markers, string $pattern = '{{ %s }}'): string
     {
         $passable = new Passable(
             $this->descriptor,
-            $this->pattern,
             $this->stub,
-            Markers::make($this->pipes),
+            $pattern,
+            Markers::make($markers),
         );
 
         return Pipeline::handle($passable, $this->pipes)->text;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Tests\TestClasses;
 
-use Authanram\Generators\Descriptor;
+use Authanram\Generators\Contracts\Descriptor;
 use Authanram\Generators\Markers;
 
-class TestDescriptor extends Descriptor
+class TestDescriptor implements Descriptor
 {
     public static function fill(Markers $markers): array
     {

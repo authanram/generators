@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Pipes;
 
-use Authanram\Generators\Passable;
-use Authanram\Generators\Pipe;
+use Authanram\Generators\Contracts\Passable;
+use Authanram\Generators\Contracts\Pipe;
 use Illuminate\Support\Str;
 
 class PostConditions implements Pipe

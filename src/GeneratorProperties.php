@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
+use Authanram\Generators\Contracts\Descriptor;
+
 trait GeneratorProperties
 {
     protected Descriptor|string $descriptor;

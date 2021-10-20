@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use Authanram\Generators\Contracts\Pipe;
 use Authanram\Generators\Markers;
 use Authanram\Generators\Passable;
-use Authanram\Generators\Pipe;
 use Authanram\Generators\Pipeline;
 use Authanram\Generators\Tests\TestClasses\TestDescriptor;
 

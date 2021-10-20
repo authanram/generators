@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Pipes;
 
-use Authanram\Generators\Pipe;
+use Authanram\Generators\Contracts\Passable;
+use Authanram\Generators\Contracts\Pipe;
 use Authanram\Generators\Markers;
-use Authanram\Generators\Passable;
 
 class ExecuteFillCallback implements Pipe
 {

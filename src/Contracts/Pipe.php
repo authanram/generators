@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Authanram\Generators;
+namespace Authanram\Generators\Contracts;
 
 interface Pipe
 {

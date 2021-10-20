@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
+use Authanram\Generators\Contracts\Pipe;
 use Illuminate\Container\Container;
 use Illuminate\Pipeline\Pipeline as IlluminatePipeline;
 use InvalidArgumentException;
@@ -11,7 +12,7 @@ use InvalidArgumentException;
 class Pipeline
 {
     public static $messagePipes = 'Argument {$pipes} must not be empty.';
-    public static $messagePipe = 'Argument {$pipes[%s]} must be subclass of "'.Pipe::class.'".';
+    public static $messagePipe = 'Argument {$pipes[%s]} must implement "'.Pipe::class.'".';
 
     private function __construct() {}
 
