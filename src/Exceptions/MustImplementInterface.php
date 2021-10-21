@@ -7,7 +7,7 @@ namespace Authanram\Generators\Exceptions;
 use Exception;
 use Throwable;
 
-class MustImplementInterfaceException extends Exception
+class MustImplementInterface extends Exception
 {
     public function __construct(string $subject, string $interface, int $code = 0, Throwable|null $previous = null)
     {

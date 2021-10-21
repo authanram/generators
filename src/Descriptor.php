@@ -50,8 +50,8 @@ abstract class Descriptor
     }
 
     /**
-     * @throws Exceptions\InvalidArgumentException
-     * @throws Exceptions\InvalidPatternPhraseException
+     * @throws Exceptions\InvalidArgument
+     * @throws Exceptions\InvalidPatternPhrase
      */
     public function pattern(): Contracts\Pattern
     {

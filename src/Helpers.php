@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-class Helpers
+final class Helpers
 {
     public static function pipe(mixed $value, callable $callback): mixed
     {

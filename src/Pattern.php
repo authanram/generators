@@ -4,28 +4,29 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Authanram\Generators\Exceptions\InvalidArgumentException;
-use Authanram\Generators\Exceptions\InvalidPatternPhraseException;
+use Authanram\Generators\Contracts\Pattern as Contract;
+use Authanram\Generators\Exceptions\InvalidArgument;
+use Authanram\Generators\Exceptions\InvalidPatternPhrase;
 
-class Pattern implements Contracts\Pattern
+final class Pattern implements Contract
 {
     private string $phrase;
 
     /**
-     * @throws InvalidArgumentException
-     * @throws InvalidPatternPhraseException
+     * @throws InvalidArgument
+     * @throws InvalidPatternPhrase
      */
-    public static function make(string $phrase = '{{ %s }}'): static
+    public static function make(string $phrase = '{{ %s }}'): Contract
     {
         if (trim($phrase) === '') {
-            throw new InvalidArgumentException('$phrase');
+            throw new InvalidArgument('$phrase');
         }
 
         if (str_contains($phrase, '%s') === false) {
-            throw new InvalidPatternPhraseException($phrase);
+            throw new InvalidPatternPhrase($phrase);
         }
 
-        $instance = new static();
+        $instance = new self();
 
         $instance->phrase = $phrase;
 

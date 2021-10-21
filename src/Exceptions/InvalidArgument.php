@@ -7,7 +7,7 @@ namespace Authanram\Generators\Exceptions;
 use Exception;
 use Throwable;
 
-class InvalidArgumentException extends Exception
+class InvalidArgument extends Exception
 {
     public const EMPTY = 100;
 

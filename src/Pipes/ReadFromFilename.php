@@ -6,11 +6,12 @@ namespace Authanram\Generators\Pipes;
 
 use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
-use Authanram\Generators\Exceptions\ReadFromFilenamePipeFailureException as PipeException;
+use Authanram\Generators\Exceptions\ReadFromFilenamePipeFailure as PipeException;
+use Authanram\Generators\Helpers;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 
-class ReadFromFilename implements Pipe
+final class ReadFromFilename implements Pipe
 {
     /**
      * @throws PipeException
@@ -18,34 +19,33 @@ class ReadFromFilename implements Pipe
      */
     public static function handle(Passable $passable, callable $next): Passable
     {
-        $file = new Filesystem();
-
         $filename = $passable->descriptor()->filename();
 
         if ($filename === '') {
             return $next($passable);
         }
 
-        if ($file->exists($filename) === false) {
-            throw new PipeException($filename);
-        }
+        $file = new Filesystem();
 
-        if ($file->isDirectory($filename)) {
-            throw new PipeException($filename, PipeException::DIRECTORY);
-        }
+        $validation = [
+            PipeException::EXISTS => $file->exists($filename),
+            PipeException::DIRECTORY => $file->isDirectory($filename) === false,
+            PipeException::READABLE => $file->isReadable($filename),
+        ];
 
-        if ($file->isReadable($filename) === false) {
-            throw new PipeException($filename, PipeException::READABLE);
-        }
+        Helpers::pipe(array_search(false, $validation, true), fn ($code) => is_int($code)
+            ? throw new PipeException($filename, $code)
+            : null,
+        );
 
-        $contents = $file->get($filename);
+        $fileContents = $file->get($filename);
 
-        if (trim($contents) === '') {
+        if (trim($fileContents) === '') {
             throw new PipeException($filename, PipeException::EMPTY);
         }
 
         return $next($passable->withDescriptor(
-            $passable->descriptor()->withText($contents),
+            $passable->descriptor()->withText($fileContents),
         ));
     }
 }

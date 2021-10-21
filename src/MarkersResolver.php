@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Authanram\Generators;
 
 use Authanram\Generators\Contracts\Pattern;
-use Authanram\Generators\Exceptions\InvalidArgumentException;
+use Authanram\Generators\Exceptions\InvalidArgument;
 
-class MarkersResolver
+final class MarkersResolver
 {
     /**
      * @return array<string>
-     * @throws InvalidArgumentException
+     * @throws InvalidArgument
      */
     public static function resolve(string $text, Pattern $pattern): array
     {
         if (trim($text) === '') {
-            throw new InvalidArgumentException(
-                '$text', InvalidArgumentException::EMPTY,
+            throw new InvalidArgument(
+                '$text', InvalidArgument::EMPTY,
             );
         }
 

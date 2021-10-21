@@ -9,7 +9,7 @@ use InvalidArgumentException;
 interface Pattern
 {
     /** @throws InvalidArgumentException */
-    public static function make(string $phrase): static;
+    public static function make(string $phrase): Pattern;
 
     public function phrase(): string;
 }

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Authanram\Generators\Exceptions\MarkerResolutionFailureException;
+use Authanram\Generators\Contracts\Markers as Contract;
+use Authanram\Generators\Exceptions\MarkerResolutionFailure;
 
-class Markers implements Contracts\Markers
+final class Markers implements Contract
 {
     /** @var array<string> */
     private array $items;
@@ -15,9 +16,9 @@ class Markers implements Contracts\Markers
      * @param array<string> $items
      * @return static
      */
-    public static function make(array $items = []): static
+    public static function make(array $items = []): Contract
     {
-        $markers = new static();
+        $markers = new self();
 
         foreach ($items as $key => $value) {
             $markers->addItem($key, $value);
@@ -33,12 +34,12 @@ class Markers implements Contracts\Markers
     }
 
     /**
-     * @throws MarkerResolutionFailureException
+     * @throws MarkerResolutionFailure
      */
     public function get(string $marker): callable|string
     {
         if (isset($this->items[$marker]) === false) {
-            throw new MarkerResolutionFailureException($marker);
+            throw new MarkerResolutionFailure($marker);
         }
 
         return $this->items[$marker];

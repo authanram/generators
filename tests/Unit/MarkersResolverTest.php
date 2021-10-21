@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Authanram\Generators\Exceptions\InvalidArgumentException as Exception;
+use Authanram\Generators\Exceptions\InvalidArgument as Exception;
 use Authanram\Generators\MarkersResolver;
 use Authanram\Generators\Pattern;
 

@@ -6,10 +6,16 @@ namespace Authanram\Generators\Pipes;
 
 use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
+use Authanram\Generators\Exceptions\InvalidArgument;
+use Authanram\Generators\Exceptions\InvalidPatternPhrase;
 use Illuminate\Support\Collection;
 
-class ReplaceMarkers implements Pipe
+final class ReplaceMarkers implements Pipe
 {
+    /**
+     * @throws InvalidArgument
+     * @throws InvalidPatternPhrase
+     */
     public static function handle(Passable $passable, callable $next): Passable
     {
         $descriptor = $passable->descriptor();
@@ -19,7 +25,7 @@ class ReplaceMarkers implements Pipe
         foreach ($items as $marker => $value) {
             $text = str_replace(
                 sprintf($descriptor->pattern()->phrase(), $marker),
-                static::value($value),
+                self::value($value),
                 $descriptor->text(),
             );
 
@@ -31,7 +37,7 @@ class ReplaceMarkers implements Pipe
 
     private static function value(array|string $subject): string
     {
-        return static::toCollection($subject)
+        return self::toCollection($subject)
             ->map(fn (string $item) => is_callable($item) ? $item($item) : $item)
             ->implode("\n");
     }

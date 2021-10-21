@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-use Authanram\Generators\Exceptions\InvalidArgumentException;
-use Authanram\Generators\Exceptions\InvalidPatternPhraseException;
+use Authanram\Generators\Exceptions\InvalidArgument;
+use Authanram\Generators\Exceptions\InvalidPatternPhrase;
 use Authanram\Generators\Pattern;
 
 it('throws if argument {$phrase} is empty', function () {
     Pattern::make('');
 })->expectExceptionMessage(
-    (new InvalidArgumentException('$phrase'))->getMessage(),
+    (new InvalidArgument('$phrase'))->getMessage(),
 );
 
 it('throws if argument {$pattern} is invalid', function () {
     Pattern::make('first');
 })->expectExceptionMessage(
-    (new InvalidPatternPhraseException('first'))->getMessage(),
+    (new InvalidPatternPhrase('first'))->getMessage(),
 );
 
 it('resolves the pattern phrase', function () {

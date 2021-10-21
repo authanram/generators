@@ -12,7 +12,7 @@ interface Markers
      * @param array<string> $items
      * @throws InvalidArgumentException
      */
-    public static function make(array $items = []): static;
+    public static function make(array $items = []): Markers;
 
     /** @return array<string> */
     public function items(): array;

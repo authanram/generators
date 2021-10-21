@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Authanram\Generators;
 
 use Authanram\Generators\Contracts\Pipe;
-use Authanram\Generators\Exceptions\InvalidArgumentException;
-use Authanram\Generators\Exceptions\MustImplementInterfaceException;
+use Authanram\Generators\Contracts\Pipeline as Contract;
+use Authanram\Generators\Exceptions\InvalidArgument;
+use Authanram\Generators\Exceptions\MustImplementInterface;
 use Illuminate\Container\Container;
 use Illuminate\Pipeline\Pipeline as IlluminatePipeline;
 
-class Pipeline implements Contracts\Pipeline
+final class Pipeline implements Contract
 {
     private Passable $passable;
 
@@ -19,12 +20,12 @@ class Pipeline implements Contracts\Pipeline
 
     /**
      * @param array<Pipe|string> $pipes
-     * @throws InvalidArgumentException
-     * @throws MustImplementInterfaceException
+     * @throws InvalidArgument
+     * @throws MustImplementInterface
      */
     public static function handle(Passable $passable, array $pipes, Container $container): Passable
     {
-        $pipeline = (new static())
+        $pipeline = (new self())
             ->withPassable($passable)
             ->withPipes($pipes);
 
@@ -45,7 +46,7 @@ class Pipeline implements Contracts\Pipeline
         return $this->pipes;
     }
 
-    private function withPassable(Passable $passable): Pipeline
+    private function withPassable(Passable $passable): Contract
     {
         $this->passable = $passable;
 
@@ -54,13 +55,13 @@ class Pipeline implements Contracts\Pipeline
 
     /**
      * @param array<Pipe|string> $pipes
-     * @throws InvalidArgumentException
-     * @throws MustImplementInterfaceException
+     * @throws InvalidArgument
+     * @throws MustImplementInterface
      */
-    private function withPipes(array $pipes): Pipeline
+    private function withPipes(array $pipes): Contract
     {
         if (count($pipes) === 0) {
-            throw new InvalidArgumentException('$pipes');
+            throw new InvalidArgument('$pipes');
         }
 
         foreach ($pipes as $pipe) {
@@ -68,7 +69,7 @@ class Pipeline implements Contracts\Pipeline
                 continue;
             }
 
-            throw new MustImplementInterfaceException($pipe, Pipe::class);
+            throw new MustImplementInterface($pipe, Pipe::class);
         }
 
         $this->pipes = $pipes;

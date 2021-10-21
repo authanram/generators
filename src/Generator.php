@@ -36,8 +36,8 @@ class Generator
 
     /**
      * @param array<string> $markers
-     * @throws Exceptions\InvalidArgumentException
-     * @throws Exceptions\MustImplementInterfaceException
+     * @throws Exceptions\InvalidArgument
+     * @throws Exceptions\MustImplementInterface
      */
     public function generate(array $markers, string|null $stub = null): Descriptor
     {

@@ -2,6 +2,7 @@
     "name": "authanram/generators",
     "type": "package",
     "description": "...",
+    "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
         "illuminate/container": "^8.64.0",

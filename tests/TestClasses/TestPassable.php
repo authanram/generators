@@ -6,10 +6,10 @@ namespace Authanram\Generators\Tests\TestClasses;
 
 use Authanram\Generators\Passable;
 
-class TestPassable extends Passable
+class TestPassable
 {
-    public static function fromFilename(string $filename): static
+    public static function fromFilename(string $filename): Passable
     {
-        return parent::make(TestDescriptor::fromFilename($filename));
+        return Passable::make(TestDescriptor::fromFilename($filename));
     }
 }

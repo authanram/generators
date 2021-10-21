@@ -7,7 +7,7 @@ namespace Authanram\Generators\Exceptions;
 use Exception;
 use Throwable;
 
-class InvalidPatternPhraseException extends Exception
+class InvalidPatternPhrase extends Exception
 {
     public const INVALID = 100;
 

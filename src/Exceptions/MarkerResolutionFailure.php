@@ -7,7 +7,7 @@ namespace Authanram\Generators\Exceptions;
 use Exception;
 use Throwable;
 
-class MarkerResolutionFailureException extends Exception
+class MarkerResolutionFailure extends Exception
 {
     public const EXISTS = 100;
 

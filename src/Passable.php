@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-class Passable implements Contracts\Passable
+use Authanram\Generators\Contracts\Passable as Contract;
+
+final class Passable implements Contract
 {
     private Descriptor $descriptor;
 
-    public static function make(Descriptor $descriptor): static
+    public static function make(Descriptor $descriptor): Contract
     {
-        return (new static())->withDescriptor($descriptor);
+        return (new self())->withDescriptor($descriptor);
     }
 
     public function descriptor(): Descriptor
@@ -18,7 +20,7 @@ class Passable implements Contracts\Passable
         return $this->descriptor;
     }
 
-    public function withDescriptor(Descriptor $descriptor): static
+    public function withDescriptor(Descriptor $descriptor): Contract
     {
         $this->descriptor = $descriptor;
 
