@@ -10,7 +10,7 @@ class Generator
 
     /** @var Contracts\Pipe[] */
     private array $pipes = [
-        Pipes\ReadFromPath::class,
+        Pipes\ReadFromFilename::class,
         Pipes\ExecuteFillCallback::class,
         Pipes\ResolveMarkers::class,
         Pipes\ReplaceMarkers::class,
@@ -20,7 +20,7 @@ class Generator
     public static function make(Descriptor $descriptor): static
     {
         return (new static)->setDescriptor(
-            $descriptor->setPath($descriptor::path()),
+            $descriptor->setFilename($descriptor::filename()),
         );
     }
 

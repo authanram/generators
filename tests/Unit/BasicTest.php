@@ -4,32 +4,35 @@ declare(strict_types=1);
 
 use Authanram\Generators\Generator;
 use Authanram\Generators\Tests\TestClasses\TestDescriptor;
-use Authanram\Generators\Tests\TestClasses\TestDescriptorWithPath;
+use Authanram\Generators\Tests\TestClasses\TestDescriptorWithFilename;
 
 it('generates', function () {
-    $descriptor = Generator::make(new TestDescriptor)->generate(
-        ['second' => '2nd', 'fourth' => '4th'],
-        'first {{ second }} third {{ fourth }}',
-    );
+    $descriptor = Generator::make(new TestDescriptor)
+        ->generate(
+            ['second' => '2nd', 'fourth' => '4th'],
+            'first {{ second }} third {{ fourth }}',
+        );
 
     expect($descriptor->getText())->toBe('first 2nd third 4th');
 });
 
-it('generates with custom pattern: !! %s ##', function () {
-    $descriptor = Generator::make(new TestDescriptor('!! %s ##'))->generate(
-        ['second' => '2nd', 'fourth' => '4th'],
-        'first !! second ## third !! fourth ##',
-    );
+it('generates from {$filename}', function () {
+    $descriptor = Generator::make(new TestDescriptorWithFilename())
+        ->generate(['second' => '2nd', 'fourth' => '4th']);
 
-    expect($descriptor->getText())->toBe('first 2nd third 4th');
+    $text = rtrim($descriptor->getText(), "\n");
+
+    expect($text)->toBe("first 2nd third 4th");
 });
 
-it('generates from path', function () {
-    $result = Generator::make(new TestDescriptorWithPath)->generate(
-        ['second' => '2nd', 'fourth' => '4th'],
-    );
+it('generates from {$filename} with {$pattern}', function () {
+    $descriptor = Generator::make(
+        (new TestDescriptor)
+            ->setFilename(__DIR__.'/../stubs/test-with-pattern.stub')
+            ->setPattern('!! %s ##'),
+    )->generate(['second' => '2nd', 'fourth' => '4th']);
 
-    $text = rtrim($result->getText(), "\n");
+    $text = rtrim($descriptor->getText(), "\n");
 
     expect($text)->toBe("first 2nd third 4th");
 });

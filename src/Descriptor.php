@@ -8,13 +8,13 @@ use InvalidArgumentException;
 
 abstract class Descriptor
 {
-    public static string $messagePath = 'Argument {$path} must not be empty.';
+    public static string $messageFilename = 'Argument {$filename} must not be empty.';
     public static string $messagePattern = 'Argument {$pattern} must not be empty.';
     public static string $messageText = 'Argument {$stub} must not be empty.';
 
     private Contracts\Markers $markers;
     private Contracts\Markers $markersResolved;
-    private string $path;
+    private string $filename;
     private string $pattern;
     private string $text;
 
@@ -26,7 +26,7 @@ abstract class Descriptor
         $this->setPattern($pattern);
     }
 
-    public static function path(): string|null
+    public static function filename(): string|null
     {
         return null;
     }
@@ -34,6 +34,11 @@ abstract class Descriptor
     public static function pattern(): string|null
     {
         return null;
+    }
+
+    public function getFilename(): string|null
+    {
+        return $this->filename ?? static::filename() ?? null;
     }
 
     public function getMarkers(): Contracts\Markers
@@ -46,11 +51,6 @@ abstract class Descriptor
         return $this->markersResolved;
     }
 
-    public function getPath(): string|null
-    {
-        return $this->path ?? null;
-    }
-
     public function getPattern(): string
     {
         return $this->pattern ?? static::pattern() ?? '{{ %s }}';
@@ -59,6 +59,21 @@ abstract class Descriptor
     public function getText(): string
     {
         return $this->text;
+    }
+
+    public function setFilename(string|null $filename): static
+    {
+        if (is_null($filename)) {
+            return $this;
+        }
+
+        if (trim($filename) === '') {
+            throw new InvalidArgumentException(static::$messageFilename);
+        }
+
+        $this->filename = $filename;
+
+        return $this;
     }
 
     public function setMarkers(Contracts\Markers $markers): static
@@ -71,21 +86,6 @@ abstract class Descriptor
     public function setMarkersResolved(Contracts\Markers $markersResolved): static
     {
         $this->markersResolved = $markersResolved;
-
-        return $this;
-    }
-
-    public function setPath(string|null $path): static
-    {
-        if (is_null($path)) {
-            return $this;
-        }
-
-        if (trim($path) === '') {
-            throw new InvalidArgumentException(static::$messagePath);
-        }
-
-        $this->path = $path;
 
         return $this;
     }
