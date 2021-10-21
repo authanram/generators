@@ -9,20 +9,20 @@ use Throwable;
 
 class ReadFromFilenamePipeFailureException extends Exception
 {
-    public const MESSAGE_EXISTS = 100;
-    public const MESSAGE_DIRECTORY = 200;
-    public const MESSAGE_READABLE = 300;
-    public const MESSAGE_EMPTY = 400;
+    public const EMPTY = 100;
+    public const EXISTS = 200;
+    public const DIRECTORY = 300;
+    public const READABLE = 400;
 
     /** @var array<string> */
     private array $messages = [
-        100 => 'Filename [%s] not found.',
-        200 => 'Filename [%s] must not be a directory.',
-        300 => 'Filename [%s] must be readable.',
-        400 => 'Filename [%s] must not be empty.',
+        100 => 'Filename [%s] must not be empty.',
+        200 => 'Filename [%s] not found.',
+        300 => 'Filename [%s] must not be a directory.',
+        400 => 'Filename [%s] must be readable.',
     ];
 
-    public function __construct(string $filename, $code = 0, Throwable $previous = null)
+    public function __construct(string $filename, $code = 100, Throwable $previous = null)
     {
         $message = sprintf($this->messages[$code], $filename);
 

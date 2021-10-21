@@ -27,21 +27,21 @@ class ReadFromFilename implements Pipe
         }
 
         if ($file->exists($filename) === false) {
-            throw new PipeException($filename, PipeException::MESSAGE_EXISTS);
+            throw new PipeException($filename);
         }
 
         if ($file->isDirectory($filename)) {
-            throw new PipeException($filename, PipeException::MESSAGE_DIRECTORY);
+            throw new PipeException($filename, PipeException::DIRECTORY);
         }
 
         if ($file->isReadable($filename) === false) {
-            throw new PipeException($filename, PipeException::MESSAGE_READABLE);
+            throw new PipeException($filename, PipeException::READABLE);
         }
 
         $contents = $file->get($filename);
 
         if (trim($contents) === '') {
-            throw new PipeException($filename, PipeException::MESSAGE_EMPTY);
+            throw new PipeException($filename, PipeException::EMPTY);
         }
 
         return $next($passable->setDescriptor(

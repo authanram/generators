@@ -38,9 +38,7 @@ class Markers implements Contracts\Markers
     public function get(string $marker): callable|string
     {
         if (isset($this->items[$marker]) === false) {
-            throw new MarkerResolutionFailureException(
-                $marker, MarkerResolutionFailureException::MESSAGE_EXISTS,
-            );
+            throw new MarkerResolutionFailureException($marker);
         }
 
         return $this->items[$marker];

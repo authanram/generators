@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-use Authanram\Generators\Exceptions\MarkerResolutionFailureException as ResolutionException;
+use Authanram\Generators\Exceptions\MarkerResolutionFailureException;
 use Authanram\Generators\Markers;
 
-it('throws if {$marker} does not match any known marker', function () {
+it('throws if argument {$marker} does not match any known marker', function () {
     Markers::make(['first' => 'first'])->get('second');
 })->expectExceptionMessage(
-    (new ResolutionException('second', ResolutionException::MESSAGE_EXISTS))
-        ->getMessage(),
+    (new MarkerResolutionFailureException('second'))->getMessage(),
 );
 
 it('resolves all markers', function () {

@@ -31,22 +31,19 @@ beforeEach(function () {
 
 it('throws if {$filename} does not exist', function () {
     Pipe::handle(($this->passable)(stub()->exists), $this->next);
-})->expectExceptionMessage(
-    (new PipeException(stub()->exists, PipeException::MESSAGE_EXISTS))
-        ->getMessage(),
-);
+})->expectExceptionMessage((new PipeException(stub()->exists))->getMessage());
 
 it('throws if {$filename} is a directory', function () {
     Pipe::handle(($this->passable)(stub()->directory), $this->next);
 })->expectExceptionMessage(
-    (new PipeException(stub()->directory, PipeException::MESSAGE_DIRECTORY))
+    (new PipeException(stub()->directory, PipeException::DIRECTORY))
         ->getMessage(),
 );
 
 it('throws if {$filename} is not readable', function () {
     Pipe::handle(($this->passable)(stub()->readable), $this->next);
 })->expectExceptionMessage(
-    (new PipeException(stub()->readable, PipeException::MESSAGE_READABLE))
+    (new PipeException(stub()->readable, PipeException::READABLE))
         ->getMessage(),
 );
 

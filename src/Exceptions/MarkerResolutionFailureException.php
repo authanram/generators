@@ -9,14 +9,14 @@ use Throwable;
 
 class MarkerResolutionFailureException extends Exception
 {
-    public const MESSAGE_EXISTS = 100;
+    public const EXISTS = 100;
 
     /** @var array<string> */
     private array $messages = [
         100 => 'Marker [%s] not found.',
     ];
 
-    public function __construct(string $marker, $code = 0, Throwable $previous = null)
+    public function __construct(string $marker, $code = 100, Throwable $previous = null)
     {
         $message = sprintf($this->messages[$code], $marker);
 

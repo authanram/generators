@@ -9,8 +9,6 @@ use Authanram\Generators\Exceptions\InvalidArgumentException;
 
 class MarkersResolver
 {
-    public static string $messageText = 'Argument {$text} must not be empty.';
-
     /**
      * @return array<string>
      * @throws InvalidArgumentException
@@ -19,7 +17,7 @@ class MarkersResolver
     {
         if (trim($text) === '') {
             throw new InvalidArgumentException(
-                'text', InvalidArgumentException::MESSAGE_EMPTY,
+                '$text', InvalidArgumentException::EMPTY,
             );
         }
 

@@ -6,10 +6,10 @@ use Authanram\Generators\Exceptions\InvalidArgumentException as Exception;
 use Authanram\Generators\MarkersResolver;
 use Authanram\Generators\Pattern;
 
-it('throws if {$text} is empty', function () {
+it('throws if argument {$text} is empty', function () {
     MarkersResolver::resolve('', Pattern::make());
 })->expectExceptionMessage(
-    (new Exception('text', Exception::MESSAGE_EMPTY))->getMessage(),
+    (new Exception('$text', Exception::EMPTY))->getMessage(),
 );
 
 it('resolves all markers', function () {

@@ -17,7 +17,7 @@ it('generates', function () {
     expect($descriptor->getText())->toBe('first 2nd third 4th');
 });
 
-it('generates from {$filename}', function () {
+it('generates from argument {$filename}', function () {
     $descriptor = Generator::make(new TestDescriptorWithFilename())
         ->generate(['second' => '2nd', 'fourth' => '4th']);
 
@@ -26,7 +26,7 @@ it('generates from {$filename}', function () {
     expect($text)->toBe("first 2nd third 4th");
 });
 
-it('generates from {$filename} with {$pattern}', function () {
+it('generates from argument {$filename} with {$pattern}', function () {
     $descriptor = Generator::make(
         (new TestDescriptor)
             ->setFilename(__DIR__.'/../stubs/test-with-pattern.stub')
