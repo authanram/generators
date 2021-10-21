@@ -18,78 +18,82 @@ abstract class Descriptor
             return;
         }
 
-        $this->setPattern($pattern);
+        $this->withPattern($pattern);
     }
 
     /** @return array<string> */
     abstract public static function fill(Markers $markers): array;
 
-    public static function filename(): string
+    public static function stub(): string
     {
         return '';
     }
 
-    public static function pattern(): string
+    public static function phrase(): string
     {
         return '';
     }
 
-    public function getFilename(): string
+    public function filename(): string
     {
-        return $this->filename ?? static::filename();
+        return $this->filename ?? static::stub();
     }
 
-    public function getMarkers(): Contracts\Markers
+    public function markers(): Contracts\Markers
     {
         return $this->markers;
     }
 
-    public function getMarkersResolved(): Contracts\Markers
+    public function markersResolved(): Contracts\Markers
     {
         return $this->markersResolved ?? Markers::make();
     }
 
-    public function getPattern(): Contracts\Pattern
+    /**
+     * @throws Exceptions\InvalidArgumentException
+     * @throws Exceptions\InvalidPatternPhraseException
+     */
+    public function pattern(): Contracts\Pattern
     {
-        return static::pattern() !== ''
-            ? Pattern::make(static::pattern())
+        return static::phrase() !== ''
+            ? Pattern::make(static::phrase())
             : $this->pattern ?? Pattern::make();
     }
 
-    public function getText(): string
+    public function text(): string
     {
         return $this->text ?? '';
     }
 
-    public function setFilename(string $filename): static
+    public function withFilename(string $filename): static
     {
         $this->filename = $filename;
 
         return $this;
     }
 
-    public function setMarkers(Contracts\Markers $markers): static
+    public function withMarkers(Contracts\Markers $markers): static
     {
         $this->markers = $markers;
 
         return $this;
     }
 
-    public function setMarkersResolved(Contracts\Markers $markersResolved): static
+    public function withMarkersResolved(Contracts\Markers $markersResolved): static
     {
         $this->markersResolved = $markersResolved;
 
         return $this;
     }
 
-    public function setPattern(Contracts\Pattern $pattern): static
+    public function withPattern(Contracts\Pattern $pattern): static
     {
         $this->pattern = $pattern;
 
         return $this;
     }
 
-    public function setText(string $text): static
+    public function withText(string $text): static
     {
         $this->text = $text;
 

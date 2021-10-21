@@ -27,7 +27,7 @@ class Markers implements Contracts\Markers
     }
 
     /** @return array<string> */
-    public function getItems(): array
+    public function items(): array
     {
         return $this->items;
     }

@@ -8,16 +8,16 @@ use Authanram\Generators\Tests\TestClasses;
 
 it('resolves pattern through descriptor', function () {
     $descriptor = new TestClasses\TestDescriptorWithPattern;
-    $pattern = $descriptor->getPattern()->getPhrase();
+    $pattern = $descriptor->pattern()->phrase();
 
-    expect($pattern)->toEqual($descriptor::pattern());
+    expect($pattern)->toEqual($descriptor::phrase());
 });
 
 it('resolves pattern through argument', function () {
     $pattern = Pattern::make('!! %s ##');
     $descriptor = new TestClasses\TestDescriptorWithPattern($pattern);
 
-    expect($descriptor->getPattern())->toEqual($pattern);
+    expect($descriptor->pattern())->toEqual($pattern);
 });
 
 it('resolves all markers', function () {

@@ -14,14 +14,14 @@ it('generates', function () {
             'first {{ second }} third {{ fourth }}',
         );
 
-    expect($descriptor->getText())->toBe('first 2nd third 4th');
+    expect($descriptor->text())->toBe('first 2nd third 4th');
 });
 
 it('generates from argument {$filename}', function () {
     $descriptor = Generator::make(new TestDescriptorWithFilename())
         ->generate(['second' => '2nd', 'fourth' => '4th']);
 
-    $text = rtrim($descriptor->getText(), "\n");
+    $text = rtrim($descriptor->text(), "\n");
 
     expect($text)->toBe("first 2nd third 4th");
 });
@@ -29,11 +29,11 @@ it('generates from argument {$filename}', function () {
 it('generates from argument {$filename} with {$pattern}', function () {
     $descriptor = Generator::make(
         (new TestDescriptor)
-            ->setFilename(__DIR__.'/../stubs/test-with-pattern.stub')
-            ->setPattern(Pattern::make('!! %s ##')),
+            ->withFilename(__DIR__.'/../stubs/test-with-pattern.stub')
+            ->withPattern(Pattern::make('!! %s ##')),
     )->generate(['second' => '2nd', 'fourth' => '4th']);
 
-    $text = rtrim($descriptor->getText(), "\n");
+    $text = rtrim($descriptor->text(), "\n");
 
     expect($text)->toBe("first 2nd third 4th");
 });

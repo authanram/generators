@@ -12,12 +12,12 @@ class ExecuteFillCallback implements Pipe
 {
     public static function handle(Passable $passable, callable $next): Passable
     {
-        $descriptor = $passable->getDescriptor();
+        $descriptor = $passable->descriptor();
 
-        $descriptor->setMarkers(Markers::make(
-            $descriptor::fill($descriptor->getMarkers()),
+        $descriptor->withMarkers(Markers::make(
+            $descriptor::fill($descriptor->markers()),
         ));
 
-        return $next($passable->setDescriptor($descriptor));
+        return $next($passable->withDescriptor($descriptor));
     }
 }

@@ -12,13 +12,13 @@ class PostConditions implements Pipe
 {
     public static function handle(Passable $passable, callable $next): Passable
     {
-        $descriptor = $passable->getDescriptor();
+        $descriptor = $passable->descriptor();
 
-        $text = (string) Str::of($descriptor->getText())
+        $text = (string) Str::of($descriptor->text())
             ->replace("\n\n\n", "\n");
 
-        return $next($passable->setDescriptor(
-            $descriptor->setText($text),
+        return $next($passable->withDescriptor(
+            $descriptor->withText($text),
         ));
     }
 }

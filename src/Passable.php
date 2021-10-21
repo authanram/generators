@@ -10,15 +10,15 @@ class Passable implements Contracts\Passable
 
     public static function make(Descriptor $descriptor): static
     {
-        return (new static())->setDescriptor($descriptor);
+        return (new static())->withDescriptor($descriptor);
     }
 
-    public function getDescriptor(): Descriptor
+    public function descriptor(): Descriptor
     {
         return $this->descriptor;
     }
 
-    public function setDescriptor(Descriptor $descriptor): static
+    public function withDescriptor(Descriptor $descriptor): static
     {
         $this->descriptor = $descriptor;
 

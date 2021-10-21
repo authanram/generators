@@ -19,8 +19,8 @@ class Generator
 
     public static function make(Descriptor $descriptor): static
     {
-        if (trim($descriptor::filename()) !== '') {
-            $descriptor->setFilename($descriptor::filename());
+        if (trim($descriptor::stub()) !== '') {
+            $descriptor->withFilename($descriptor::stub());
         }
 
         $generator = new static();
@@ -29,16 +29,20 @@ class Generator
         return $generator;
     }
 
-    /** @param array<string> $markers */
+    /**
+     * @param array<string> $markers
+     * @throws Exceptions\InvalidArgumentException
+     * @throws Exceptions\MustImplementInterfaceException
+     */
     public function generate(array $markers, string|null $stub = null): Descriptor
     {
-        $this->descriptor->setMarkers(Markers::make($markers));
+        $this->descriptor->withMarkers(Markers::make($markers));
 
         if (is_null($stub) === false) {
-            $this->descriptor->setText($stub);
+            $this->descriptor->withText($stub);
         }
 
         return Pipeline::handle(Passable::make($this->descriptor), $this->pipes)
-            ->getDescriptor();
+            ->descriptor();
     }
 }

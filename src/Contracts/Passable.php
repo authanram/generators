@@ -10,7 +10,7 @@ interface Passable
 {
     public static function make(Descriptor $descriptor): static;
 
-    public function getDescriptor(): Descriptor;
+    public function descriptor(): Descriptor;
 
-    public function setDescriptor(Descriptor $descriptor): static;
+    public function withDescriptor(Descriptor $descriptor): static;
 }

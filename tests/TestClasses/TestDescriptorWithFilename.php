@@ -6,7 +6,7 @@ namespace Authanram\Generators\Tests\TestClasses;
 
 class TestDescriptorWithFilename extends TestDescriptor
 {
-    public static function filename(): string
+    public static function stub(): string
     {
         return __DIR__.'/../stubs/test.stub';
     }

@@ -32,7 +32,7 @@ class Pattern implements Contracts\Pattern
         return $instance;
     }
 
-    public function getPhrase(): string
+    public function phrase(): string
     {
         return $this->phrase;
     }

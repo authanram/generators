@@ -20,5 +20,5 @@ it('resolves all markers', function () {
 
     expect($markers->get('first'))->toBeCallable();
     expect($markers->get('second'))->toEqual('2nd');
-    expect($markers->getItems())->toHaveCount(3);
+    expect($markers->items())->toHaveCount(3);
 });

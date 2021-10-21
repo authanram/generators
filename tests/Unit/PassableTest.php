@@ -9,5 +9,5 @@ it('resolves the descriptor', function () {
     $passable = Passable::make(new TestDescriptor);
 
     expect($passable)->toBeInstanceOf(Passable::class);
-    expect($passable->getDescriptor())->toBeInstanceOf(TestDescriptor::class);
+    expect($passable->descriptor())->toBeInstanceOf(TestDescriptor::class);
 });

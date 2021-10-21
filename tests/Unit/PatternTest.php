@@ -20,5 +20,5 @@ it('throws if argument {$pattern} is invalid', function () {
 
 it('resolves the pattern phrase', function () {
     $pattern = Pattern::make('!! %s ##');
-    expect($pattern->getPhrase())->toEqual('!! %s ##');
+    expect($pattern->phrase())->toEqual('!! %s ##');
 });

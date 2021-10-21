@@ -11,5 +11,5 @@ interface Pattern
     /** @throws InvalidArgumentException */
     public static function make(string $phrase): static;
 
-    public function getPhrase(): string;
+    public function phrase(): string;
 }

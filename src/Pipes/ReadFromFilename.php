@@ -20,7 +20,7 @@ class ReadFromFilename implements Pipe
     {
         $file = new Filesystem;
 
-        $filename = $passable->getDescriptor()->getFilename();
+        $filename = $passable->descriptor()->filename();
 
         if ($filename === '') {
             return $next($passable);
@@ -44,8 +44,8 @@ class ReadFromFilename implements Pipe
             throw new PipeException($filename, PipeException::EMPTY);
         }
 
-        return $next($passable->setDescriptor(
-            $passable->getDescriptor()->setText($contents),
+        return $next($passable->withDescriptor(
+            $passable->descriptor()->withText($contents),
         ));
     }
 }

@@ -15,7 +15,7 @@ interface Markers
     public static function make(array $items = []): static;
 
     /** @return array<string> */
-    public function getItems(): array;
+    public function items(): array;
 
     /** @throws InvalidArgumentException */
     public function get(string $marker): callable|string;

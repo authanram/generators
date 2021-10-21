@@ -6,7 +6,7 @@ namespace Authanram\Generators\Tests\TestClasses;
 
 class TestDescriptorWithPattern extends TestDescriptor
 {
-    public static function pattern(): string
+    public static function phrase(): string
     {
         return '!! %s ##';
     }

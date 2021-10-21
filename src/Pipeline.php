@@ -25,28 +25,28 @@ class Pipeline implements Contracts\Pipeline
     public static function handle(Passable $passable, array $pipes): Passable
     {
         $pipeline = (new static())
-            ->setPassable($passable)
-            ->setPipes($pipes);
+            ->withPassable($passable)
+            ->withPipes($pipes);
 
         // @todo inject container
         return (new IlluminatePipeline(new Container()))
-            ->send($pipeline->getPassable())
-            ->through($pipeline->getPipes())
+            ->send($pipeline->passable())
+            ->through($pipeline->pipes())
             ->thenReturn();
     }
 
-    private function getPassable(): Passable
+    private function passable(): Passable
     {
         return $this->passable;
     }
 
     /** @return array<Pipe|string> */
-    private function getPipes(): array
+    private function pipes(): array
     {
         return $this->pipes;
     }
 
-    private function setPassable(Passable $passable): Pipeline
+    private function withPassable(Passable $passable): Pipeline
     {
         $this->passable = $passable;
 
@@ -58,7 +58,7 @@ class Pipeline implements Contracts\Pipeline
      * @throws InvalidArgumentException
      * @throws MustImplementInterfaceException
      */
-    private function setPipes(array $pipes): Pipeline
+    private function withPipes(array $pipes): Pipeline
     {
         if (count($pipes) === 0) {
             throw new InvalidArgumentException('$pipes');

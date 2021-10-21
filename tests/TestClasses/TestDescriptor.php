@@ -11,7 +11,7 @@ class TestDescriptor extends Descriptor
 {
     public static function fromFilename(string $filename): static
     {
-        return (new static())->setFilename($filename);
+        return (new static())->withFilename($filename);
     }
 
     public static function fill(Markers $markers): array

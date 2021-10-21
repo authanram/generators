@@ -21,7 +21,7 @@ class MarkersResolver
             );
         }
 
-        $marker = sprintf($pattern->getPhrase(), '(.*?)');
+        $marker = sprintf($pattern->phrase(), '(.*?)');
 
         preg_match_all('/'.$marker.'/i', $text, $matches);
 

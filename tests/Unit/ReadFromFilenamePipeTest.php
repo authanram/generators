@@ -49,7 +49,7 @@ it('throws if {$filename} is not readable', function () {
 
 it('resolves file contents', function () {
     $text = Pipe::handle(($this->passable)(stub()->resolvable), $this->next)
-        ->getDescriptor()->getText();
+        ->descriptor()->text();
 
     expect(rtrim($text, "\n"))->toBe('first {{ second }} third {{ fourth }}');
 });
