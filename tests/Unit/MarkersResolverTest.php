@@ -1,13 +1,16 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
 declare(strict_types=1);
 
+use Authanram\Generators\Exceptions\InvalidArgumentException as Exception;
 use Authanram\Generators\MarkersResolver;
 use Authanram\Generators\Pattern;
 
-it('throws if {$stub} is empty', function () {
+it('throws if {$text} is empty', function () {
     MarkersResolver::resolve('', Pattern::make());
-})->expectExceptionMessage(MarkersResolver::$messageText);
+})->expectExceptionMessage(
+    (new Exception('text', Exception::MESSAGE_EMPTY))->getMessage(),
+);
 
 it('resolves all markers', function () {
     $markers = MarkersResolver::resolve(
