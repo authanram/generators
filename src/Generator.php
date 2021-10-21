@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Authanram\Generators\Contracts\Descriptor;
-use Authanram\Generators\Contracts\Pipe;
-
 class Generator
 {
-    private Descriptor|string $descriptor;
-    private string $path;
-    private string $stub;
+    private Descriptor $descriptor;
 
-    /** @var Pipe[] */
+    /** @var Contracts\Pipe[] */
     private array $pipes = [
         Pipes\ReadFromPath::class,
         Pipes\ExecuteFillCallback::class,
@@ -22,69 +17,27 @@ class Generator
         Pipes\PostConditions::class,
     ];
 
-    public static function make(Descriptor|string $descriptor, string $stub): static
+    public static function make(Descriptor $descriptor): static
     {
-        return (new static)->setDescriptor($descriptor)->setStub($stub);
+        return (new static)->setDescriptor(
+            $descriptor->setPath($descriptor::path()),
+        );
     }
 
-    public function getDescriptor(): Descriptor|string
-    {
-        return $this->descriptor;
-    }
-
-    public function getStub(): string
-    {
-        return $this->stub;
-    }
-
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    public function getPipes(): array
-    {
-        return $this->pipes;
-    }
-
-    public function setDescriptor(Descriptor|string $descriptor): static
+    public function setDescriptor(Descriptor $descriptor): static
     {
         $this->descriptor = $descriptor;
 
         return $this;
     }
 
-
-    public function setPath(string $path): static
+    public function generate(array $markers, string $stub = null): Descriptor
     {
-        $this->path = $path;
+        $this->descriptor
+            ->setMarkers(Markers::make($markers))
+            ->setText($stub);
 
-        return $this;
-    }
-
-    public function setStub(string $stub): static
-    {
-        $this->stub = $stub;
-
-        return $this;
-    }
-
-    public function generate(array $markers, string $pattern = '{{ %s }}'): string
-    {
-        $passable = Passable::make(
-            $this->getDescriptor(),
-            $this->getStub(),
-            $pattern,
-            Markers::make($markers),
-        );
-
-        return Pipeline::handle($passable, $this->getPipes())->getText();
-    }
-
-    public function setPipes(array $pipes): static
-    {
-        $this->pipes = $pipes;
-
-        return $this;
+        return Pipeline::handle(Passable::make($this->descriptor), $this->pipes)
+            ->getDescriptor();
     }
 }

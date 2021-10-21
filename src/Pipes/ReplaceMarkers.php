@@ -12,17 +12,21 @@ class ReplaceMarkers implements Pipe
 {
     public static function handle(Passable $passable, $next): Passable
     {
-        foreach ($passable->getMarkers()->getItems() as $marker => $value) {
-            $passable->setText(
-                str_replace(
-                    sprintf($passable->getPattern(), $marker),
-                    static::value($value),
-                    $passable->getText(),
-                ),
+        $descriptor = $passable->getDescriptor();
+
+        $items = $descriptor->getMarkers()->getItems();
+
+        foreach ($items as $marker => $value) {
+            $text = str_replace(
+                sprintf($descriptor->getPattern(), $marker),
+                static::value($value),
+                $descriptor->getText(),
             );
+
+            $descriptor->setText($text);
         }
 
-        return $next($passable);
+        return $next($passable->setDescriptor($descriptor));
     }
 
     private static function value(array|string $subject): string

@@ -10,6 +10,6 @@ it('throws if {$pipes} are empty', function () {
     Pipeline::handle(new Passable, []);
 })->expectExceptionMessage(Pipeline::$messagePipes);
 
-it('throws if {$pipes} contains an entry not implementing '. Pipe::class, function () {
+it('throws if {$pipes} contains an entry not implementing "'.Pipe::class.'"', function () {
     Pipeline::handle(new Passable, [Pipeline::class]);
 })->expectExceptionMessage(sprintf(Pipeline::$messagePipe, Pipeline::class));
