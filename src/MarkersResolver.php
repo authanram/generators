@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Authanram\Generators\Contracts\Pattern;
+use Authanram\Generators\Contracts\Pattern as Contract;
 use Authanram\Generators\Exceptions\InvalidArgument;
 
 final class MarkersResolver
@@ -13,9 +13,14 @@ final class MarkersResolver
      * @return array<string>
      *
      * @throws InvalidArgument
+     * @throws Exceptions\InvalidPatternPhrase
      */
-    public static function resolve(string $text, Pattern $pattern): array
-    {
+    public static function resolve(
+        string $text,
+        Contract|null $pattern = null,
+    ): array {
+        $pattern = is_null($pattern) ? Pattern::make() : $pattern;
+
         if (trim($text) === '') {
             throw new InvalidArgument('$text', InvalidArgument::EMPTY);
         }
