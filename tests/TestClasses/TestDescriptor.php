@@ -12,8 +12,8 @@ class TestDescriptor implements Descriptor
     public static function fill(Markers $markers): array
     {
         return [
-            'second' => $markers->toCollection()->get('second'),
-            'fourth' => $markers->toCollection()->get('fourth'),
+            'second' => $markers->get('second'),
+            'fourth' => $markers->get('fourth'),
         ];
     }
 }

@@ -4,41 +4,66 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Authanram\Generators\Contracts\Pipe;
 use Illuminate\Container\Container;
 use Illuminate\Pipeline\Pipeline as IlluminatePipeline;
 use InvalidArgumentException;
 
-class Pipeline
+class Pipeline implements Contracts\Pipeline
 {
     public static $messagePipes = 'Argument {$pipes} must not be empty.';
-    public static $messagePipe = 'Argument {$pipes[%s]} must implement "'.Pipe::class.'".';
+    public static $messagePipe = 'Argument {$pipes[%s]} must implement "'.Contracts\Pipe::class.'".';
 
-    private function __construct() {}
+    private Passable $passable;
+    private array $pipes;
 
     public static function handle(Passable $passable, array $pipes): Passable
     {
-        static::authorize($pipes);
+        $pipeline = (new static)
+            ->setPassable($passable)
+            ->setPipes($pipes);
 
         // @todo inject container
         return (new IlluminatePipeline(new Container))
-            ->send($passable)
-            ->through($pipes)
+            ->send($pipeline->getPassable())
+            ->through($pipeline->getPipes())
             ->thenReturn();
     }
 
-    private static function authorize(array $pipes): void
+    private function getPassable(): Passable
+    {
+        return $this->passable;
+    }
+
+    private function getPipes(): array
+    {
+        return $this->pipes;
+    }
+
+    private function setPassable(Passable $passable): Pipeline
+    {
+        $this->passable = $passable;
+
+        return $this;
+    }
+
+    private function setPipes(array $pipes): Pipeline
     {
         if (count($pipes) === 0) {
             throw new InvalidArgumentException(static::$messagePipes);
         }
 
         foreach ($pipes as $pipe) {
-            if (is_subclass_of($pipe, Pipe::class)) {
+            if (is_subclass_of($pipe, Contracts\Pipe::class)) {
                 continue;
             }
 
-            throw new InvalidArgumentException(sprintf(static::$messagePipe, $pipe));
+            throw new InvalidArgumentException(
+                sprintf(static::$messagePipe, $pipe),
+            );
         }
+
+        $this->pipes = $pipes;
+
+        return $this;
     }
 }

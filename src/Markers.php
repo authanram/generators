@@ -4,28 +4,19 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 class Markers implements Contracts\Markers
 {
     public static $messageMarkerKey = 'Argument {$items} must only contain keys of type "string".';
     public static $messageMarkerValue = 'Argument {$items[%s]} expected "callable|string", got [%s].';
+    public static $messageMarkerKeyGet = 'Argument {$marker} does not match any known marker named [%s].';
 
-    protected Collection $collection;
-    protected array $items = [];
-
-    protected function __construct(array $items)
-    {
-        static::authorize($items);
-
-        $this->items = $items;
-        $this->collection = new Collection($items);
-    }
+    private array $items;
 
     public static function make(array $items = []): static
     {
-        return new static($items);
+        return (new static)->setItems($items);
     }
 
     public function getItems(): array
@@ -34,20 +25,6 @@ class Markers implements Contracts\Markers
     }
 
     public function setItems(array $items): static
-    {
-        static::authorize($items);
-
-        $this->items = $items;
-
-        return $this;
-    }
-
-    public function toCollection(): Collection
-    {
-        return $this->collection;
-    }
-
-    protected static function authorize(array $items): void
     {
         foreach ($items as $key => $value) {
             if (is_string($key) === false) {
@@ -62,5 +39,20 @@ class Markers implements Contracts\Markers
                 );
             }
         }
+
+        $this->items = $items;
+
+        return $this;
+    }
+
+    public function get(string $marker): callable|string
+    {
+        if (isset($this->items[$marker]) === false) {
+            throw new InvalidArgumentException(
+                sprintf(static::$messageMarkerKeyGet, $marker),
+            );
+        }
+
+        return $this->items[$marker];
     }
 }

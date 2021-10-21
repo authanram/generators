@@ -12,21 +12,21 @@ beforeEach(function () {
 });
 
 it('throws if {$descriptor} is not a class', function () {
-    new Passable('', '', '', $this->markers);
+    Passable::make('', '', '', $this->markers);
 })->expectExceptionMessage(Passable::$messageDescriptor);
 
 it('throws if {$text} is empty', function () {
-    new Passable(TestDescriptor::class, '', '', $this->markers);
+    Passable::make(TestDescriptor::class, '', '', $this->markers);
 })->expectExceptionMessage(Passable::$messageText);
 
 it('throws if {$pattern} is empty'.Descriptor::class, function () {
-    new Passable(TestDescriptor::class, 'text', '', $this->markers);
+    Passable::make(TestDescriptor::class, 'text', '', $this->markers);
 })->expectExceptionMessage(Passable::$messagePattern);
 
 it('resolves all properties', function () {
     $markers = $this->markers;
 
-    $passable = new Passable(
+    $passable = Passable::make(
         TestDescriptor::class,
         'text',
         'pattern',
@@ -34,8 +34,9 @@ it('resolves all properties', function () {
     );
 
     expect($passable)->toBeInstanceOf(Passable::class);
-    expect($passable->descriptor)->toEqual(TestDescriptor::class);
-    expect($passable->text)->toEqual('text');
-    expect($passable->pattern)->toEqual('pattern');
-    expect($passable->markers)->toBeInstanceOf(Markers::class);
+    expect($passable->getDescriptor())->toEqual(TestDescriptor::class);
+    expect($passable->getText())->toEqual('text');
+    expect($passable->getPattern())->toEqual('pattern');
+    expect($passable->getMarkers())->toBeInstanceOf(Markers::class);
+    expect($passable->getMarkersResolved())->toBeInstanceOf(Markers::class);
 });

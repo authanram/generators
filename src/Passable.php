@@ -4,39 +4,103 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Authanram\Generators\Contracts\Descriptor;
 use InvalidArgumentException;
 
 class Passable implements Contracts\Passable
 {
-    public static $messageDescriptor = 'Argument {$descriptor} must implement '.Descriptor::class;
+    public static $messageDescriptor = 'Argument {$descriptor} must implement '.Contracts\Descriptor::class;
     public static $messagePattern = 'Argument {$pattern} must not be empty.';
     public static $messageText = 'Argument {$stub} must not be empty.';
 
-    public Contracts\Markers $markersResolved;
+    private Contracts\Descriptor|string $descriptor;
+    private Contracts\Markers $markers;
+    private Contracts\Markers $markersResolved;
+    private string $pattern;
+    private string $text;
 
-    public function __construct(
-        public Descriptor|string $descriptor,
-        public string $text,
-        public string $pattern,
-        public Contracts\Markers $markers,
-    ) {
-        $this->markersResolved = Markers::make();
-        $this->generate();
+    public static function make(
+        Contracts\Descriptor|string $descriptor,
+        string $text,
+        string $pattern,
+        Contracts\Markers $markers,
+    ): static {
+        return (new static)
+            ->setDescriptor($descriptor)
+            ->setText($text)
+            ->setPattern($pattern)
+            ->setMarkers($markers)
+            ->setMarkersResolved(Markers::make());
     }
 
-    protected function generate(): void
+    public function getDescriptor(): Contracts\Descriptor|string
     {
-        if (is_subclass_of($this->descriptor, Descriptor::class) === false) {
+        return $this->descriptor;
+    }
+
+    public function getMarkers(): Contracts\Markers
+    {
+        return $this->markers;
+    }
+
+    public function getMarkersResolved(): Contracts\Markers
+    {
+        return $this->markersResolved;
+    }
+
+    public function getPattern(): string
+    {
+        return $this->pattern;
+    }
+
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    public function setDescriptor(Contracts\Descriptor|string $descriptor): static
+    {
+        if (is_subclass_of($descriptor, Contracts\Descriptor::class) === false) {
             throw new InvalidArgumentException(static::$messageDescriptor);
         }
 
-        if (trim($this->text) === '') {
+        $this->descriptor = $descriptor;
+
+        return $this;
+    }
+
+    public function setMarkers(Contracts\Markers $markers): static
+    {
+        $this->markers = $markers;
+
+        return $this;
+    }
+
+    public function setMarkersResolved(Contracts\Markers $markersResolved): static
+    {
+        $this->markersResolved = $markersResolved;
+
+        return $this;
+    }
+
+    public function setPattern(string $pattern): static
+    {
+        if (trim($pattern) === '') {
+            throw new InvalidArgumentException(static::$messagePattern);
+        }
+
+        $this->pattern = $pattern;
+
+        return $this;
+    }
+
+    public function setText(string $text): static
+    {
+        if (trim($text) === '') {
             throw new InvalidArgumentException(static::$messageText);
         }
 
-        if (trim($this->pattern) === '') {
-            throw new InvalidArgumentException(static::$messagePattern);
-        }
+        $this->text = $text;
+
+        return $this;
     }
 }

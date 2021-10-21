@@ -6,7 +6,7 @@ namespace Authanram\Generators\Pipes;
 
 use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
-use Authanram\Generators\MarkersResolver;
+//use Authanram\Generators\MarkersResolver;
 
 class ResolveMarkers implements Pipe
 {
