@@ -19,7 +19,7 @@ class ReadFromFilename implements Pipe
     {
         $filename = $passable->getDescriptor()->getFilename();
 
-        if (is_null($filename)) {
+        if ($filename === '') {
             return $next($passable);
         }
 

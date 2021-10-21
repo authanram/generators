@@ -3,22 +3,16 @@
 declare(strict_types=1);
 
 use Authanram\Generators\MarkersResolver;
+use Authanram\Generators\Pattern;
 
 it('throws if {$stub} is empty', function () {
-    MarkersResolver::resolve('');
+    MarkersResolver::resolve('', Pattern::make());
 })->expectExceptionMessage(MarkersResolver::$messageText);
-
-it('throws if {$pattern} is empty', function () {
-    MarkersResolver::resolve('first', '');
-})->expectExceptionMessage(MarkersResolver::$messagePatternEmpty);
-
-it('throws if {$pattern} is invalid', function () {
-    MarkersResolver::resolve('first', 'second');
-})->expectExceptionMessage(MarkersResolver::$messagePatternInvalid);
 
 it('resolves all markers', function () {
     $markers = MarkersResolver::resolve(
         'first {{ second }} third {{ fourth }}',
+        Pattern::make(),
     );
 
     expect($markers)->toHaveCount(2);
@@ -28,7 +22,7 @@ it('resolves all markers', function () {
 it('resolves all markers through a custom pattern', function () {
     $markers = MarkersResolver::resolve(
         'first !! 2nd ## third !! 4th ##',
-        '!! %s ##',
+        Pattern::make('!! %s ##'),
     );
 
     expect($markers)->toHaveCount(2);

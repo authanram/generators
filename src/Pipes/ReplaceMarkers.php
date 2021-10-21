@@ -18,7 +18,7 @@ class ReplaceMarkers implements Pipe
 
         foreach ($items as $marker => $value) {
             $text = str_replace(
-                sprintf($descriptor->getPattern(), $marker),
+                sprintf($descriptor->getPattern()->getPhrase(), $marker),
                 static::value($value),
                 $descriptor->getText(),
             );

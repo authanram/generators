@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Authanram\Generators\Generator;
+use Authanram\Generators\Pattern;
 use Authanram\Generators\Tests\TestClasses\TestDescriptor;
 use Authanram\Generators\Tests\TestClasses\TestDescriptorWithFilename;
 
@@ -29,7 +30,7 @@ it('generates from {$filename} with {$pattern}', function () {
     $descriptor = Generator::make(
         (new TestDescriptor)
             ->setFilename(__DIR__.'/../stubs/test-with-pattern.stub')
-            ->setPattern('!! %s ##'),
+            ->setPattern(Pattern::make('!! %s ##')),
     )->generate(['second' => '2nd', 'fourth' => '4th']);
 
     $text = rtrim($descriptor->getText(), "\n");

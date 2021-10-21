@@ -19,24 +19,24 @@ class Generator
 
     public static function make(Descriptor $descriptor): static
     {
-        return (new static())->setDescriptor(
-            $descriptor->setFilename($descriptor::filename()),
-        );
-    }
+        if (trim($descriptor::filename()) !== '') {
+            $descriptor->setFilename($descriptor::filename());
+        }
 
-    public function setDescriptor(Descriptor $descriptor): static
-    {
-        $this->descriptor = $descriptor;
+        $generator = new static();
+        $generator->descriptor = $descriptor;
 
-        return $this;
+        return $generator;
     }
 
     /** @param array<string> $markers */
     public function generate(array $markers, string|null $stub = null): Descriptor
     {
-        $this->descriptor
-            ->setMarkers(Markers::make($markers))
-            ->setText($stub);
+        $this->descriptor->setMarkers(Markers::make($markers));
+
+        if (is_null($stub) === false) {
+            $this->descriptor->setText($stub);
+        }
 
         return Pipeline::handle(Passable::make($this->descriptor), $this->pipes)
             ->getDescriptor();

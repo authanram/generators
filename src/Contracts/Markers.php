@@ -17,12 +17,6 @@ interface Markers
     /** @return array<string> */
     public function getItems(): array;
 
-    /**
-     * @param array<string> $items
-     * @throws InvalidArgumentException
-     */
-    public function setItems(array $items): static;
-
     /** @throws InvalidArgumentException */
     public function get(string $marker): callable|string;
 }

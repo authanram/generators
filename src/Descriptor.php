@@ -4,21 +4,15 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use InvalidArgumentException;
-
 abstract class Descriptor
 {
-    public static string $messageFilename = 'Argument {$filename} must not be empty.';
-    public static string $messagePattern = 'Argument {$pattern} must not be empty.';
-    public static string $messageText = 'Argument {$stub} must not be empty.';
-
     private Contracts\Markers $markers;
     private Contracts\Markers $markersResolved;
+    private Contracts\Pattern $pattern;
     private string $filename;
-    private string $pattern;
     private string $text;
 
-    public function __construct(string|null $pattern = null)
+    public function __construct(Pattern|null $pattern = null)
     {
         if (is_null($pattern)) {
             return;
@@ -30,19 +24,19 @@ abstract class Descriptor
     /** @return array<string> */
     abstract public static function fill(Markers $markers): array;
 
-    public static function filename(): string|null
+    public static function filename(): string
     {
-        return null;
+        return '';
     }
 
-    public static function pattern(): string|null
+    public static function pattern(): string
     {
-        return null;
+        return '';
     }
 
-    public function getFilename(): string|null
+    public function getFilename(): string
     {
-        return $this->filename ?? static::filename() ?? null;
+        return $this->filename ?? static::filename();
     }
 
     public function getMarkers(): Contracts\Markers
@@ -52,29 +46,23 @@ abstract class Descriptor
 
     public function getMarkersResolved(): Contracts\Markers
     {
-        return $this->markersResolved;
+        return $this->markersResolved ?? Markers::make();
     }
 
-    public function getPattern(): string
+    public function getPattern(): Contracts\Pattern
     {
-        return $this->pattern ?? static::pattern() ?? '{{ %s }}';
+        return static::pattern() !== ''
+            ? Pattern::make(static::pattern())
+            : $this->pattern ?? Pattern::make();
     }
 
     public function getText(): string
     {
-        return $this->text;
+        return $this->text ?? '';
     }
 
-    public function setFilename(string|null $filename): static
+    public function setFilename(string $filename): static
     {
-        if (is_null($filename)) {
-            return $this;
-        }
-
-        if (trim($filename) === '') {
-            throw new InvalidArgumentException(static::$messageFilename);
-        }
-
         $this->filename = $filename;
 
         return $this;
@@ -94,27 +82,15 @@ abstract class Descriptor
         return $this;
     }
 
-    public function setPattern(string|null $pattern): static
+    public function setPattern(Contracts\Pattern $pattern): static
     {
-        if (trim($pattern) === '') {
-            throw new InvalidArgumentException(static::$messagePattern);
-        }
-
         $this->pattern = $pattern;
 
         return $this;
     }
 
-    public function setText(string|null $text): static
+    public function setText(string $text): static
     {
-        if (is_null($text)) {
-            return $this;
-        }
-
-        if (trim($text) === '') {
-            throw new InvalidArgumentException(static::$messageText);
-        }
-
         $this->text = $text;
 
         return $this;
