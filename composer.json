@@ -35,9 +35,8 @@
         "post-autoload-dump": [
             "@php ./vendor/bin/testbench package:discover --ansi"
         ],
-        "test": [
-            "@php ./vendor/bin/pest"
-        ]
+        "insights": "@php ./vendor/bin/phpinsights",
+        "test": "@php ./vendor/bin/pest"
     },
     "config": {
         "optimize-autoloader": true,

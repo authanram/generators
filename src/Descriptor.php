@@ -21,8 +21,12 @@ abstract class Descriptor
     /** @return string[] */
     abstract public static function fill(Markers $markers): array;
 
-    public function __construct(string $pattern = null)
+    public function __construct(string|null $pattern = null)
     {
+        if (is_null($pattern)) {
+            return;
+        }
+
         $this->setPattern($pattern);
     }
 
@@ -92,10 +96,6 @@ abstract class Descriptor
 
     public function setPattern(string|null $pattern): static
     {
-        if (is_null($pattern)) {
-            return $this;
-        }
-
         if (trim($pattern) === '') {
             throw new InvalidArgumentException(static::$messagePattern);
         }

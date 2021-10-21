@@ -31,7 +31,7 @@ class Generator
         return $this;
     }
 
-    public function generate(array $markers, string $stub = null): Descriptor
+    public function generate(array $markers, string|null $stub = null): Descriptor
     {
         $this->descriptor
             ->setMarkers(Markers::make($markers))
