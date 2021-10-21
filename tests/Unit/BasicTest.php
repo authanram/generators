@@ -11,3 +11,10 @@ it('generates', function () {
 
     expect($result)->toBe('first 2nd third 4th');
 });
+
+it('generates with custom pattern: !! %s ##', function () {
+    $result = Generator::make(TestDescriptor::class, 'first !! second ## third !! fourth ##')
+        ->generate(['second' => '2nd', 'fourth' => '4th'], '!! %s ##');
+
+    expect($result)->toBe('first 2nd third 4th');
+});
