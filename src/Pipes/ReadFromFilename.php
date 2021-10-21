@@ -6,47 +6,42 @@ namespace Authanram\Generators\Pipes;
 
 use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
-use RuntimeException;
+use Authanram\Generators\Exceptions\ReadFromFilenamePipeFailureException as PipeException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Filesystem\Filesystem;
 
 class ReadFromFilename implements Pipe
 {
-    public static string $messageDoesNotExist = 'Filename [%s] does not exist.';
-    public static string $messageMustNotBeADirectory = 'Filename [%s] must not be a directory.';
-    public static string $messageCouldNotBeRead = 'Filename [%s] could not be read.';
-    public static string $messageMustNotBeEmpty = 'Filename [%s] must not be empty.';
-
+    /**
+     * @throws PipeException
+     * @throws FileNotFoundException
+     */
     public static function handle(Passable $passable, callable $next): Passable
     {
+        $file = new Filesystem;
+
         $filename = $passable->getDescriptor()->getFilename();
 
         if ($filename === '') {
             return $next($passable);
         }
 
-        if (file_exists($filename) === false) {
-            throw new RuntimeException(
-                sprintf(static::$messageDoesNotExist, $filename),
-            );
+        if ($file->exists($filename) === false) {
+            throw new PipeException($filename, PipeException::MESSAGE_EXISTS);
         }
 
-        if (is_dir($filename)) {
-            throw new RuntimeException(
-                sprintf(static::$messageMustNotBeADirectory, $filename),
-            );
+        if ($file->isDirectory($filename)) {
+            throw new PipeException($filename, PipeException::MESSAGE_DIRECTORY);
         }
 
-        $contents = file_get_contents($filename);
-
-        if ($contents === false) {
-            throw new RuntimeException(
-                sprintf(static::$messageCouldNotBeRead, $filename),
-            );
+        if ($file->isReadable($filename) === false) {
+            throw new PipeException($filename, PipeException::MESSAGE_READABLE);
         }
+
+        $contents = $file->get($filename);
 
         if (trim($contents) === '') {
-            throw new RuntimeException(
-                sprintf(static::$messageMustNotBeEmpty, $filename),
-            );
+            throw new PipeException($filename, PipeException::MESSAGE_EMPTY);
         }
 
         return $next($passable->setDescriptor(
