@@ -16,7 +16,7 @@ class MarkerResolutionFailureException extends Exception
         100 => 'Marker [%s] not found.',
     ];
 
-    public function __construct(string $marker, $code = 100, Throwable $previous = null)
+    public function __construct(string $marker, int $code = 100, Throwable|null $previous = null)
     {
         $message = sprintf($this->messages[$code], $marker);
 

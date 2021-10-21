@@ -22,7 +22,7 @@ class ReadFromFilenamePipeFailureException extends Exception
         400 => 'Filename [%s] must be readable.',
     ];
 
-    public function __construct(string $filename, $code = 100, Throwable $previous = null)
+    public function __construct(string $filename, int $code = 100, Throwable|null $previous = null)
     {
         $message = sprintf($this->messages[$code], $filename);
 

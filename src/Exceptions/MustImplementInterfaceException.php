@@ -9,7 +9,7 @@ use Throwable;
 
 class MustImplementInterfaceException extends Exception
 {
-    public function __construct(string $subject, string $interface, $code = 0, Throwable $previous = null)
+    public function __construct(string $subject, string $interface, int $code = 0, Throwable|null $previous = null)
     {
         $message = sprintf('[%s] must implement interface [%s].', $subject, $interface);
 

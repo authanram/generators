@@ -16,7 +16,7 @@ class InvalidArgumentException extends Exception
         100 => 'Argument {%s} must not be empty.',
     ];
 
-    public function __construct(string $argument, $code = 100, Throwable $previous = null)
+    public function __construct(string $argument, int $code = 100, Throwable|null $previous = null)
     {
         $message = sprintf($this->messages[$code], $argument);
 

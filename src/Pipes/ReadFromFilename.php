@@ -18,7 +18,7 @@ class ReadFromFilename implements Pipe
      */
     public static function handle(Passable $passable, callable $next): Passable
     {
-        $file = new Filesystem;
+        $file = new Filesystem();
 
         $filename = $passable->descriptor()->filename();
 

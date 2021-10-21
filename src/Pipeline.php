@@ -22,14 +22,13 @@ class Pipeline implements Contracts\Pipeline
      * @throws InvalidArgumentException
      * @throws MustImplementInterfaceException
      */
-    public static function handle(Passable $passable, array $pipes): Passable
+    public static function handle(Passable $passable, array $pipes, Container $container): Passable
     {
         $pipeline = (new static())
             ->withPassable($passable)
             ->withPipes($pipes);
 
-        // @todo inject container
-        return (new IlluminatePipeline(new Container()))
+        return (new IlluminatePipeline($container))
             ->send($pipeline->passable())
             ->through($pipeline->pipes())
             ->thenReturn();

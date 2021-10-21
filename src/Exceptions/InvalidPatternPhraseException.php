@@ -16,7 +16,7 @@ class InvalidPatternPhraseException extends Exception
         100 => 'Invalid pattern phrase [%s]. Must contain "%%s", e.g. "{{ %%s }}.',
     ];
 
-    public function __construct(string $pattern, $code = 100, Throwable $previous = null)
+    public function __construct(string $pattern, int $code = 100, Throwable|null $previous = null)
     {
         $message = sprintf($this->messages[$code], $pattern);
 

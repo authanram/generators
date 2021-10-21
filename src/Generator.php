@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
+use Illuminate\Container\Container;
+
 class Generator
 {
+    private Container $container;
     private Descriptor $descriptor;
 
     /** @var array<Contracts\Pipe> */
@@ -23,7 +26,9 @@ class Generator
             $descriptor->withFilename($descriptor::stub());
         }
 
+
         $generator = new static();
+        $generator->container = new Container();
         $generator->descriptor = $descriptor;
 
         return $generator;
@@ -42,7 +47,10 @@ class Generator
             $this->descriptor->withText($stub);
         }
 
-        return Pipeline::handle(Passable::make($this->descriptor), $this->pipes)
-            ->descriptor();
+        return Pipeline::handle(
+            Passable::make($this->descriptor),
+            $this->pipes,
+            $this->container,
+        )->descriptor();
     }
 }
