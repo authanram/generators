@@ -1,12 +1,16 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
 declare(strict_types=1);
 
+use Authanram\Generators\Exceptions\MarkerResolutionFailureException as ResolutionException;
 use Authanram\Generators\Markers;
 
 it('throws if {$marker} does not match any known marker', function () {
     Markers::make(['first' => 'first'])->get('second');
-})->expectExceptionMessage(sprintf(Markers::$messageMarkerKeyGet, 'second'));
+})->expectExceptionMessage(
+    (new ResolutionException('second', ResolutionException::MESSAGE_EXISTS))
+        ->getMessage(),
+);
 
 it('resolves all markers', function () {
     $markers = Markers::make([

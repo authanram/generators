@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use InvalidArgumentException;
+use Authanram\Generators\Exceptions\MarkerResolutionFailureException;
 
 class Markers implements Contracts\Markers
 {
-    public static string $messageMarkerKeyGet = 'Argument {$marker} does not match any known marker named [%s].';
-
     /** @var array<string> */
     private array $items;
 
@@ -34,11 +32,14 @@ class Markers implements Contracts\Markers
         return $this->items;
     }
 
+    /**
+     * @throws MarkerResolutionFailureException
+     */
     public function get(string $marker): callable|string
     {
         if (isset($this->items[$marker]) === false) {
-            throw new InvalidArgumentException(
-                sprintf(static::$messageMarkerKeyGet, $marker),
+            throw new MarkerResolutionFailureException(
+                $marker, MarkerResolutionFailureException::MESSAGE_EXISTS,
             );
         }
 
