@@ -8,5 +8,6 @@ use Authanram\Generators\Passable;
 
 interface Pipeline
 {
+    /** @param array<Pipe|string> $pipes */
     public static function handle(Passable $passable, array $pipes): Passable;
 }

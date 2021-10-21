@@ -8,12 +8,19 @@ use InvalidArgumentException;
 
 interface Markers
 {
-    /** @throws InvalidArgumentException */
+    /**
+     * @param array<string> $items
+     * @throws InvalidArgumentException
+     */
     public static function make(array $items = []): static;
 
+    /** @return array<string> */
     public function getItems(): array;
 
-    /** @throws InvalidArgumentException */
+    /**
+     * @param array<string> $items
+     * @throws InvalidArgumentException
+     */
     public function setItems(array $items): static;
 
     /** @throws InvalidArgumentException */

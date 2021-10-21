@@ -15,7 +15,7 @@ class ReadFromFilename implements Pipe
     public static string $messageCouldNotBeRead = 'Filename [%s] could not be read.';
     public static string $messageMustNotBeEmpty = 'Filename [%s] must not be empty.';
 
-    public static function handle(Passable $passable, $next): Passable
+    public static function handle(Passable $passable, callable $next): Passable
     {
         $filename = $passable->getDescriptor()->getFilename();
 

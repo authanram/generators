@@ -6,11 +6,5 @@ namespace Authanram\Generators\Contracts;
 
 interface Pipe
 {
-    /**
-     * @param Passable $passable
-     * @param callable $next
-     * @return Passable
-     * @noinspection PhpMissingParamTypeInspection
-     */
-    public static function handle(Passable $passable, $next): Passable;
+    public static function handle(Passable $passable, callable $next): Passable;
 }

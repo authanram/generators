@@ -18,9 +18,6 @@ abstract class Descriptor
     private string $pattern;
     private string $text;
 
-    /** @return string[] */
-    abstract public static function fill(Markers $markers): array;
-
     public function __construct(string|null $pattern = null)
     {
         if (is_null($pattern)) {
@@ -29,6 +26,9 @@ abstract class Descriptor
 
         $this->setPattern($pattern);
     }
+
+    /** @return array<string> */
+    abstract public static function fill(Markers $markers): array;
 
     public static function filename(): string|null
     {

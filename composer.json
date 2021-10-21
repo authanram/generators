@@ -36,6 +36,7 @@
             "@php ./vendor/bin/testbench package:discover --ansi"
         ],
         "insights": "@php ./vendor/bin/phpinsights",
+        "fix": "@php ./vendor/bin/phpinsights --fix",
         "test": "@php ./vendor/bin/pest"
     },
     "config": {

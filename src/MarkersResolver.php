@@ -8,10 +8,11 @@ use InvalidArgumentException;
 
 class MarkersResolver
 {
-    public static $messageText = 'Argument {$text} must not be empty.';
-    public static $messagePatternEmpty = 'Argument {$pattern} must not be empty.';
-    public static $messagePatternInvalid = 'Invalid pattern. Must contain "%s", e.g. "{{ %s }}';
+    public static string $messageText = 'Argument {$text} must not be empty.';
+    public static string $messagePatternEmpty = 'Argument {$pattern} must not be empty.';
+    public static string $messagePatternInvalid = 'Invalid pattern. Must contain "%s", e.g. "{{ %s }}';
 
+    /** @return array<string> */
     public static function resolve(string $text, string $pattern = '{{ %s }}'): array
     {
         if (trim($text) === '') {

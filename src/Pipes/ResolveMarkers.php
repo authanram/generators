@@ -10,7 +10,7 @@ use Authanram\Generators\Contracts\Pipe;
 
 class ResolveMarkers implements Pipe
 {
-    public static function handle(Passable $passable, $next): Passable
+    public static function handle(Passable $passable, callable $next): Passable
     {
 //        $passable->markers = MarkerResolver::resolve($passable->text);
 

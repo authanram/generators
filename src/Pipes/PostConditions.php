@@ -10,11 +10,11 @@ use Illuminate\Support\Str;
 
 class PostConditions implements Pipe
 {
-    public static function handle(Passable $passable, $next): Passable
+    public static function handle(Passable $passable, callable $next): Passable
     {
         $descriptor = $passable->getDescriptor();
 
-        $text = (string)Str::of($descriptor->getText())
+        $text = (string) Str::of($descriptor->getText())
             ->replace("\n\n\n", "\n");
 
         return $next($passable->setDescriptor(

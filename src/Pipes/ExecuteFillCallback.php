@@ -10,7 +10,7 @@ use Authanram\Generators\Markers;
 
 class ExecuteFillCallback implements Pipe
 {
-    public static function handle(Passable $passable, $next): Passable
+    public static function handle(Passable $passable, callable $next): Passable
     {
         $descriptor = $passable->getDescriptor();
 

@@ -8,7 +8,7 @@ class Generator
 {
     private Descriptor $descriptor;
 
-    /** @var Contracts\Pipe[] */
+    /** @var array<Contracts\Pipe> */
     private array $pipes = [
         Pipes\ReadFromFilename::class,
         Pipes\ExecuteFillCallback::class,
@@ -19,7 +19,7 @@ class Generator
 
     public static function make(Descriptor $descriptor): static
     {
-        return (new static)->setDescriptor(
+        return (new static())->setDescriptor(
             $descriptor->setFilename($descriptor::filename()),
         );
     }
@@ -31,6 +31,7 @@ class Generator
         return $this;
     }
 
+    /** @param array<string> $markers */
     public function generate(array $markers, string|null $stub = null): Descriptor
     {
         $this->descriptor
