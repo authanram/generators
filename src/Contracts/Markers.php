@@ -10,6 +10,7 @@ interface Markers
 {
     /**
      * @param array<string> $items
+     *
      * @throws InvalidArgumentException
      */
     public static function make(array $items = []): Markers;

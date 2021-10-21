@@ -7,7 +7,7 @@ namespace Authanram\Generators\Exceptions;
 use Exception;
 use Throwable;
 
-class ReadFromFilenamePipeFailure extends Exception
+final class ReadFromFilenamePipeFailure extends Exception
 {
     public const EXISTS = 100;
     public const EMPTY = 200;
@@ -22,8 +22,11 @@ class ReadFromFilenamePipeFailure extends Exception
         400 => 'Filename [%s] must be readable.',
     ];
 
-    public function __construct(string $filename, int $code = 100, Throwable|null $previous = null)
-    {
+    public function __construct(
+        string $filename,
+        int $code = 100,
+        Throwable|null $previous = null,
+    ) {
         $message = sprintf($this->messages[$code], $filename);
 
         parent::__construct($message, $code, $previous);

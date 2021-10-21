@@ -79,8 +79,9 @@ abstract class Descriptor
         return $this;
     }
 
-    public function withMarkersResolved(Contracts\Markers $markersResolved): static
-    {
+    public function withMarkersResolved(
+        Contracts\Markers $markersResolved,
+    ): static {
         $this->markersResolved = $markersResolved;
 
         return $this;

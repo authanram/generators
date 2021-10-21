@@ -10,5 +10,9 @@ use Illuminate\Container\Container;
 interface Pipeline
 {
     /** @param array<Pipe|string> $pipes */
-    public static function handle(Passable $passable, array $pipes, Container $container): Passable;
+    public static function handle(
+        Passable $passable,
+        array $pipes,
+        Container $container,
+    ): Passable;
 }

@@ -7,7 +7,7 @@ namespace Authanram\Generators\Exceptions;
 use Exception;
 use Throwable;
 
-class InvalidArgument extends Exception
+final class InvalidArgument extends Exception
 {
     public const EMPTY = 100;
 
@@ -16,8 +16,11 @@ class InvalidArgument extends Exception
         100 => 'Argument {%s} must not be empty.',
     ];
 
-    public function __construct(string $argument, int $code = 100, Throwable|null $previous = null)
-    {
+    public function __construct(
+        string $argument,
+        int $code = 100,
+        Throwable|null $previous = null,
+    ) {
         $message = sprintf($this->messages[$code], $argument);
 
         parent::__construct($message, $code, $previous);

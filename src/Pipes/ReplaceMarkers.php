@@ -37,9 +37,11 @@ final class ReplaceMarkers implements Pipe
 
     private static function value(array|string $subject): string
     {
-        return self::toCollection($subject)
-            ->map(fn (string $item) => is_callable($item) ? $item($item) : $item)
-            ->implode("\n");
+        $fn = static fn ($item) => is_callable($item)
+            ? $item($item)
+            : $item;
+
+        return self::toCollection($subject)->map($fn)->implode("\n");
     }
 
     private static function toCollection(array|string $subject): Collection

@@ -7,7 +7,7 @@ namespace Authanram\Generators\Exceptions;
 use Exception;
 use Throwable;
 
-class MarkerResolutionFailure extends Exception
+final class MarkerResolutionFailure extends Exception
 {
     public const EXISTS = 100;
 
@@ -16,8 +16,11 @@ class MarkerResolutionFailure extends Exception
         100 => 'Marker [%s] not found.',
     ];
 
-    public function __construct(string $marker, int $code = 100, Throwable|null $previous = null)
-    {
+    public function __construct(
+        string $marker,
+        int $code = 100,
+        Throwable|null $previous = null
+    ) {
         $message = sprintf($this->messages[$code], $marker);
 
         parent::__construct($message, $code, $previous);

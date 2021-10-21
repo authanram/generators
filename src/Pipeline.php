@@ -20,11 +20,16 @@ final class Pipeline implements Contract
 
     /**
      * @param array<Pipe|string> $pipes
+     *
      * @throws InvalidArgument
+     *
      * @throws MustImplementInterface
      */
-    public static function handle(Passable $passable, array $pipes, Container $container): Passable
-    {
+    public static function handle(
+        Passable $passable,
+        array $pipes,
+        Container $container,
+    ): Passable {
         $pipeline = (new self())
             ->withPassable($passable)
             ->withPipes($pipes);
@@ -55,7 +60,9 @@ final class Pipeline implements Contract
 
     /**
      * @param array<Pipe|string> $pipes
+     *
      * @throws InvalidArgument
+     *
      * @throws MustImplementInterface
      */
     private function withPipes(array $pipes): Contract

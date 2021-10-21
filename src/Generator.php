@@ -6,7 +6,7 @@ namespace Authanram\Generators;
 
 use Illuminate\Container\Container;
 
-class Generator
+final class Generator
 {
     private Container $container;
     private Descriptor $descriptor;
@@ -20,14 +20,13 @@ class Generator
         Pipes\PostConditions::class,
     ];
 
-    public static function make(Descriptor $descriptor): static
+    public static function make(Descriptor $descriptor): self
     {
         if (trim($descriptor::stub()) !== '') {
             $descriptor->withFilename($descriptor::stub());
         }
 
-
-        $generator = new static();
+        $generator = new self();
         $generator->container = new Container();
         $generator->descriptor = $descriptor;
 
@@ -36,11 +35,15 @@ class Generator
 
     /**
      * @param array<string> $markers
+     *
      * @throws Exceptions\InvalidArgument
+     *
      * @throws Exceptions\MustImplementInterface
      */
-    public function generate(array $markers, string|null $stub = null): Descriptor
-    {
+    public function generate(
+        array $markers,
+        string|null $stub = null
+    ): Descriptor {
         $this->descriptor->withMarkers(Markers::make($markers));
 
         if (is_null($stub) === false) {

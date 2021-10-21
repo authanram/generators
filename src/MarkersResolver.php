@@ -11,14 +11,13 @@ final class MarkersResolver
 {
     /**
      * @return array<string>
+     *
      * @throws InvalidArgument
      */
     public static function resolve(string $text, Pattern $pattern): array
     {
         if (trim($text) === '') {
-            throw new InvalidArgument(
-                '$text', InvalidArgument::EMPTY,
-            );
+            throw new InvalidArgument('$text', InvalidArgument::EMPTY);
         }
 
         $marker = sprintf($pattern->phrase(), '(.*?)');

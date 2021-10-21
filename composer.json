@@ -33,7 +33,7 @@
         "post-autoload-dump": [
             "@php ./vendor/bin/testbench package:discover --ansi"
         ],
-        "insights": "@php ./vendor/bin/phpinsights",
+        "insights": "@php ./vendor/bin/phpinsights --config-path=./phpinsights.php",
         "test": "@php ./vendor/bin/pest"
     },
     "config": {

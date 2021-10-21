@@ -14,6 +14,7 @@ final class Markers implements Contract
 
     /**
      * @param array<string> $items
+     *
      * @return static
      */
     public static function make(array $items = []): Contract
