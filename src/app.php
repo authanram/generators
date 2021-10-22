@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 use Authanram\Generators\Contracts\Services as Contracts;
 use Authanram\Generators\Services;
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Translation\Loader;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Translation\ArrayLoader;
 use Illuminate\Translation\Translator;
 use Illuminate\Validation\Factory;
 
-$app = new Container();
+$app = app();
 
-$app->singleton('app', Container::class);
+$app->singleton('app', Application::class);
 
 $app->bind(Loader::class, ArrayLoader::class);
 
@@ -27,7 +27,6 @@ $app->singleton('validator', fn ($app) => new Factory(
     $app,
 ));
 
-/** @noinspection PhpParamsInspection */
 Facade::setFacadeApplication($app);
 
 $app->singleton(Contracts\FileReader::class, Services\FileReader::class);
