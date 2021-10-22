@@ -4,31 +4,22 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
+use Illuminate\Support\Collection;
+
 abstract class Descriptor
 {
-    public static function template(): string
-    {
-        return '';
-    }
+    abstract public static function template(): string;
+
+    /** @return array<string> */
+    abstract public static function fill(Collection $data): array;
 
     public static function pattern(): string
     {
-        return '';
-    }
-
-    public static function filename(): string
-    {
-        return '';
+        return '{{ %s }}';
     }
 
     /** @return array<callable> */
     public static function pipes(): array
-    {
-        return [];
-    }
-
-    /** @return array<string> */
-    public static function fill(): array
     {
         return [];
     }

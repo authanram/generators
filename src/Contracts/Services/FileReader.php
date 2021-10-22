@@ -6,5 +6,5 @@ namespace Authanram\Generators\Contracts\Services;
 
 interface FileReader
 {
-    public function read(string $filename): void;
+    public function read(/*string $filename*/): void;
 }

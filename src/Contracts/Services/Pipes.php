@@ -6,9 +6,6 @@ namespace Authanram\Generators\Contracts\Services;
 
 interface Pipes
 {
-    /** @param array<callable> $pipes */
-    public function validatePipes(array $pipes): Pipes;
-
-    /** @param array<callable> $pipes */
-    public function withPipes(array $pipes): Pipes;
+//    /** @param array<callable> $pipes */
+    public function withPipes(/*array $pipes*/): Pipes;
 }

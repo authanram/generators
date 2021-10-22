@@ -39,7 +39,10 @@ final class Validation implements Contract
         $key = $errors->keys()[0];
 
         throw new ValidationFailed(
-            ...[$key, $data[$key], gettype($data[$key]), $errors->first()],
+            $key,
+            $data[$key],
+            gettype($data[$key]),
+            $errors->first(),
         );
     }
 }

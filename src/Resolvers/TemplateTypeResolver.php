@@ -13,6 +13,7 @@ final class TemplateTypeResolver
     public static function with(string $template): self
     {
         $instance = new self();
+
         $instance->template = $template;
 
         return $instance;

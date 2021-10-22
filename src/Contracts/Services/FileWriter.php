@@ -6,5 +6,5 @@ namespace Authanram\Generators\Contracts\Services;
 
 interface FileWriter
 {
-    public function write(string $filename): void;
+    public function write(/*string $filename*/): void;
 }

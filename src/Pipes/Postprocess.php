@@ -6,18 +6,20 @@ namespace Authanram\Generators\Pipes;
 
 use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
+//use Illuminate\Support\Str;
 
-final class ExecuteFillCallback implements Pipe
+final class Postprocess implements Pipe
 {
     public static function handle(Passable $passable, callable $next): Passable
     {
 //        $descriptor = $passable->descriptor();
 //
-//        $descriptor->withMarkers(Markers::make(
-//            $descriptor::fill($descriptor->markers()),
-//        ));
+//        $text = (string) Str::of($descriptor->text())
+//            ->replace("\n\n\n", "\n");
 //
-//        return $next($passable->withDescriptor($descriptor));
+//        return $next($passable->withDescriptor(
+//            $descriptor->withText($text),
+//        ));
 
         return $next($passable);
     }

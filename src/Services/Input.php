@@ -8,15 +8,20 @@ use Authanram\Generators\Contracts\Services\Input as Contract;
 
 final class Input implements Contract
 {
-    /** @param array<string> $input */
-    public function validateInput(array $input): Contract
-    {
-        return $this;
-    }
+    /** @var array<string> */
+    private array $input;
 
     /** @param array<string> $input */
     public function withInput(array $input): Contract
     {
+        $this->input = $input;
+
         return $this;
+    }
+
+    /** @return array<string> */
+    public function input(): array
+    {
+        return $this->input;
     }
 }

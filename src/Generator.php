@@ -5,80 +5,37 @@ declare(strict_types=1);
 namespace Authanram\Generators;
 
 use Authanram\Generators\Contracts\Services as Contracts;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Pipeline\Pipeline;
 
 final class Generator
 {
-    private Container $app;
+    private Passable $passable;
 
     public function __construct()
     {
-        $this->app = require __DIR__.'/app.php';
+        $app = require __DIR__.'/app.php';
+        $app->make(Contracts\Input::class);
+        $app->make(Contracts\Pattern::class);
+        $app->make(Contracts\Pipes::class);
+        $app->make(Contracts\Template::class);
+        $app->make(Contracts\Validation::class);
     }
 
-    public static function new(): self
+    public static function make(Descriptor|string $descriptor): self
     {
-        return new self();
+        $instance = new self();
+
+        $instance->passable = Passable::make($descriptor);
+
+        return $instance;
     }
 
-    /** @throws BindingResolutionException */
-    public function template(string $template): self
+    /** @param array<callable> $input */
+    public function generate(array $input): Passable
     {
-        $this->app->make(Contracts\Template::class)
-            ->validateTemplate($template)
-            ->withTemplate($template);
-
-        return $this;
-    }
-
-    /** @throws BindingResolutionException */
-    public function fill(callable $fillCallback): self
-    {
-        $this->app->make(Contracts\Template::class)
-            ->validateFillCallback($fillCallback)
-            ->withFillCallback($fillCallback);
-
-        return $this;
-    }
-
-    /** @throws BindingResolutionException */
-    public function pattern(string $pattern): self
-    {
-        $this->app->make(Contracts\Pattern::class)
-            ->validatePattern($pattern)
-            ->withPattern($pattern);
-
-        return $this;
-    }
-
-    /**
-     * @param array<callable> $pipes
-     *
-     * @throws BindingResolutionException
-     */
-    public function pipes(array $pipes): self
-    {
-        $this->app->make(Contracts\Pipes::class)
-            ->validatePipes($pipes)
-            ->withPipes($pipes);
-
-        return $this;
-    }
-
-    /**
-     * @param array<string> $input
-     *
-     * @throws BindingResolutionException
-     */
-    public function generate(array $input): self
-    {
-        $this->app->make(Contracts\Input::class)
-            ->validateInput($input)
-            ->withInput($input);
-
-        // dd('gen');
-
-        return $this;
+        return (new Pipeline(app()))
+            ->send($this->passable->withInput($input))
+            ->through($this->passable->descriptor()::pipes())
+            ->thenReturn();
     }
 }

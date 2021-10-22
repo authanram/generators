@@ -17,7 +17,7 @@ final class Generator
         Pipes\ExecuteFillCallback::class,
         Pipes\ResolveMarkers::class,
         Pipes\ReplaceMarkers::class,
-        Pipes\PostConditions::class,
+        Pipes\Precondition::class,
     ];
 
     public static function make(Descriptor $descriptor): self

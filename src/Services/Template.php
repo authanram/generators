@@ -6,41 +6,40 @@ namespace Authanram\Generators\Services;
 
 use Authanram\Generators\Contracts\Services\Template as Contract;
 use Authanram\Generators\Resolvers\TemplateTypeResolver;
+use Closure;
 
 final class Template implements Contract
 {
-    public function validateTemplate(string $subject): Contract
+    private string $template;
+
+    private Closure $fillCallbackCallable;
+
+    public function withTemplate(string $template): Contract
     {
-        $validation = app()->services()->validation();
+        $this->template = $template;
 
-        if ($this->type('foo')->isRaw()) {
-            $validation->rules(['subject' => 'required|string']);
-        } else {
-            $validation->rules(['subject' => 'required']);
-        }
-
-        $validation->validate(['subject' => 123]);
-
-        return $this;
-    }
-
-    public function withTemplate(string $subject): Contract
-    {
-        return $this;
-    }
-
-    public function validateFillCallback(callable $fillCallback): Contract
-    {
         return $this;
     }
 
     public function withFillCallback(callable $fillCallback): Contract
     {
+        $this->fillCallbackCallable = $fillCallback;
+
         return $this;
     }
 
-    private function type(string $template): TemplateTypeResolver
+    public function template(): string
     {
-        return TemplateTypeResolver::with($template);
+        return $this->template;
+    }
+
+    public function fillCallback(): Closure
+    {
+        return $this->fillCallbackCallable;
+    }
+
+    public function type(): TemplateTypeResolver
+    {
+        return TemplateTypeResolver::with($this->template);
     }
 }
