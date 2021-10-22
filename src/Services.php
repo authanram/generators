@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Authanram\Generators\Contracts;
-
 final class Services implements Contracts\Services
 {
     /** @noinspection PhpUnhandledExceptionInspection */

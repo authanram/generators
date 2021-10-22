@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace Authanram\Generators\Services;
 
 use Authanram\Generators\Contracts\Services\Validation as Contract;
-
-use Illuminate\Support\Facades\Validator as IlluminateValidator;
+use Illuminate\Support\Facades\Validator;
 
 final class Validation implements Contract
 {
-    private array $exceptions = [
-    ];
+    /** @var array<string> */
+    private array $exceptions = [];
 
+    /**
+     * @param array<string> $data
+     * @param array<string> $rules
+     */
     public static function validate(array $data, array $rules): void
     {
-        $validator = IlluminateValidator::make($data, $rules);
+        $validator = Validator::make($data, $rules);
 
         $messages = $validator->errors()->messages();
 

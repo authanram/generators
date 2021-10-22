@@ -7,7 +7,7 @@ namespace Authanram\Generators;
 use Authanram\Generators\Contracts\Services as ServicesContract;
 use Illuminate\Container\Container as BaseContainer;
 
-class Container extends BaseContainer implements Contracts\Container
+final class Container extends BaseContainer implements Contracts\Container
 {
     public function __construct()
     {

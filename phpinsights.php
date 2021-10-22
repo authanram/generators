@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'preset' => 'laravel',
+    'preset' => 'default',
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     */
 
     'exclude' => [
-        //  'path/to/directory-or-file'
+        'helpers.php',
     ],
 
     'add' => [

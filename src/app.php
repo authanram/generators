@@ -22,7 +22,7 @@ $translationLoader = $app->make(Loader::class);
 
 $app->instance('translator', new Translator($translationLoader, 'en'));
 
-$app->singleton('validator', fn ($app) => new Factory(
+$app->singleton('validator', static fn ($app) => new Factory(
     $app['translator'],
     $app,
 ));
@@ -37,16 +37,5 @@ $app->singleton(Contracts\Pattern::class, Services\Pattern::class);
 $app->singleton(Contracts\Pipes::class, Services\Pipes::class);
 $app->singleton(Contracts\Template::class, Services\Template::class);
 $app->singleton(Contracts\Validation::class, Services\Validation::class);
-
-if (function_exists('app') === false) {
-    /**
-     * @return mixed|Container
-     *
-     * @noinspection PhpReturnDocTypeMismatchInspection
-     * @noinspection PhpMissingReturnTypeInspection
-     * @noinspection PhpInconsistentReturnPointsInspection
-     */
-    function app($abstract = null, array $parameters = []) {}
-}
 
 return $app;
