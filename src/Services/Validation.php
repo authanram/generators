@@ -5,23 +5,39 @@ declare(strict_types=1);
 namespace Authanram\Generators\Services;
 
 use Authanram\Generators\Contracts\Services\Validation as Contract;
+use Authanram\Generators\Exceptions\ValidationFailed;
 use Illuminate\Support\Facades\Validator;
 
 final class Validation implements Contract
 {
     /** @var array<string> */
-    private array $exceptions = [];
+    private array $rules = [];
 
-    /**
-     * @param array<string> $data
-     * @param array<string> $rules
-     */
-    public static function validate(array $data, array $rules): void
+    /** @var array<callable|string> $rules */
+    public function rules(array $rules): self
     {
-        $validator = Validator::make($data, $rules);
+        $this->rules = $rules;
 
-        $messages = $validator->errors()->messages();
+        return $this;
+    }
 
-        dd($messages);
+    /** @param array<mixed> $data */
+    public function validate(array $data): self
+    {
+        $validator = Validator::make($data, $this->rules);
+
+        $errors = $validator->errors();
+
+        $key = $errors->keys()[0];
+
+        $exception = (new ValidationFailed(
+            $key,
+            $data[$key],
+            gettype($data[$key]),
+            $errors->first(),
+        ))
+            ->getMessage();
+
+        dd($exception);
     }
 }

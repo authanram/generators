@@ -5,20 +5,21 @@ declare(strict_types=1);
 namespace Authanram\Generators\Services;
 
 use Authanram\Generators\Contracts\Services\Template as Contract;
-use Illuminate\Support\Facades\Validator;
+use Authanram\Generators\Resolvers\TemplateTypeResolver;
 
 final class Template implements Contract
 {
     public function validateTemplate(string $subject): Contract
     {
-        dd(app()->services());
+        $validation = app()->services()->validation();
 
-        $errors = Validator::make(
-            ['subject' => $subject],
-            ['subject' => 'required|string'],
-        )->errors();
+        if ($this->type('foo')->isRaw()) {
+            $validation->rules(['subject' => 'required|string']);
+        } else {
+            $validation->rules(['subject' => 'required']);
+        }
 
-        dd($errors->messages());
+        $validation->validate(['subject' => 123]);
 
         return $this;
     }
@@ -36,5 +37,10 @@ final class Template implements Contract
     public function withFillCallback(callable $fillCallback): Contract
     {
         return $this;
+    }
+
+    private function type(string $template): TemplateTypeResolver
+    {
+        return TemplateTypeResolver::with($template);
     }
 }
