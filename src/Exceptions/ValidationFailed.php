@@ -20,18 +20,20 @@ final class ValidationFailed extends Exception
     public function __construct(
         string $argument,
         mixed $value = null,
-        string $type = null,
+        string|null $type = null,
         string $code = 'required',
         Throwable|null $previous = null,
     ) {
         $code = ltrim($code, 'validation.');
 
-        $message = __($this->messages[$code], [
+        $replace = [
             'argument' => '$'.$argument,
             'code' => $code,
             'type' => $type,
             'value' => $value,
-        ]);
+        ];
+
+        $message = __($this->messages[$code], $replace);
 
         parent::__construct($message, 0, $previous);
     }

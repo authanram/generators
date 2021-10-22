@@ -13,7 +13,7 @@ final class Validation implements Contract
     /** @var array<string> */
     private array $rules = [];
 
-    /** @var array<callable|string> $rules */
+    /** @param array<callable|string> $rules */
     public function rules(array $rules): self
     {
         $this->rules = $rules;
@@ -21,23 +21,25 @@ final class Validation implements Contract
         return $this;
     }
 
-    /** @param array<mixed> $data */
+    /**
+     * @param array<string> $data
+     *
+     * @throws ValidationFailed
+     */
     public function validate(array $data): self
     {
         $validator = Validator::make($data, $this->rules);
 
         $errors = $validator->errors();
 
+        if ($errors->isEmpty()) {
+            return $this;
+        }
+
         $key = $errors->keys()[0];
 
-        $exception = (new ValidationFailed(
-            $key,
-            $data[$key],
-            gettype($data[$key]),
-            $errors->first(),
-        ))
-            ->getMessage();
-
-        dd($exception);
+        throw new ValidationFailed(
+            ...[$key, $data[$key], gettype($data[$key]), $errors->first()],
+        );
     }
 }
