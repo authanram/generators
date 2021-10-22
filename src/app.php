@@ -38,14 +38,6 @@ $app->singleton(Contracts\Pipes::class, Services\Pipes::class);
 $app->singleton(Contracts\Template::class, Services\Template::class);
 $app->singleton(Contracts\Validation::class, Services\Validation::class);
 
-$app->alias(Contracts\FileReader::class, 'file.reader');
-$app->alias(Contracts\FileWriter::class, 'file.writer');
-$app->alias(Contracts\Input::class, 'input');
-$app->alias(Contracts\Pattern::class, 'pattern');
-$app->alias(Contracts\Pipes::class, 'pipes');
-$app->alias(Contracts\Template::class, 'template');
-$app->alias(Contracts\Validation::class, 'validation');
-
 if (function_exists('app') === false) {
     /**
      * @return mixed|Container

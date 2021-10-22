@@ -25,7 +25,7 @@ final class Generator
     /** @throws BindingResolutionException */
     public function template(string $template): self
     {
-        $this->app->make('template')
+        $this->app->make(Contracts\Template::class)
             ->validateTemplate($template)
             ->withTemplate($template);
 
@@ -35,7 +35,7 @@ final class Generator
     /** @throws BindingResolutionException */
     public function fill(callable $fillCallback): self
     {
-        $this->app->make('template')
+        $this->app->make(Contracts\Template::class)
             ->validateFillCallback($fillCallback)
             ->withFillCallback($fillCallback);
 
@@ -45,7 +45,7 @@ final class Generator
     /** @throws BindingResolutionException */
     public function pattern(string $pattern): self
     {
-        $this->app->make('pattern')
+        $this->app->make(Contracts\Pattern::class)
             ->validatePattern($pattern)
             ->withPattern($pattern);
 
@@ -59,7 +59,9 @@ final class Generator
      */
     public function pipes(array $pipes): self
     {
-        $this->app->make('pipes')->validatePipes($pipes)->withPipes($pipes);
+        $this->app->make(Contracts\Pipes::class)
+            ->validatePipes($pipes)
+            ->withPipes($pipes);
 
         return $this;
     }
