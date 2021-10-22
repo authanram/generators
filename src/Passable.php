@@ -13,7 +13,10 @@ final class Passable implements Contracts\Passable
 
     private string $output;
 
-    private string $outputFilename;
+    /** @var array<string> */
+    private array $placeholders;
+
+    private string $toFilename;
 
     public static function make(Descriptor|string $descriptor): self
     {
@@ -39,9 +42,17 @@ final class Passable implements Contracts\Passable
         return $this;
     }
 
-    public function withOutputFilename(string|null $outputFilename): self
+    /** @param array<string> $placeholders */
+    public function withPlaceholders(array $placeholders): self
     {
-        $this->outputFilename = $outputFilename ?? '';
+        $this->placeholders = $placeholders;
+
+        return $this;
+    }
+
+    public function withToFilename(string|null $outputFilename): self
+    {
+        $this->toFilename = $outputFilename ?? '';
 
         return $this;
     }
@@ -62,8 +73,14 @@ final class Passable implements Contracts\Passable
         return $this->output ?? '';
     }
 
-    public function outputFilename(): string
+    /** @return array<string> */
+    public function placeholders(): array
     {
-        return $this->outputFilename ?? '';
+        return $this->placeholders ?? [];
+    }
+
+    public function toFilename(): string
+    {
+        return $this->toFilename ?? '';
     }
 }

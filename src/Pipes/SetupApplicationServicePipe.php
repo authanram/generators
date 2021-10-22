@@ -11,14 +11,6 @@ final class SetupApplicationServicePipe implements Pipe
 {
     public static function handle(Passable $passable, callable $next): Passable
     {
-//        $descriptor = $passable->descriptor();
-//
-//        $descriptor->withMarkers(Markers::make(
-//            $descriptor::fill($descriptor->markers()),
-//        ));
-//
-//        return $next($passable->withDescriptor($descriptor));
-
         return $next($passable);
     }
 }

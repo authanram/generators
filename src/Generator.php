@@ -33,11 +33,14 @@ final class Generator
     /** @param array<callable> $input */
     public function generate(
         array $input,
-        string|null $outputFilename = null,
+        string|null $toFilename = null,
     ): Passable {
+        Assert::isNonEmptyMap($input, '$input must be empty');
+        Assert::isEmpty($toFilename, '$toFilename must not be empty.');
+
         $passable = $this->passable
             ->withInput($input)
-            ->withOutputFilename($outputFilename);
+            ->withToFilename($toFilename);
 
         return (new Pipeline(app()))
             ->send($passable)

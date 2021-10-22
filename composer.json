@@ -9,8 +9,7 @@
         "illuminate/filesystem": "^8.66.0",
         "illuminate/pipeline": "^8.66.0",
         "illuminate/support": "^8.66.0",
-        "illuminate/translation": "^8.66.0",
-        "illuminate/validation": "^8.66.0"
+        "webmozart/assert": "^1.10.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.16.0",

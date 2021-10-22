@@ -15,7 +15,10 @@ interface Passable
 
     public function withOutput(string $output): self;
 
-    public function withOutputFilename(string|null $outputFilename): self;
+    /** @param array<string> $placeholders */
+    public function withPlaceholders(array $placeholders): self;
+
+    public function withToFilename(string|null $outputFilename): self;
 
     public function descriptor(): Descriptor|string|null;
 
@@ -24,5 +27,8 @@ interface Passable
 
     public function output(): string;
 
-    public function outputFilename(): string;
+    /** @return array<string> */
+    public function placeholders(): array;
+
+    public function toFilename(): string;
 }

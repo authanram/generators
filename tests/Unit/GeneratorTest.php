@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection */
+<?php
 
 declare(strict_types=1);
 
@@ -12,7 +12,5 @@ it('generates', function () {
             'fourth' => '4nd',
         ]);
 
-    dd($passable, $passable->output());
-
-    expect(true)->toBeTrue();
+    expect($passable->output())->toBe('first 2nd third 4ND');
 });

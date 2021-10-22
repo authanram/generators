@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Resolvers;
 
-final class MarkersResolver
+use Authanram\Generators\Assert;
+
+final class PlaceholdersResolver
 {
     /** @return array<string> */
     public static function resolve(string $text, string $pattern): array
     {
-//        if (trim($text) === '') {
-//        }
+        Assert::stringNotEmpty($text, '$text must not be empty.');
+
+        Assert::stringNotEmpty($pattern, '$pattern must not be empty.');
+
+        Assert::contains($pattern, '%s', '$pattern must contain "%%s".');
 
         $marker = sprintf($pattern, '(.*?)');
 
