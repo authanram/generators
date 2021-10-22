@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Authanram\Generators;
 
 use Authanram\Generators\Contracts\Services as Contracts;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Container\Container;
 
 final class Generator
 {
@@ -14,7 +14,7 @@ final class Generator
 
     public function __construct()
     {
-        $this->app = Application::create();
+        $this->app = require __DIR__.'/app.php';
     }
 
     public static function new(): self

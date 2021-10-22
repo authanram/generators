@@ -11,10 +11,12 @@ final class Template implements Contract
 {
     public function validateTemplate(string $subject): Contract
     {
-        Validator::make(
+        $errors = Validator::make(
             ['subject' => $subject],
-            ['subject' => 'required'],
-        );
+            ['subject' => 'required|string'],
+        )->errors();
+
+        dd($errors->messages());
 
         return $this;
     }
