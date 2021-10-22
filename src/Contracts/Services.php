@@ -19,6 +19,4 @@ interface Services
     public function pipes(): Contracts\Pipes;
 
     public function template(): Contracts\Template;
-
-    public function validation(): Contracts\Validation;
 }

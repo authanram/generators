@@ -6,9 +6,15 @@
 4. Create your feature branch `git checkout -b new-feature`
 5. Commit your changes `git commit -am 'Add new feature'`
 6. Test your changes `composer run test`
-7. Check the insights summary again `composer run insights`
-8. Push to the branch `git push origin new-feature`
-9. [Create new Pull Request](https://help.github.com/articles/creating-a-pull-request/)
+7. Ensure you've covered all your code `composer run coverage`
+8. Check the insights summary again `composer run insights`
+9. Push to the branch `git push origin new-feature`
+10. [Create new Pull Request](https://help.github.com/articles/creating-a-pull-request/)
+
+If you experience the error message `No code coverage driver is available`, you
+can run `composer run coverage:setup` or `pecl install pcov` to solve this.
+
+Or refer to corresponding [the documentation](https://pestphp.com/docs/coverage).
 
 ## Testing
 
@@ -19,7 +25,7 @@ Run our test suite:
 ```
 composer run test
 ```
-or manually: `vendor/bin/pest`
+or manually `vendor/bin/pest`
 
 ### Watcher
 
@@ -29,7 +35,7 @@ To watch your tests while coding, run:
 composer run test --watch
 ```
 
-or manually: `vendor/bin/pest --watch`
+or manually `vendor/bin/pest --watch`
 
 ## Code Style
 
@@ -47,7 +53,7 @@ To fix your code alongside, run: `composer run insights --fix`
 composer run insights --fix
 ```
 
-or simply run: `composer run fix`
+or simply run `composer run fix`
 
 ---
 

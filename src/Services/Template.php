@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Authanram\Generators\Services;
 
 use Authanram\Generators\Contracts\Services\Template as Contract;
+use Authanram\Generators\Data;
 use Authanram\Generators\Resolvers\TemplateTypeResolver;
-use Illuminate\Support\Collection;
 
 final class Template extends Service implements Contract
 {
@@ -17,7 +17,7 @@ final class Template extends Service implements Contract
 
     public function fillCallback(): callable
     {
-        return static fn (Collection $data) => $this->passable()
+        return static fn (Data $data) => $this->passable()
             ->descriptor()::fill($data);
     }
 

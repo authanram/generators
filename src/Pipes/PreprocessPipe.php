@@ -11,16 +11,6 @@ final class PreprocessPipe implements Pipe
 {
     public static function handle(Passable $passable, callable $next): Passable
     {
-//        $validation = app()->services()->validation();
-//
-//        if ($this->type('foo')->isRaw()) {
-//            $validation->rules(['subject' => 'required|string']);
-//        } else {
-//            $validation->rules(['subject' => 'required']);
-//        }
-//
-//        $validation->validate(['subject' => 123]);
-
         return $next($passable);
     }
 }

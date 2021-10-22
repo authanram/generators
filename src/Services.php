@@ -41,10 +41,4 @@ final class Services implements Contracts\Services
     {
         return app()->make(Contracts\Services\Template::class);
     }
-
-    /** @noinspection PhpUnhandledExceptionInspection */
-    public function validation(): Contracts\Services\Validation
-    {
-        return app()->make(Contracts\Services\Validation::class);
-    }
 }

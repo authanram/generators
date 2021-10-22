@@ -19,7 +19,6 @@ final class Generator
         $app->make(Contracts\Pattern::class);
         $app->make(Contracts\Pipes::class);
         $app->make(Contracts\Template::class);
-        $app->make(Contracts\Validation::class);
     }
 
     public static function make(Descriptor|string $descriptor): self
