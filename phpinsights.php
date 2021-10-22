@@ -52,6 +52,7 @@ return [
 
     'exclude' => [
         'helpers.php',
+        'phpinsights-git.php',
     ],
 
     'add' => [

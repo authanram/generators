@@ -21,6 +21,14 @@ abstract class Descriptor
     /** @return array<callable> */
     public static function pipes(): array
     {
-        return [];
+        return [
+            Pipes\SetupApplicationServicePipe::class,
+            Pipes\ResolveTemplatePipe::class,
+            Pipes\ResolvePlaceholdersPipe::class,
+            Pipes\ExecuteFillCallbackPipe::class,
+            Pipes\PreprocessPipe::class,
+            Pipes\ReplacePlaceholdersPipe::class,
+            Pipes\PostprocessPipe::class,
+        ];
     }
 }

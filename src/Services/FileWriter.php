@@ -6,9 +6,10 @@ namespace Authanram\Generators\Services;
 
 use Authanram\Generators\Contracts\Services\FileWriter as Contract;
 
-final class FileWriter implements Contract
+final class FileWriter extends Service implements Contract
 {
-    public function write(/*string $filename*/): void
+    public function write(string $filename): string
     {
+        return $filename;
     }
 }

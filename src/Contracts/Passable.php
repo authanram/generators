@@ -15,10 +15,14 @@ interface Passable
 
     public function withOutput(string $output): self;
 
+    public function withOutputFilename(string|null $outputFilename): self;
+
     public function descriptor(): Descriptor|string|null;
 
     /** @return array<string> */
     public function input(): array;
 
-    public function output(): string|null;
+    public function output(): string;
+
+    public function outputFilename(): string;
 }

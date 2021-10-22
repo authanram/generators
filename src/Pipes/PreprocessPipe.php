@@ -7,7 +7,7 @@ namespace Authanram\Generators\Pipes;
 use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
 
-final class Preprocess implements Pipe
+final class PreprocessPipe implements Pipe
 {
     public static function handle(Passable $passable, callable $next): Passable
     {

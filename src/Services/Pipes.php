@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Services;
 
+use Authanram\Generators\Contracts\Pipe;
 use Authanram\Generators\Contracts\Services\Pipes as Contract;
 
-final class Pipes implements Contract
+final class Pipes extends Service implements Contract
 {
-//    /** @param array<callable> $pipes */
-    public function withPipes(/*array $pipes*/): Contract
+    /** @return array<Pipe|string> */
+    public function pipes(): array
     {
-        return $this;
+        return $this->passable()->descriptor()::pipes();
     }
 }

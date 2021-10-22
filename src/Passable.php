@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-final class Passable
+final class Passable implements Contracts\Passable
 {
     private Descriptor|string $descriptor;
 
@@ -12,6 +12,8 @@ final class Passable
     private array $input;
 
     private string $output;
+
+    private string $outputFilename;
 
     public static function make(Descriptor|string $descriptor): self
     {
@@ -37,6 +39,13 @@ final class Passable
         return $this;
     }
 
+    public function withOutputFilename(string|null $outputFilename): self
+    {
+        $this->outputFilename = $outputFilename ?? '';
+
+        return $this;
+    }
+
     public function descriptor(): Descriptor|string|null
     {
         return $this->descriptor ?? null;
@@ -48,8 +57,13 @@ final class Passable
         return $this->input ?? [];
     }
 
-    public function output(): string|null
+    public function output(): string
     {
-        return $this->output ?? null;
+        return $this->output ?? '';
+    }
+
+    public function outputFilename(): string
+    {
+        return $this->outputFilename ?? '';
     }
 }

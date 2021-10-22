@@ -8,7 +8,7 @@ use Authanram\Generators\Contracts\Services\Validation as Contract;
 use Authanram\Generators\Exceptions\ValidationFailed;
 use Illuminate\Support\Facades\Validator;
 
-final class Validation implements Contract
+final class Validation extends Service implements Contract
 {
     /** @var array<string> */
     private array $rules = [];

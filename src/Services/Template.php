@@ -6,40 +6,23 @@ namespace Authanram\Generators\Services;
 
 use Authanram\Generators\Contracts\Services\Template as Contract;
 use Authanram\Generators\Resolvers\TemplateTypeResolver;
-use Closure;
+use Illuminate\Support\Collection;
 
-final class Template implements Contract
+final class Template extends Service implements Contract
 {
-    private string $template;
-
-    private Closure $fillCallbackCallable;
-
-    public function withTemplate(string $template): Contract
-    {
-        $this->template = $template;
-
-        return $this;
-    }
-
-    public function withFillCallback(callable $fillCallback): Contract
-    {
-        $this->fillCallbackCallable = $fillCallback;
-
-        return $this;
-    }
-
     public function template(): string
     {
-        return $this->template;
+        return $this->passable()->output();
     }
 
-    public function fillCallback(): Closure
+    public function fillCallback(): callable
     {
-        return $this->fillCallbackCallable;
+        return static fn (Collection $data) => $this->passable()
+            ->descriptor()::fill($data);
     }
 
     public function type(): TemplateTypeResolver
     {
-        return TemplateTypeResolver::with($this->template);
+        return TemplateTypeResolver::with($this->template());
     }
 }

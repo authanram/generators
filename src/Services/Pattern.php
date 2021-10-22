@@ -6,10 +6,10 @@ namespace Authanram\Generators\Services;
 
 use Authanram\Generators\Contracts\Services\Pattern as Contract;
 
-final class Pattern implements Contract
+final class Pattern extends Service implements Contract
 {
-    public function withPattern(/*string $pattern*/): Contract
+    public function pattern(): string
     {
-        return $this;
+        return $this->passable()->descriptor()::pattern();
     }
 }

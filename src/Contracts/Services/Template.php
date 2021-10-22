@@ -8,9 +8,9 @@ use Authanram\Generators\Resolvers\TemplateTypeResolver;
 
 interface Template
 {
-    public function withTemplate(string $template): Template;
+    public function template(): string;
 
-    public function withFillCallback(callable $fillCallback): Template;
+    public function fillCallback(): callable;
 
     public function type(): TemplateTypeResolver;
 }

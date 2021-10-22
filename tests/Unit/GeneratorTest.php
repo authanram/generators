@@ -12,7 +12,7 @@ it('generates', function () {
             'fourth' => '4nd',
         ]);
 
-    //dd($passable, $passable->output());
+//    dd($passable, $passable->output());
 
     expect(true)->toBeTrue();
 });

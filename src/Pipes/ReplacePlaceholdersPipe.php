@@ -8,7 +8,7 @@ use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
 //use Illuminate\Support\Collection;
 
-final class ReplaceMarkers implements Pipe
+final class ReplacePlaceholdersPipe implements Pipe
 {
     public static function handle(Passable $passable, callable $next): Passable
     {

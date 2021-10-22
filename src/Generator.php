@@ -14,6 +14,7 @@ final class Generator
     public function __construct()
     {
         $app = require __DIR__.'/app.php';
+
         $app->make(Contracts\Input::class);
         $app->make(Contracts\Pattern::class);
         $app->make(Contracts\Pipes::class);
@@ -31,11 +32,17 @@ final class Generator
     }
 
     /** @param array<callable> $input */
-    public function generate(array $input): Passable
-    {
+    public function generate(
+        array $input,
+        string|null $outputFilename = null,
+    ): Passable {
+        $passable = $this->passable
+            ->withInput($input)
+            ->withOutputFilename($outputFilename);
+
         return (new Pipeline(app()))
-            ->send($this->passable->withInput($input))
-            ->through($this->passable->descriptor()::pipes())
+            ->send($passable)
+            ->through($passable->descriptor()::pipes())
             ->thenReturn();
     }
 }
