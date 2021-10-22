@@ -11,6 +11,8 @@ final class Template implements Contract
 {
     public function validateTemplate(string $subject): Contract
     {
+        dd(app()->services());
+
         $errors = Validator::make(
             ['subject' => $subject],
             ['subject' => 'required|string'],

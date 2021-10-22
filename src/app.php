@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
+use Authanram\Generators\Container;
 use Authanram\Generators\Contracts\Services as Contracts;
 use Authanram\Generators\Services;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Translation\Loader;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Translation\ArrayLoader;
 use Illuminate\Translation\Translator;
 use Illuminate\Validation\Factory;
 
-$app = app();
+$app = new Container();
 
-$app->singleton('app', Application::class);
+$app->singleton('app', Container::class);
 
 $app->bind(Loader::class, ArrayLoader::class);
 
@@ -27,6 +27,7 @@ $app->singleton('validator', fn ($app) => new Factory(
     $app,
 ));
 
+/** @noinspection PhpParamsInspection */
 Facade::setFacadeApplication($app);
 
 $app->singleton(Contracts\FileReader::class, Services\FileReader::class);
@@ -44,5 +45,16 @@ $app->alias(Contracts\Pattern::class, 'pattern');
 $app->alias(Contracts\Pipes::class, 'pipes');
 $app->alias(Contracts\Template::class, 'template');
 $app->alias(Contracts\Validation::class, 'validation');
+
+if (function_exists('app') === false) {
+    /**
+     * @return mixed|Container
+     *
+     * @noinspection PhpReturnDocTypeMismatchInspection
+     * @noinspection PhpMissingReturnTypeInspection
+     * @noinspection PhpInconsistentReturnPointsInspection
+     */
+    function app($abstract = null, array $parameters = []) {}
+}
 
 return $app;
