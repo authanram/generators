@@ -8,12 +8,15 @@ use Authanram\Generators\Contracts\Services\Pipes as Contract;
 
 final class Pipes implements Contract
 {
-    public function validate(array $pipes): Contract
+    /** @param array<callable> $pipes */
+    public function validatePipes(array $pipes): Contract
     {
         return $this;
     }
 
-    public function withPipes(array $pipes): void
+    /** @param array<callable> $pipes */
+    public function withPipes(array $pipes): Contract
     {
+        return $this;
     }
 }

@@ -6,9 +6,11 @@ namespace Authanram\Generators\Contracts\Services;
 
 interface Template
 {
-    public function validate(string $subject): Template;
+    public function validateTemplate(string $subject): Template;
 
-    public function withTemplate(string $subject): void;
+    public function withTemplate(string $subject): Template;
 
-    public function withCallbacks(string $subject): void;
+    public function validateFillCallback(callable $fillCallback): Template;
+
+    public function withFillCallback(callable $fillCallback): Template;
 }

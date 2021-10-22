@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Authanram\Generators\Contracts\Pipe;
 use Authanram\Generators\Contracts\Services as Contracts;
-use Authanram\Generators\Services;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
@@ -17,11 +15,12 @@ final class Generator
     public function __construct()
     {
         $this->container = new Container();
-        $this->bindPatternService();
-        $this->bindTemplateService();
-        $this->bindPipesService();
         $this->bindFileReaderService();
         $this->bindFileWriterService();
+        $this->bindInputService();
+        $this->bindPatternService();
+        $this->bindPipesService();
+        $this->bindTemplateService();
     }
 
     public static function new(): self
@@ -33,17 +32,18 @@ final class Generator
     public function template(string $template): self
     {
         $this->container->make(Contracts\Template::class)
-            ->validate($template)
+            ->validateTemplate($template)
             ->withTemplate($template);
 
         return $this;
     }
 
     /** @throws BindingResolutionException */
-    public function fill(array|string $callbacks): self
+    public function fill(callable $fillCallback): self
     {
         $this->container->make(Contracts\Template::class)
-            ->validate($callbacks);
+            ->validateFillCallback($fillCallback)
+            ->withFillCallback($fillCallback);
 
         return $this;
     }
@@ -52,30 +52,62 @@ final class Generator
     public function pattern(string $pattern): self
     {
         $this->container->make(Contracts\Pattern::class)
-            ->validate($pattern)
+            ->validatePattern($pattern)
             ->withPattern($pattern);
 
         return $this;
     }
 
     /**
-     * @param array<Pipe|string> $pipes
+     * @param array<callable> $pipes
      * @throws BindingResolutionException
      */
     public function pipes(array $pipes): self
     {
         $this->container->make(Contracts\Pipes::class)
-            ->validate($pipes)
+            ->validatePipes($pipes)
             ->withPipes($pipes);
 
         return $this;
     }
 
-    public function generate(): self
+    /**
+     * @param array<string> $input
+     * @throws BindingResolutionException
+     */
+    public function generate(array $input): self
     {
-        dd('gen');
+        $this->container->make(Contracts\Input::class)
+            ->validateInput($input)
+            ->withInput($input);
+
+        // dd('gen');
 
         return $this;
+    }
+
+    private function bindFileReaderService(): void
+    {
+        $this->container->singleton(
+            Contracts\Pipes::class,
+            Services\Pipes::class,
+        );
+    }
+
+    private function bindFileWriterService(): void
+    {
+        $this->container->singleton(
+            Contracts\Pipes::class,
+            Services\Pipes::class,
+        );
+    }
+
+    private function bindInputService(): void
+    {
+        $this->container->singleton(
+            Contracts\Input::class,
+            Services\Input::class,
+        );
     }
 
     private function bindTemplateService(): void
@@ -95,22 +127,6 @@ final class Generator
     }
 
     private function bindPipesService(): void
-    {
-        $this->container->singleton(
-            Contracts\Pipes::class,
-            Services\Pipes::class,
-        );
-    }
-
-    private function bindFileReaderService(): void
-    {
-        $this->container->singleton(
-            Contracts\Pipes::class,
-            Services\Pipes::class,
-        );
-    }
-
-    private function bindFileWriterService(): void
     {
         $this->container->singleton(
             Contracts\Pipes::class,

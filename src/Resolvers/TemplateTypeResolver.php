@@ -28,11 +28,10 @@ final class TemplateTypeResolver
 
     public function isFilename(): bool
     {
-        return (Str::of($this->template)->endsWith('.'.$this->extension)
+        return Str::of($this->template)->endsWith('.'.$this->extension)
             && file_exists($this->template)
             && is_file($this->template)
-            && is_readable($this->template)
-        );
+            && is_readable($this->template);
     }
 
     public function isRaw(): bool

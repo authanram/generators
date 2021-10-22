@@ -6,7 +6,7 @@ namespace Authanram\Generators\Contracts\Services;
 
 interface Pattern
 {
-    public function validate(string $pattern): Pattern;
+    public function validatePattern(string $pattern): Pattern;
 
-    public function withPattern(string $pattern): void;
+    public function withPattern(string $pattern): Pattern;
 }
