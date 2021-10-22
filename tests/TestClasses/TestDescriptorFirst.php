@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Authanram\Generators\Tests\TestClasses;
 
 use Authanram\Generators\Descriptor;
-use Illuminate\Support\Collection;
+use Authanram\Generators\Data;
 
 class TestDescriptorFirst extends Descriptor
 {
@@ -14,7 +14,7 @@ class TestDescriptorFirst extends Descriptor
         return 'first {{ second }} third {{ fourth }}';
     }
 
-    public static function fill(Collection $data): array
+    public static function fill(Data $data): array
     {
         return [
             'second' => '2nd',
