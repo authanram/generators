@@ -36,8 +36,11 @@
         "post-autoload-dump": [
             "@php ./vendor/bin/testbench package:discover --ansi"
         ],
+        "coverage": "@php ./vendor/bin/pest --coverage",
         "insights": "@php ./vendor/bin/phpinsights --config-path=./phpinsights.php",
-        "test": "@php ./vendor/bin/pest"
+        "setup": "pecl install pcov",
+        "test": "@php ./vendor/bin/pest",
+        "test:watch": "@php ./vendor/bin/pest --watch"
     },
     "config": {
         "optimize-autoloader": true,
