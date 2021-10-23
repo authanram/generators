@@ -4,40 +4,56 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-final class Passable implements Contracts\Passable
+use Authanram\Generators\Contracts\Passable as Contract;
+use Closure;
+
+final class Passable implements Contract
 {
-    private Descriptor|string $descriptor;
+    private string $filename = '';
+
+    private Closure|null $fillCallback = null;
 
     /** @var array<string> */
-    private array $input;
+    private array $input = [];
 
-    private string $output;
+    private string $pattern = '';
 
     /** @var array<string> */
-    private array $placeholders;
+    private array $placeholders = [];
 
-    private string $toFilename;
+    private string $stub = '';
 
-    public static function make(Descriptor|string $descriptor): self
+    public function withFilename(string $filename): self
     {
-        $instance = new self();
+        $this->filename = $filename;
 
-        $instance->descriptor = $descriptor;
+        return $this;
+    }
 
-        return $instance;
+    public function withFillCallback(callable $fillCallback): self
+    {
+        Assert::isCallable($fillCallback);
+
+        $this->fillCallback = $fillCallback;
+
+        return $this;
     }
 
     /** @param array<string> $input */
     public function withInput(array $input): self
     {
+        Assert::input($input);
+
         $this->input = $input;
 
         return $this;
     }
 
-    public function withOutput(string $output): self
+    public function withPattern(string $pattern): self
     {
-        $this->output = $output;
+        Assert::pattern($pattern);
+
+        $this->pattern = $pattern;
 
         return $this;
     }
@@ -45,42 +61,53 @@ final class Passable implements Contracts\Passable
     /** @param array<string> $placeholders */
     public function withPlaceholders(array $placeholders): self
     {
+        Assert::input($placeholders);
+
         $this->placeholders = $placeholders;
 
         return $this;
     }
 
-    public function withToFilename(string|null $outputFilename): self
+    public function withStub(string $stub): self
     {
-        $this->toFilename = $outputFilename ?? '';
+        Assert::stub($stub);
+
+        $this->stub = $stub;
 
         return $this;
     }
 
-    public function descriptor(): Descriptor|string|null
+    public function filename(): string
     {
-        return $this->descriptor ?? null;
+        return $this->filename;
+    }
+
+    /** @noinspection ClassMethodNameMatchesFieldNameInspection */
+    public function fillCallback(): Closure
+    {
+        return $this->fillCallback
+            ?? static fn (Input $input): array => $input->toArray();
     }
 
     /** @return array<string> */
     public function input(): array
     {
-        return $this->input ?? [];
+        return $this->input;
     }
 
-    public function output(): string
+    public function pattern(): string
     {
-        return $this->output ?? '';
+        return $this->pattern;
     }
 
     /** @return array<string> */
     public function placeholders(): array
     {
-        return $this->placeholders ?? [];
+        return $this->placeholders;
     }
 
-    public function toFilename(): string
+    public function stub(): string
     {
-        return $this->toFilename ?? '';
+        return $this->stub;
     }
 }

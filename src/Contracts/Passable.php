@@ -4,31 +4,35 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Contracts;
 
-use Authanram\Generators\Descriptor;
+use Closure;
 
 interface Passable
 {
-    public static function make(Descriptor|string $descriptor): self;
+    public function withFilename(string $filename): self;
+
+    public function withFillCallback(callable $fillCallback): self;
 
     /** @param array<string> $input */
     public function withInput(array $input): self;
 
-    public function withOutput(string $output): self;
+    public function withPattern(string $pattern): self;
 
     /** @param array<string> $placeholders */
     public function withPlaceholders(array $placeholders): self;
 
-    public function withToFilename(string|null $outputFilename): self;
+    public function withStub(string $stub): self;
 
-    public function descriptor(): Descriptor|string|null;
+    public function filename(): string;
+
+    public function fillCallback(): Closure;
 
     /** @return array<string> */
     public function input(): array;
 
-    public function output(): string;
+    public function pattern(): string;
 
     /** @return array<string> */
     public function placeholders(): array;
 
-    public function toFilename(): string;
+    public function stub(): string;
 }

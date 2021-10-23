@@ -4,47 +4,83 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
-use Authanram\Generators\Contracts\Services as Contracts;
-use Illuminate\Pipeline\Pipeline;
+use Exception;
 
 final class Generator
 {
-    private Passable $passable;
+    /** @var array<string> */
+    private array $data = [];
 
-    public function __construct()
+    private string $descriptor = '';
+
+    private string $filename = '';
+
+    public static function make(string $descriptor): self
     {
-        $app = require __DIR__.'/app.php';
-
-        $app->make(Contracts\Input::class);
-        $app->make(Contracts\Pattern::class);
-        $app->make(Contracts\Pipes::class);
-        $app->make(Contracts\Template::class);
+        return (new self())->withDescriptor($descriptor);
     }
 
-    public static function make(Descriptor|string $descriptor): self
+    /** @param array<string> $input */
+    public function withInput(array $input): self
     {
-        $instance = new self();
+        Assert::input($input);
 
-        $instance->passable = Passable::make($descriptor);
+        $this->data = $input;
 
-        return $instance;
+        return $this;
     }
 
-    /** @param array<callable> $input */
-    public function generate(
-        array $input,
-        string|null $toFilename = null,
-    ): Passable {
-        Assert::isNonEmptyMap($input, '$input must be empty');
-        Assert::isEmpty($toFilename, '$toFilename must not be empty.');
+    public function withDescriptor(string $descriptor): self
+    {
+        Assert::descriptor($descriptor);
 
-        $passable = $this->passable
-            ->withInput($input)
-            ->withToFilename($toFilename);
+        $this->descriptor = $descriptor;
 
-        return (new Pipeline(app()))
-            ->send($passable)
-            ->through($passable->descriptor()::pipes())
-            ->thenReturn();
+        return $this;
+    }
+
+    public function withFilename(string $filename): self
+    {
+        Assert::filename($filename);
+
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * @throws GeneratorException
+     *
+     * @noinspection PhpUndefinedMethodInspection
+     */
+    public function generate(): Passable
+    {
+        $passable = (new Passable())
+            ->withFilename($this->filename)
+            ->withFillCallback(function ($input): array {
+                return $this->descriptor::fill($input);
+            })->withInput($this->data)
+            ->withPattern($this->descriptor::pattern())
+            ->withStub($this->descriptor::stub());
+
+        try {
+            return Pipeline::create()
+                ->send($passable)
+                ->through($this->pipes())
+                ->thenReturn();
+        } catch (Exception $e) {
+            throw new GeneratorException($e->getMessage());
+        }
+    }
+
+    /** @return array<string> */
+    private function pipes(): array
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $pipes = $this->descriptor::pipes();
+
+        Assert::pipes($pipes);
+
+        return $pipes;
     }
 }

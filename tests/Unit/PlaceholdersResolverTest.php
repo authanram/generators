@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Authanram\Generators\Resolvers\PlaceholdersResolver;
+use Authanram\Generators\PlaceholdersResolver;
 
 it('asserts argument $text is not empty', function () {
     PlaceholdersResolver::resolve('', '');

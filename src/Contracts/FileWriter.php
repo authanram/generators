@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Authanram\Generators\Contracts\Services;
+namespace Authanram\Generators\Contracts;
 
 interface FileWriter
 {

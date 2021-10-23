@@ -6,6 +6,6 @@ namespace Authanram\Generators;
 
 use Illuminate\Support\Collection;
 
-final class Data extends Collection
+final class Input extends Collection
 {
 }

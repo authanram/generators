@@ -6,10 +6,10 @@ namespace Authanram\Generators;
 
 abstract class Descriptor
 {
-    abstract public static function template(): string;
+    abstract public static function stub(): string;
 
     /** @return array<string> */
-    abstract public static function fill(Data $data): array;
+    abstract public static function fill(Input $data): array;
 
     public static function pattern(): string
     {
@@ -20,7 +20,6 @@ abstract class Descriptor
     public static function pipes(): array
     {
         return [
-            Pipes\SetupApplicationServicePipe::class,
             Pipes\ResolveTemplatePipe::class,
             Pipes\ResolvePlaceholdersPipe::class,
             Pipes\ExecuteFillCallbackPipe::class,

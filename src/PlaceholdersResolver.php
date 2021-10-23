@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Authanram\Generators\Resolvers;
-
-use Authanram\Generators\Assert;
+namespace Authanram\Generators;
 
 final class PlaceholdersResolver
 {

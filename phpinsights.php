@@ -7,4 +7,8 @@ return [
 
     // "textmate", "macvim", "emacs", "sublime", "phpstorm", | "atom", "vscode"
     'ide' => getenv('PHPINSIGHTS_IDE') ?? '',
+
+    'exclude' => [
+        'GeneratorException.php',
+    ],
 ];

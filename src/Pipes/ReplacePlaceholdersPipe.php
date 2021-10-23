@@ -12,16 +12,14 @@ final class ReplacePlaceholdersPipe implements Pipe
 {
     public static function handle(Passable $passable, callable $next): Passable
     {
-        $descriptor = $passable->descriptor();
-
-        foreach ($passable->placeholders() as $placeholder => $value) {
-            $output = str_replace(
-                sprintf($descriptor::pattern(), $placeholder),
+        foreach ($passable->input() as $placeholder => $value) {
+            $stub = str_replace(
+                sprintf($passable->pattern(), $placeholder),
                 self::value($value),
-                $passable->output(),
+                $passable->stub(),
             );
 
-            $passable->withOutput($output);
+            $passable->withStub($stub);
         }
 
         return $next($passable);

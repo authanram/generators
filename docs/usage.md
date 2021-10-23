@@ -21,25 +21,20 @@ contents:
 namespace Project\Generators;
 
 use Authanram\Generators\Descriptor;
-use Authanram\Generators\Data;
+use Authanram\Generators\Input;
 
 class FirstDescriptor extends Descriptor
 {
-    public static function from(): string
+    public static function stub(): string
     {
         return __DIR__.'/../stubs/first.stub';
     }
-    
-    public static function to(): string
-    {
-        return __DIR__.'/../generated/generated-code.php';
-    }
 
-    public static function replace(Data $data): array
+    public static function fill(Input $input): array
     {
         return [
-            'second' => $data->get('second')->upper(),
-            'fourth' => $data->get('second')->lower(),
+            'second' => $input->get('second')->upper(),
+            'fourth' => $input->get('second')->lower(),
         ];
     }
 }
@@ -58,7 +53,8 @@ use Project\Generators\FirstDescriptor;
 public static firstGeneratorCall(): void
 {
     Generator::make(FirstDescriptor::class)
-        ->generate([
+        ->withFilename(__DIR__.'/../generated/generated-code.php')
+        ->withInput([
             'second' => '2nd',
             'fourth' => '4TH',
         ]);
@@ -69,10 +65,12 @@ In a real world scenario, it could look something like this:
 
 ```php
 /** @throws GeneratorException */
-public static firstGeneratorCall(array $data): void
+public static firstGeneratorCall(array $data, string $filename): void
 {
     Generator::make(FirstDescriptor::class)
-        ->generate($data);
+        ->withFilename($filename)
+        ->withInput($data)
+        ->generate();
 }
 ```
 
