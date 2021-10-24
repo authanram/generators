@@ -4,20 +4,39 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
+use Authanram\Generators\Contracts\Passable as PassableContract;
 use Exception;
 
 final class Generator
 {
-    /** @var array<string> */
-    private array $data = [];
+    private const PIPES = [
+        Pipes\ReadFromInputPath::class,
+        Pipes\ResolveTemplateVariables::class,
+        Pipes\FillTemplateVariables::class,
+        Pipes\ReplaceTemplateVariables::class,
+        Pipes\Postprocess::class,
+    ];
 
-    private string $descriptor = '';
+    private Descriptor|string $descriptor;
 
-    private string $filename = '';
+    private PassableContract $passable;
 
-    public static function make(string $descriptor): self
+    /** @param Descriptor|string $descriptor */
+    public function __construct(mixed $descriptor)
     {
-        return (new self())->withDescriptor($descriptor);
+        Assert::descriptor($descriptor);
+
+        $this->descriptor = $descriptor;
+
+        $this->passable = (new Passable())
+            ->withPattern($this->descriptor::pattern())
+            ->withInputPath($this->descriptor::path());
+    }
+
+    /** @param Descriptor|string $descriptor */
+    public static function make(mixed $descriptor): self
+    {
+        return new self($descriptor);
     }
 
     /** @param array<string> $input */
@@ -25,62 +44,25 @@ final class Generator
     {
         Assert::input($input);
 
-        $this->data = $input;
-
-        return $this;
-    }
-
-    public function withDescriptor(string $descriptor): self
-    {
-        Assert::descriptor($descriptor);
-
-        $this->descriptor = $descriptor;
-
-        return $this;
-    }
-
-    public function withFilename(string $filename): self
-    {
-        Assert::filename($filename);
-
-        $this->filename = $filename;
+        $this->passable->withFillCallback(function ($input): array {
+            return $this->descriptor::fill($input);
+        })->withInput($input);
 
         return $this;
     }
 
     /**
      * @throws GeneratorException
-     *
-     * @noinspection PhpUndefinedMethodInspection
      */
     public function generate(): Passable
     {
-        $passable = (new Passable())
-            ->withFilename($this->filename)
-            ->withFillCallback(function ($input): array {
-                return $this->descriptor::fill($input);
-            })->withInput($this->data)
-            ->withPattern($this->descriptor::pattern())
-            ->withStub($this->descriptor::stub());
-
         try {
             return Pipeline::create()
-                ->send($passable)
-                ->through($this->pipes())
+                ->send($this->passable)
+                ->through(self::PIPES)
                 ->thenReturn();
         } catch (Exception $e) {
             throw new GeneratorException($e->getMessage());
         }
-    }
-
-    /** @return array<string> */
-    private function pipes(): array
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $pipes = $this->descriptor::pipes();
-
-        Assert::pipes($pipes);
-
-        return $pipes;
     }
 }

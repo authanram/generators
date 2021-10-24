@@ -10,9 +10,9 @@ use Illuminate\Support\Str;
 
 class TestDescriptor extends Descriptor
 {
-    public static function stub(): string
+    public static function path(): string
     {
-        return 'first {{ second }} third {{ fourth }}';
+        return __DIR__.'/../stubs/test.stub';
     }
 
     public static function fill(Input $data): array

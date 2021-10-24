@@ -8,18 +8,18 @@ use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
 use Illuminate\Support\Collection;
 
-final class ReplacePlaceholdersPipe implements Pipe
+final class ReplaceTemplateVariables implements Pipe
 {
     public static function handle(Passable $passable, callable $next): Passable
     {
-        foreach ($passable->input() as $placeholder => $value) {
-            $stub = str_replace(
-                sprintf($passable->pattern(), $placeholder),
+        foreach ($passable->input() as $templateVariable => $value) {
+            $template = str_replace(
+                sprintf($passable->pattern(), $templateVariable),
                 self::value($value),
-                $passable->stub(),
+                $passable->template(),
             );
 
-            $passable->withStub($stub);
+            $passable->withTemplate($template);
         }
 
         return $next($passable);

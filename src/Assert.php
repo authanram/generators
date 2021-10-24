@@ -12,6 +12,8 @@ final class Assert extends WebmozartAssert
     public const CONTAINS = '{%s} must contain [%s].';
     public const EMPTY = '{%s} must not be empty.';
     public const EMPTY_MAP = '{%s} must be a non empty key value map.';
+    public const FILE_EXISTS = 'File [%s] not found.';
+    public const FILE_READABLE = '[%s] must be readable.';
     public const IMPLEMENTS = '[%s] must implement [%s].';
     public const SUBCLASS = '[%s] must be a subclass of [%s].';
     public const UNIQUE_VALUES = '{%s} must have unique values.';
@@ -19,6 +21,14 @@ final class Assert extends WebmozartAssert
     public static function message(string $message, mixed ...$arguments): string
     {
         return sprintf($message, ...$arguments);
+    }
+
+    /** @param Descriptor|string $value */
+    public static function descriptor(mixed $value): void
+    {
+        $message = self::message(self::SUBCLASS, $value, Descriptor::class);
+
+        self::subclassOf($value, Descriptor::class, $message);
     }
 
     /** @param array<string> $value */
@@ -33,22 +43,27 @@ final class Assert extends WebmozartAssert
         self::isNonEmptyMap($value, $message);
     }
 
-    public static function descriptor(string $value): void
+    /** @param array<string> $value */
+    public static function inputFilled(array $value): void
     {
-        $message = self::message(self::EMPTY, '$descriptor');
+        $message = self::message(self::EMPTY_MAP, 'fill()');
 
-        self::stringNotEmpty($value, $message);
-
-        $message = self::message(self::SUBCLASS, $value, Descriptor::class);
-
-        self::subclassOf($value, Descriptor::class, $message);
+        self::isNonEmptyMap($value, $message);
     }
 
-    public static function filename(string $value): void
+    public static function inputPath(string $value): void
     {
-        $message = self::message(self::EMPTY, '$filename');
+        $message = self::message(self::EMPTY, '$inputPath');
 
         self::stringNotEmpty($value, $message);
+
+        $message = self::message(self::FILE_EXISTS, $value);
+
+        self::file($value, $message);
+
+        $message = self::message(self::FILE_READABLE, $value);
+
+        self::readable($value, $message);
     }
 
     public static function pattern(string $value): void
@@ -57,7 +72,7 @@ final class Assert extends WebmozartAssert
 
         self::stringNotEmpty($value, $message);
 
-        $message = self::message(self::CONTAINS, '$pattern', '%s');
+        $message = self::message(self::CONTAINS, '$pattern', '%%s');
 
         self::contains($value, '%s', $message);
     }
@@ -80,12 +95,5 @@ final class Assert extends WebmozartAssert
         foreach ($value as $pipe) {
             self::implementsInterface($pipe, Pipe::class, $message($pipe));
         }
-    }
-
-    public static function stub(string $value): void
-    {
-        $message = self::message(self::EMPTY, '$stub');
-
-        self::stringNotEmpty($value, $message);
     }
 }

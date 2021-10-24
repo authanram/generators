@@ -9,32 +9,35 @@ use Closure;
 
 final class Passable implements Contract
 {
-    private string $filename = '';
-
     private Closure|null $fillCallback = null;
 
     /** @var array<string> */
     private array $input = [];
 
+    private string $inputPath = '';
+
     private string $pattern = '';
 
+    private string $template = '';
+
     /** @var array<string> */
-    private array $placeholders = [];
-
-    private string $stub = '';
-
-    public function withFilename(string $filename): self
-    {
-        $this->filename = $filename;
-
-        return $this;
-    }
+    private array $variables = [];
 
     public function withFillCallback(callable $fillCallback): self
     {
         Assert::isCallable($fillCallback);
 
         $this->fillCallback = $fillCallback;
+
+        return $this;
+    }
+
+    /** @param array<string> $input */
+    public function withInputFilled(array $input): self
+    {
+        Assert::inputFilled($input);
+
+        $this->input = $input;
 
         return $this;
     }
@@ -49,6 +52,15 @@ final class Passable implements Contract
         return $this;
     }
 
+    public function withInputPath(string $inputPath): self
+    {
+        Assert::inputPath($inputPath);
+
+        $this->inputPath = $inputPath;
+
+        return $this;
+    }
+
     public function withPattern(string $pattern): self
     {
         Assert::pattern($pattern);
@@ -58,28 +70,26 @@ final class Passable implements Contract
         return $this;
     }
 
-    /** @param array<string> $placeholders */
-    public function withPlaceholders(array $placeholders): self
+    public function withTemplate(string $template): self
     {
-        Assert::input($placeholders);
+        Assert::stringNotEmpty(
+            $template,
+            Assert::message(Assert::EMPTY, '$template'),
+        );
 
-        $this->placeholders = $placeholders;
+        $this->template = $template;
 
         return $this;
     }
 
-    public function withStub(string $stub): self
+    /** @param array<string> $variables */
+    public function withVariables(array $variables): self
     {
-        Assert::stub($stub);
+        Assert::inputFilled($variables);
 
-        $this->stub = $stub;
+        $this->variables = $variables;
 
         return $this;
-    }
-
-    public function filename(): string
-    {
-        return $this->filename;
     }
 
     /** @noinspection ClassMethodNameMatchesFieldNameInspection */
@@ -95,19 +105,24 @@ final class Passable implements Contract
         return $this->input;
     }
 
+    public function inputPath(): string
+    {
+        return $this->inputPath;
+    }
+
     public function pattern(): string
     {
         return $this->pattern;
     }
 
-    /** @return array<string> */
-    public function placeholders(): array
+    public function template(): string
     {
-        return $this->placeholders;
+        return $this->template;
     }
 
-    public function stub(): string
+    /** @return array<string> */
+    public function variables(): array
     {
-        return $this->stub;
+        return $this->variables;
     }
 }

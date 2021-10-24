@@ -10,26 +10,13 @@ final class FileHandler implements Contracts\FileHandler
 {
     public static function read(string $filename): string
     {
-        return $filename;
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return (new Filesystem())->get($filename);
     }
 
-    /** @noinspection PhpUnhandledExceptionInspection */
-    public static function readOrReturn(string $filename): string
+    public static function write(string $filename, string $content): bool|int
     {
-        $file = new Filesystem();
-
-        $shouldRead = $file->isFile($filename)
-            && $file->isReadable($filename);
-
-        if ($shouldRead) {
-            return $file->get($filename);
-        }
-
-        return $filename;
-    }
-
-    public static function write(string $filename): string
-    {
-        return $filename;
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return (new Filesystem())->put($filename, $content);
     }
 }

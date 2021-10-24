@@ -53,7 +53,7 @@ use Project\Generators\FirstDescriptor;
 public static firstGeneratorCall(): void
 {
     Generator::make(FirstDescriptor::class)
-        ->withFilename(__DIR__.'/../generated/generated-code.php')
+        ->assertAndSetInputPath(__DIR__.'/../generated/generated-code.php')
         ->withInput([
             'second' => '2nd',
             'fourth' => '4TH',

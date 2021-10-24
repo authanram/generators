@@ -19,7 +19,7 @@
         "pestphp/pest": "^1.13.0",
         "pestphp/pest-plugin-mock": "^1.0.3",
         "pestphp/pest-plugin-watch": "1.x-dev",
-        "spatie/laravel-ray": "^1.26"
+        "spatie/ray": "^1.30.3"
     },
     "autoload": {
         "psr-4": {

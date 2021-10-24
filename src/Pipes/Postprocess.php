@@ -6,16 +6,15 @@ namespace Authanram\Generators\Pipes;
 
 use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
-use Authanram\Generators\Input;
+use Illuminate\Support\Str;
 
-final class ExecuteFillCallbackPipe implements Pipe
+final class Postprocess implements Pipe
 {
     public static function handle(Passable $passable, callable $next): Passable
     {
-        $input = new Input($passable->input());
+        $template = (string) Str::of($passable->inputPath())
+            ->replace("\n\n\n", "\n");
 
-        $placeholders = ($passable->fillCallback())($input);
-
-        return $next($passable->withInput($placeholders));
+        return $next($passable->withInputPath($template));
     }
 }
