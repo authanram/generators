@@ -53,11 +53,9 @@ use Project\Generators\FirstDescriptor;
 public static firstGeneratorCall(): void
 {
     Generator::make(FirstDescriptor::class)
-        ->assertAndSetInputPath(__DIR__.'/../generated/generated-code.php')
-        ->withInput([
-            'second' => '2nd',
-            'fourth' => '4TH',
-        ]);
+        ->withInput(['second' => '2nd', 'fourth' => '4TH'])
+        ->withOutputPath(__DIR__.'/../generated/generated-code.php')
+        ->generate();
 }
 ```
 
@@ -65,11 +63,11 @@ In a real world scenario, it could look something like this:
 
 ```php
 /** @throws GeneratorException */
-public static firstGeneratorCall(array $data, string $filename): void
+public static firstGeneratorCall(array $data, string $outputPath): void
 {
     Generator::make(FirstDescriptor::class)
-        ->withFilename($filename)
         ->withInput($data)
+        ->withOutputPath($outputPath)
         ->generate();
 }
 ```
