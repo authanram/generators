@@ -21,19 +21,25 @@ beforeEach(function () {
 });
 
 it('throws if pipes are empty', function () {
-    $this->generator->withPipes([])->generate();
+    $this->generator
+        ->withPipes([])
+        ->generate();
 })->expectExceptionMessage(Assert::message(Assert::NOT_EMPTY, '$pipes'));
 
 it('throws if pipes are not unique', function () {
     $this->pipes[] = Pipes\Postprocess::class;
 
-    $this->generator->withPipes($this->pipes)->generate();
+    $this->generator
+        ->withPipes($this->pipes)
+        ->generate();
 })->expectExceptionMessage(Assert::message(Assert::UNIQUE_VALUES, '$pipes'));
 
 it('throws if pipe does not implement required contract', function () {
     $this->pipes[] = Generator::class;
 
-    $this->generator->withPipes($this->pipes)->generate();
+    $this->generator
+        ->withPipes($this->pipes)
+        ->generate();
 })->expectExceptionMessage(Assert::message(
     Assert::IMPLEMENTS_INTERFACE,
     Generator::class,
@@ -41,7 +47,9 @@ it('throws if pipe does not implement required contract', function () {
 ));
 
 it('generates withPipes', function () {
-    $passable = $this->generator->withPipes($this->pipes)->generate();
+    $passable = $this->generator
+        ->withPipes($this->pipes)
+        ->generate();
 
     expect($passable->template())->toBe('first 2nd third 4TH');
 });

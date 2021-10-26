@@ -1,8 +1,12 @@
-# Usage
+# Getting started
 
-...
+To get started easily, perform the following workflow;
 
-## 1. Stub creation
+1. [Stub creation](#stub-creation) 
+2. [Descriptor creation](#descriptor-creation) 
+3. [Generator call](#generator-call)
+
+## Stub creation
 
 Create a file called `project/stubs/first.stub` with the following contents:
 
@@ -12,7 +16,7 @@ Create a file called `project/stubs/first.stub` with the following contents:
 echo 'first {{ second }} third {{ fourth }}';
 ```
 
-## 2. Descriptor creation
+## Descriptor creation
 
 Create a file called `project/Generators/FirstDescriptor.php` with the following
 contents:
@@ -33,14 +37,25 @@ class FirstDescriptor extends Descriptor
     public static function fill(Input $input): array
     {
         return [
-            'second' => $input->get('second')->upper(),
-            'fourth' => $input->get('second')->lower(),
+            'second' => strtoupper($input->get('second')),
+            'fourth' => strtolower($input->get('fourth')),
         ];
     }
 }
 ```
 
-## 3. Generator call
+Calling `$input->str('second')` will return a
+[Fluent String](https://laravel.com/docs/master/helpers#fluent-strings), what
+will ease the string manipulation.
+
+```php
+return [
+    'second' => $input->str('second')->upper(),
+    'fourth' => $input->get('fourth')->lower(),
+];
+```
+
+## Generator call
 
 Call the generator somewhere in your code:
 

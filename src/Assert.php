@@ -32,7 +32,7 @@ final class Assert extends WebmozartAssert
     {
         $message = self::message(self::SUBCLASS_OF, $value, Descriptor::class);
 
-        self::subclassOf($value, Descriptor::class, $message);
+        self::nullOrSubclassOf($value, Descriptor::class, $message);
     }
 
     /** @param array<string> $value */

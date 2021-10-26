@@ -9,8 +9,9 @@ use Authanram\Generators\Tests\TestClasses\TestDescriptor as Descriptor;
 $inputPath = __DIR__.'/filename.test';
 
 $generator = function ($context) {
-    $mock = mock(Descriptor::class)->allows($context->allows);
-    return Generator::make($mock)->withInput($context->input);
+    return Generator::make(
+        mock(Descriptor::class)->allows($context->allows),
+    )->withInput($context->input);
 };
 
 beforeEach(function () use ($inputPath) {
@@ -31,11 +32,14 @@ afterEach(function () {
     @unlink($this->inputPath);
 });
 
-it('throws if input filled is not a key value map', function () use ($generator) {
-    $this->allows['fill'] = [];
+it(
+    'throws if input filled is not a key value map',
+    function () use ($generator) {
+        $this->allows['fill'] = [];
 
-    $generator($this)->generate();
-})->expectExceptionMessage(
+        $generator($this)->generate();
+    },
+)->expectExceptionMessage(
     Assert::message(Assert::RETURNS_NOT_EMPTY_MAP, 'fill()'),
 );
 

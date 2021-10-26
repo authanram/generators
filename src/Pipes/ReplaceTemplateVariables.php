@@ -7,6 +7,7 @@ namespace Authanram\Generators\Pipes;
 use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Stringable;
 
 final class ReplaceTemplateVariables implements Pipe
 {
@@ -25,7 +26,7 @@ final class ReplaceTemplateVariables implements Pipe
         return $next($passable);
     }
 
-    private static function value(array|string $subject): string
+    private static function value(Stringable|array|string $subject): string
     {
         $fn = static fn ($item) => is_callable($item)
             ? $item($item)
@@ -34,8 +35,9 @@ final class ReplaceTemplateVariables implements Pipe
         return self::toCollection($subject)->map($fn)->implode("\n");
     }
 
-    private static function toCollection(array|string $subject): Collection
-    {
+    private static function toCollection(
+        Stringable|array|string $subject,
+    ): Collection {
         return collect(is_array($subject) ? $subject : [$subject]);
     }
 }

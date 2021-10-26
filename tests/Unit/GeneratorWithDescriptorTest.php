@@ -4,18 +4,10 @@ declare(strict_types=1);
 
 use Authanram\Generators\Assert;
 use Authanram\Generators\Generator;
-use Authanram\Generators\Input;
+use Authanram\Generators\Tests\TestClasses\TestDescriptor;
 
-beforeEach(function() {
-    $this->fillCallback = fn (Input $data) => [
-        'second' => $data->str('second')->lower(),
-        'fourth' => $data->str('fourth')->upper(),
-    ];
-
-    $this->generator = Generator::make()
-        ->withInputPath(__DIR__.'/../stubs/test.stub');
-
-    $this->input = ['second' => '2nd', 'fourth' => '4th'];
+beforeEach(function () {
+    $this->generator = Generator::make(TestDescriptor::class);
 });
 
 it('throws if input is empty', function () {
@@ -33,21 +25,12 @@ it('throws if input is not a key value map', function () {
 it('throws if input key not exists', function () {
     $this->generator
         ->withInput(['second' => '2nd', 'third' => '3rd'])
-        ->withFillCallback($this->fillCallback)
         ->generate();
 })->expectExceptionMessage(Assert::message(Assert::KEY_EXISTS, 'fourth'));
 
-it('throws if pattern is empty', function () {
-    $this->generator
-        ->withInput($this->input)
-        ->withPattern('')
-        ->generate();
-})->expectExceptionMessage(Assert::message(Assert::NOT_EMPTY, '$pattern'));
-
 it('generates', function () {
     $passable = $this->generator
-        ->withInput($this->input)
-        ->withFillCallback($this->fillCallback)
+        ->withInput(['second' => '2nd', 'fourth' => '4th'])
         ->generate();
 
     expect($passable->template())->toBe('first 2nd third 4TH');

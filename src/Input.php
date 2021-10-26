@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Authanram\Generators;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
+
 final class Input
 {
     /** @param array<string> $input */
@@ -18,5 +21,10 @@ final class Input
         Assert::keyExists($this->input, $key, $message);
 
         return $this->input[$key];
+    }
+
+    public function str(string $key): Stringable
+    {
+        return Str::of($this->get($key));
     }
 }

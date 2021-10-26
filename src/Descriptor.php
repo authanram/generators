@@ -6,6 +6,8 @@ namespace Authanram\Generators;
 
 abstract class Descriptor
 {
+    public const PATTERN = '{{ %s }}';
+
     abstract public static function path(): string;
 
     /** @return array<string> */
@@ -13,6 +15,6 @@ abstract class Descriptor
 
     public static function pattern(): string
     {
-        return '{{ %s }}';
+        return self::PATTERN;
     }
 }
