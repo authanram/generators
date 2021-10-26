@@ -17,14 +17,14 @@ final class ReadFromInputPath implements Pipe
 
         Assert::stringNotEmpty(
             $inputPath,
-            Assert::message(Assert::EMPTY, '$inputPath'),
+            Assert::message(Assert::NOT_EMPTY, '$inputPath'),
         );
 
         $template = trim(FileHandler::read($inputPath));
 
         Assert::stringNotEmpty(
             $template,
-            Assert::message(Assert::EMPTY, '$template'),
+            Assert::message(Assert::NOT_EMPTY, '$template'),
         );
 
         return $next($passable->withTemplate($template));

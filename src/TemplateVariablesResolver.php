@@ -11,7 +11,7 @@ final class TemplateVariablesResolver
     {
         Assert::stringNotEmpty(
             $template,
-            Assert::message(Assert::EMPTY, '$template'),
+            Assert::message(Assert::NOT_EMPTY, '$template'),
         );
 
         Assert::pattern($pattern);

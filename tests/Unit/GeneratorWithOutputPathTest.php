@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Authanram\Generators\Assert;
 use Authanram\Generators\Generator;
 use Authanram\Generators\Tests\TestClasses\TestDescriptor;
 
@@ -22,13 +23,13 @@ afterEach(function () {
 
 it('throws if outputPath is empty', function () {
     $this->generator->withOutputPath('')->generate();
-})->expectExceptionMessage('{$outputPath} must not be empty.');
+})->expectExceptionMessage(Assert::message(Assert::NOT_EMPTY, '$outputPath'));
 
 it('throws if outputPath is not writeable', function () {
     shell_exec('chmod 444 '.$this->outputPath);
 
     $this->generator->withOutputPath($this->outputPath)->generate();
-})->expectExceptionMessage('['.$outputPath.'] must be writeable.');
+})->expectExceptionMessage(Assert::message(Assert::WRITEABLE, $outputPath));
 
 it('generates withOutputPath', function () {
     $this->generator->withOutputPath($this->outputPath)->generate();

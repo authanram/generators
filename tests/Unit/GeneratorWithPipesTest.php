@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Authanram\Generators\Assert;
 use Authanram\Generators\Contracts\Pipe;
 use Authanram\Generators\Generator;
 use Authanram\Generators\Pipes;
@@ -21,20 +22,20 @@ beforeEach(function () {
 
 it('throws if pipes are empty', function () {
     $this->generator->withPipes([])->generate();
-})->expectExceptionMessage('{$pipes} must not be empty.');
+})->expectExceptionMessage(Assert::message(Assert::NOT_EMPTY, '$pipes'));
 
 it('throws if pipes are not unique', function () {
     $this->pipes[] = Pipes\Postprocess::class;
 
     $this->generator->withPipes($this->pipes)->generate();
-})->expectExceptionMessage('{$pipes} must have unique values.');
+})->expectExceptionMessage(Assert::message(Assert::UNIQUE_VALUES, '$pipes'));
 
 it('throws if pipe does not implement required contract', function () {
     $this->pipes[] = Generator::class;
 
     $this->generator->withPipes($this->pipes)->generate();
-})->expectExceptionMessage(sprintf(
-    '[%s] must implement [%s].',
+})->expectExceptionMessage(Assert::message(
+    Assert::IMPLEMENTS_INTERFACE,
     Generator::class,
     Pipe::class,
 ));

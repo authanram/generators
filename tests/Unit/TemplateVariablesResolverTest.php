@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
+use Authanram\Generators\Assert;
 use Authanram\Generators\TemplateVariablesResolver;
 
-it('asserts argument $template is not empty', function () {
+it('throws if template is empty', function () {
     TemplateVariablesResolver::resolve('', '');
-})->expectExceptionMessage('{$template} must not be empty.');
+})->expectExceptionMessage(Assert::message(Assert::NOT_EMPTY, '$template'));
 
-it('asserts argument $pattern is not empty', function () {
+it('throws if pattern is empty', function () {
     TemplateVariablesResolver::resolve('first', '');
-})->expectExceptionMessage('{$pattern} must not be empty.');
+})->expectExceptionMessage(Assert::message(Assert::NOT_EMPTY, '$pattern'));
 
-it('asserts argument $pattern contains "%s"', function () {
+it('throws if pattern is invalid', function () {
     TemplateVariablesResolver::resolve('first', 'second');
-})->expectExceptionMessage('{$pattern} must contain [%s].');
+})->expectExceptionMessage(Assert::message(Assert::CONTAINS, '$pattern', '%s'));
 
 it('resolves variables', function () {
     $markers = TemplateVariablesResolver::resolve(
