@@ -13,6 +13,8 @@ final class Passable implements Contract
 
     private string $inputPath = '';
 
+    private string $outputPath = '';
+
     private string $pattern = '';
 
     private string $template = '';
@@ -42,6 +44,15 @@ final class Passable implements Contract
         Assert::inputPath($inputPath);
 
         $this->inputPath = $inputPath;
+
+        return $this;
+    }
+
+    public function withOutputPath(string $outputPath): self
+    {
+        Assert::outputPath($outputPath);
+
+        $this->outputPath = $outputPath;
 
         return $this;
     }
@@ -76,6 +87,11 @@ final class Passable implements Contract
     public function inputPath(): string
     {
         return $this->inputPath;
+    }
+
+    public function outputPath(): string
+    {
+        return $this->outputPath;
     }
 
     public function pattern(): string

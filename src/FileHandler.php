@@ -16,7 +16,6 @@ final class FileHandler implements Contracts\FileHandler
 
     public static function write(string $filename, string $content): bool|int
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
         return (new Filesystem())->put($filename, $content);
     }
 }

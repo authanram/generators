@@ -14,6 +14,8 @@ interface Passable
 
     public function withInputPath(string $inputPath): self;
 
+    public function withOutputPath(string $outputPath): self;
+
     public function withPattern(string $pattern): self;
 
     public function withTemplate(string $template): self;
@@ -22,6 +24,8 @@ interface Passable
     public function input(): array;
 
     public function inputPath(): string;
+
+    public function outputPath(): string;
 
     public function pattern(): string;
 

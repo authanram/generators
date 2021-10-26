@@ -13,8 +13,10 @@ final class Assert extends WebmozartAssert
     public const EMPTY = '{%s} must not be empty.';
     public const EMPTY_MAP = '{%s} must be a non empty key value map.';
     public const EMPTY_MAP_RETURN = '%s must return a non empty key value map.';
+    public const FILE_DIRECTORY = '[%s] must not be a directory.';
     public const FILE_EXISTS = 'File [%s] not found.';
     public const FILE_READABLE = '[%s] must be readable.';
+    public const FILE_WRITEABLE = '[%s] must be writeable.';
     public const IMPLEMENTS = '[%s] must implement [%s].';
     public const SUBCLASS = '[%s] must be a subclass of [%s].';
     public const UNIQUE_VALUES = '{%s} must have unique values.';
@@ -65,6 +67,25 @@ final class Assert extends WebmozartAssert
         $message = self::message(self::FILE_READABLE, $value);
 
         self::readable($value, $message);
+    }
+
+    public static function outputPath(string $value): void
+    {
+        $message = self::message(self::EMPTY, '$outputPath');
+
+        self::stringNotEmpty($value, $message);
+
+        if (file_exists($value) === false) {
+            return;
+        }
+
+        $message = self::message(self::FILE_DIRECTORY, $value);
+
+        self::file($value, $message);
+
+        $message = self::message(self::FILE_WRITEABLE, $value);
+
+        self::writable($value, $message);
     }
 
     public static function pattern(string $value): void
