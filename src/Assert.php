@@ -12,6 +12,7 @@ final class Assert extends WebmozartAssert
     public const CONTAINS = '{%s} must contain [%s].';
     public const EMPTY = '{%s} must not be empty.';
     public const EMPTY_MAP = '{%s} must be a non empty key value map.';
+    public const EMPTY_MAP_RETURN = '%s must return a non empty key value map.';
     public const FILE_EXISTS = 'File [%s] not found.';
     public const FILE_READABLE = '[%s] must be readable.';
     public const IMPLEMENTS = '[%s] must implement [%s].';
@@ -46,7 +47,7 @@ final class Assert extends WebmozartAssert
     /** @param array<string> $value */
     public static function inputFilled(array $value): void
     {
-        $message = self::message(self::EMPTY_MAP, 'fill()');
+        $message = self::message(self::EMPTY_MAP_RETURN, 'fill()');
 
         self::isNonEmptyMap($value, $message);
     }

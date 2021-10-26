@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace Authanram\Generators;
 
 use Authanram\Generators\Contracts\Passable as Contract;
-use Closure;
 
 final class Passable implements Contract
 {
-    private Closure|null $fillCallback = null;
-
     /** @var array<string> */
     private array $input = [];
 
@@ -20,14 +17,12 @@ final class Passable implements Contract
 
     private string $template = '';
 
-    /** @var array<string> */
-    private array $variables = [];
-
-    public function withFillCallback(callable $fillCallback): self
+    /** @param array<string> $input */
+    public function withInput(array $input): self
     {
-        Assert::isCallable($fillCallback);
+        Assert::input($input);
 
-        $this->fillCallback = $fillCallback;
+        $this->input = $input;
 
         return $this;
     }
@@ -36,16 +31,6 @@ final class Passable implements Contract
     public function withInputFilled(array $input): self
     {
         Assert::inputFilled($input);
-
-        $this->input = $input;
-
-        return $this;
-    }
-
-    /** @param array<string> $input */
-    public function withInput(array $input): self
-    {
-        Assert::input($input);
 
         $this->input = $input;
 
@@ -82,23 +67,6 @@ final class Passable implements Contract
         return $this;
     }
 
-    /** @param array<string> $variables */
-    public function withVariables(array $variables): self
-    {
-        Assert::inputFilled($variables);
-
-        $this->variables = $variables;
-
-        return $this;
-    }
-
-    /** @noinspection ClassMethodNameMatchesFieldNameInspection */
-    public function fillCallback(): Closure
-    {
-        return $this->fillCallback
-            ?? static fn (Input $input): array => $input->toArray();
-    }
-
     /** @return array<string> */
     public function input(): array
     {
@@ -118,11 +86,5 @@ final class Passable implements Contract
     public function template(): string
     {
         return $this->template;
-    }
-
-    /** @return array<string> */
-    public function variables(): array
-    {
-        return $this->variables;
     }
 }

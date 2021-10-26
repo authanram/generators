@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Contracts;
 
-use Closure;
-
 interface Passable
 {
-    public function withFillCallback(callable $fillCallback): self;
-
     /** @param array<string> $input */
     public function withInput(array $input): self;
 
@@ -22,11 +18,6 @@ interface Passable
 
     public function withTemplate(string $template): self;
 
-    /** @param array<string> $variables */
-    public function withVariables(array $variables): self;
-
-    public function fillCallback(): Closure;
-
     /** @return array<string> */
     public function input(): array;
 
@@ -35,7 +26,4 @@ interface Passable
     public function pattern(): string;
 
     public function template(): string;
-
-    /** @return array<string> */
-    public function variables(): array;
 }

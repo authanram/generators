@@ -22,6 +22,11 @@ final class ReadFromInputPath implements Pipe
 
         $template = trim(FileHandler::read($inputPath));
 
+        Assert::stringNotEmpty(
+            $template,
+            Assert::message(Assert::EMPTY, '$template'),
+        );
+
         return $next($passable->withTemplate($template));
     }
 }

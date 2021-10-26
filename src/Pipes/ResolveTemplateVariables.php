@@ -19,9 +19,9 @@ final class ResolveTemplateVariables implements Pipe
 
         $templateVariables = array_combine(
             $templateVariables,
-            $templateVariables,
+            $passable->input(),
         );
 
-        return $next($passable->withVariables($templateVariables));
+        return $next($passable->withInput($templateVariables));
     }
 }

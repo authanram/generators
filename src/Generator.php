@@ -12,7 +12,6 @@ final class Generator
     private const PIPES = [
         Pipes\ReadFromInputPath::class,
         Pipes\ResolveTemplateVariables::class,
-        Pipes\FillTemplateVariables::class,
         Pipes\ReplaceTemplateVariables::class,
         Pipes\Postprocess::class,
     ];
@@ -44,9 +43,9 @@ final class Generator
     {
         Assert::input($input);
 
-        $this->passable->withFillCallback(function ($input): array {
-            return $this->descriptor::fill($input);
-        })->withInput($input);
+        $inputFilled = $this->descriptor::fill(new Input($input));
+
+        $this->passable->withInputFilled($inputFilled);
 
         return $this;
     }
