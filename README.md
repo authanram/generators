@@ -9,9 +9,9 @@ Here's an example of how it can be used.
 
 ```php
 Authanram\Generators\Generator::make()
-    ->template('first {{ second }} third {{ fourth }}')
-    ->input(['second' => '2nd', 'fourth' => '4TH'])
-    ->fillCallback(fn ($input) => [
+    ->withTemplate('first {{ second }} third {{ fourth }}')
+    ->withInput(['second' => '2nd', 'fourth' => '4TH'])
+    ->withFillCallback(fn ($input) => [
         'second' => $input->str('second')->upper(),
         'fourth' => $input->str('fourth')->lower(),
     ])->get();
