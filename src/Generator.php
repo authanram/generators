@@ -11,6 +11,13 @@ use Exception;
 
 final class Generator
 {
+    public const PIPES = [
+        Pipes\ReadFromInputPath::class,
+        Pipes\ResolveTemplateVariables::class,
+        Pipes\ReplaceTemplateVariables::class,
+        Pipes\Postprocess::class,
+    ];
+
     private Closure|null $fillCallback = null;
 
     /** @var array<string> */
@@ -19,31 +26,29 @@ final class Generator
     private string $pattern = Descriptor::PATTERN;
 
     /** @var array<string> */
-    private array $pipes = [
-        Pipes\ReadFromInputPath::class,
-        Pipes\ResolveTemplateVariables::class,
-        Pipes\ReplaceTemplateVariables::class,
-        Pipes\Postprocess::class,
-    ];
+    private array $pipes = self::PIPES;
 
     private PassableContract $passable;
 
+    public function __construct(Descriptor|string|null $descriptor = null)
+    {
+        $this->passable = new Passable();
+
+        $descriptor ? $this->withDescriptor($descriptor) : null;
+    }
+
     public static function make(Descriptor|string|null $descriptor = null): self
     {
-        $generator = new self();
-
-        $generator->passable = new Passable();
-
-        return $descriptor
-            ? $generator->withDescriptor($descriptor)
-            : $generator;
+        return new self($descriptor);
     }
 
     public function withDescriptor(Descriptor|string|null $descriptor): self
     {
         Assert::descriptor($descriptor);
 
-        $this->fillCallback = fn (Input $input) => $descriptor::fill($input);
+        $this->fillCallback = static function (Input $input) use ($descriptor) {
+            return $descriptor::fill($input);
+        };
 
         $this->passable
             ->withPattern($descriptor::pattern())
@@ -104,6 +109,15 @@ final class Generator
         Assert::pipes($pipes);
 
         $this->pipes = $pipes;
+
+        return $this;
+    }
+
+    public function withTemplate(string $template): self
+    {
+        Assert::template($template);
+
+        $this->passable->withTemplate($template);
 
         return $this;
     }

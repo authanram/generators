@@ -28,7 +28,7 @@ it('throws if input key not exists', function () {
         ->generate();
 })->expectExceptionMessage(Assert::message(Assert::KEY_EXISTS, 'fourth'));
 
-it('generates', function () {
+it('generates with descriptor', function () {
     $passable = $this->generator
         ->withInput(['second' => '2nd', 'fourth' => '4th'])
         ->generate();

@@ -123,4 +123,11 @@ final class Assert extends WebmozartAssert
             self::implementsInterface($pipe, Pipe::class, $message($pipe));
         }
     }
+
+    public static function template(string $value): void
+    {
+        $message = self::message(self::NOT_EMPTY, '$template');
+
+        self::notEmpty($value, $message);
+    }
 }

@@ -5,51 +5,41 @@ declare(strict_types=1);
 use Authanram\Generators\Assert;
 use Authanram\Generators\Contracts\Pipe;
 use Authanram\Generators\Generator;
-use Authanram\Generators\Pipes;
-use Authanram\Generators\Tests\TestClasses\TestDescriptor;
+use Authanram\Generators\Input;
+use Authanram\Generators\Pipes\Postprocess;
 
-beforeEach(function () {
-    $this->generator = Generator::make(TestDescriptor::class)
-        ->withInput(['second' => '2nd', 'fourth' => '4th']);
+$withPipes = function (array $extraPipes = [], array $pipes = null) {
+    return Generator::make()
+        ->withFillCallback(fn (Input $data) => [
+            'second' => $data->str('second')->lower(),
+            'fourth' => $data->str('fourth')->upper(),
+        ])->withInput([
+            'second' => '2nd',
+            'fourth' => '4th',
+        ])->withInputPath(
+            __DIR__.'/../stubs/test.stub',
+        )->withPipes(array_merge(
+            $pipes ?? Generator::PIPES,
+            $extraPipes,
+        ));
+};
 
-    $this->pipes = [
-        Pipes\ReadFromInputPath::class,
-        Pipes\ResolveTemplateVariables::class,
-        Pipes\ReplaceTemplateVariables::class,
-        Pipes\Postprocess::class,
-    ];
-});
-
-it('throws if pipes are empty', function () {
-    $this->generator
-        ->withPipes([])
-        ->generate();
+it('throws if pipes are empty', function () use ($withPipes) {
+    $withPipes([], [])->generate();
 })->expectExceptionMessage(Assert::message(Assert::NOT_EMPTY, '$pipes'));
 
-it('throws if pipes are not unique', function () {
-    $this->pipes[] = Pipes\Postprocess::class;
-
-    $this->generator
-        ->withPipes($this->pipes)
-        ->generate();
+it('throws if pipes are not unique', function () use ($withPipes) {
+    $withPipes([Postprocess::class])->generate();
 })->expectExceptionMessage(Assert::message(Assert::UNIQUE_VALUES, '$pipes'));
 
-it('throws if pipe does not implement required contract', function () {
-    $this->pipes[] = Generator::class;
-
-    $this->generator
-        ->withPipes($this->pipes)
-        ->generate();
+it('throws if pipe not implements contract', function () use ($withPipes) {
+    $withPipes([Generator::class])->generate();
 })->expectExceptionMessage(Assert::message(
     Assert::IMPLEMENTS_INTERFACE,
     Generator::class,
     Pipe::class,
 ));
 
-it('generates withPipes', function () {
-    $passable = $this->generator
-        ->withPipes($this->pipes)
-        ->generate();
-
-    expect($passable->template())->toBe('first 2nd third 4TH');
+it('generates with pipes', function () use ($withPipes) {
+    expect($withPipes()->generate()->template())->toBe('first 2nd third 4TH');
 });
