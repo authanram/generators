@@ -68,10 +68,7 @@ final class Passable implements Contract
 
     public function withTemplate(string $template): self
     {
-        Assert::stringNotEmpty(
-            $template,
-            Assert::message(Assert::NOT_EMPTY, '$template'),
-        );
+        Assert::template($template);
 
         $this->template = $template;
 

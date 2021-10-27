@@ -12,7 +12,6 @@ use Exception;
 final class Generator
 {
     public const PIPES = [
-        Pipes\ReadFromInputPath::class,
         Pipes\ResolveTemplateVariables::class,
         Pipes\ReplaceTemplateVariables::class,
         Pipes\Postprocess::class,
@@ -80,6 +79,8 @@ final class Generator
     {
         $this->passable->withInputPath($inputPath);
 
+        array_unshift($this->pipes, Pipes\ReadFromInputPath::class);
+
         return $this;
     }
 
@@ -122,11 +123,11 @@ final class Generator
         return $this;
     }
 
-    /**
-     * @throws GeneratorException
-     */
+    /** @throws GeneratorException */
     public function generate(): Passable
     {
+        Assert::fillCallback($this->fillCallback);
+
         $this->passable
             ->withInputFilled(($this->fillCallback)(new Input($this->input)))
             ->withPattern($this->pattern);
@@ -139,5 +140,11 @@ final class Generator
         } catch (Exception $e) {
             throw new GeneratorException($e->getMessage());
         }
+    }
+
+    /** @throws GeneratorException */
+    public function get(): string
+    {
+        return $this->generate()->template();
     }
 }

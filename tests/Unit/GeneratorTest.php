@@ -3,6 +3,11 @@
 declare(strict_types=1);
 
 use Authanram\Generators\Assert;
+use Authanram\Generators\Generator;
+
+it('throws if fillCallback is empty', function (): void {
+    Generator::make()->generate();
+})->expectExceptionMessage(Assert::message(Assert::NOT_EMPTY, '$fillCallback'));
 
 it('throws if input is empty', function (): void {
     generator()->withInput([]);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Authanram\Generators;
 
 use Authanram\Generators\Contracts\Pipe;
+use Closure;
 use Webmozart\Assert\Assert as WebmozartAssert;
 
 final class Assert extends WebmozartAssert
@@ -33,6 +34,13 @@ final class Assert extends WebmozartAssert
         $message = self::message(self::SUBCLASS_OF, $value, Descriptor::class);
 
         self::nullOrSubclassOf($value, Descriptor::class, $message);
+    }
+
+    public static function fillCallback(Closure|null $value): void
+    {
+        $message = self::message(self::NOT_EMPTY, '$fillCallback');
+
+        self::isCallable($value, $message);
     }
 
     /** @param array<string> $value */
