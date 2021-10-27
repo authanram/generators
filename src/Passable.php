@@ -68,6 +68,19 @@ final class Passable implements Contract
 
     public function withTemplate(string $template): self
     {
+        $this->withPattern($this->pattern);
+
+        Assert::template($template);
+
+        Assert::templateVariables($template, $this->pattern);
+
+        $this->template = $template;
+
+        return $this;
+    }
+
+    public function useTemplate(string $template): self
+    {
         Assert::template($template);
 
         $this->template = $template;

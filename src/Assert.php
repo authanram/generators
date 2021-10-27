@@ -21,7 +21,9 @@ final class Assert extends WebmozartAssert
     public const RETURNS_NOT_EMPTY_MAP = '%s must return a non empty map.';
     public const SUBCLASS_OF = '[%s] must be a subclass of [%s].';
     public const UNIQUE_VALUES = '{%s} must have unique values.';
+    public const VARIABLE = '{%s} must contain at least one template variable.';
     public const WRITEABLE = '[%s] must be writeable.';
+    public const LENGTH = '{%s} must contain at least %s characters.';
 
     public static function message(string $message, mixed ...$arguments): string
     {
@@ -31,6 +33,10 @@ final class Assert extends WebmozartAssert
     /** @param Descriptor|string $value */
     public static function descriptor(mixed $value): void
     {
+        $message = self::message(self::NOT_EMPTY, '$descriptor');
+
+        self::notEq($value, '', $message);
+
         $message = self::message(self::SUBCLASS_OF, $value, Descriptor::class);
 
         self::nullOrSubclassOf($value, Descriptor::class, $message);
@@ -106,6 +112,10 @@ final class Assert extends WebmozartAssert
         $message = self::message(self::CONTAINS, '$pattern', '%%s');
 
         self::contains($value, '%s', $message);
+
+        $message = self::message(self::LENGTH, '$pattern', 8);
+
+        self::minLength($value, 8, $message);
     }
 
     /** @param array<string> $value */
@@ -137,5 +147,19 @@ final class Assert extends WebmozartAssert
         $message = self::message(self::NOT_EMPTY, '$template');
 
         self::notEmpty($value, $message);
+    }
+
+    public static function templateVariables(
+        string $value,
+        string $pattern,
+    ): void {
+        $hasTemplateVariables = TemplateVariablesResolver::hasTemplateVariables(
+            $value,
+            $pattern,
+        );
+
+        $message = self::message(self::VARIABLE, '$template');
+
+        self::true($hasTemplateVariables, $message);
     }
 }

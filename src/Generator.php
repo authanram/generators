@@ -53,15 +53,7 @@ final class Generator
             ->withPattern($descriptor::pattern())
             ->withInputPath($descriptor::path());
 
-        return $this;
-    }
-
-    /** @param array<string> $input */
-    public function withInput(array $input): self
-    {
-        Assert::input($input);
-
-        $this->input = $input;
+        array_unshift($this->pipes, Pipes\ReadFromInputPath::class);
 
         return $this;
     }
@@ -71,6 +63,16 @@ final class Generator
         Assert::isCallable($fillCallback);
 
         $this->fillCallback = $fillCallback;
+
+        return $this;
+    }
+
+    /** @param array<string> $input */
+    public function withInput(array $input): self
+    {
+        Assert::input($input);
+
+        $this->input = $input;
 
         return $this;
     }
@@ -116,7 +118,11 @@ final class Generator
 
     public function withTemplate(string $template): self
     {
+        $this->passable->withPattern($this->pattern);
+
         Assert::template($template);
+
+        Assert::templateVariables($template, $this->pattern);
 
         $this->passable->withTemplate($template);
 

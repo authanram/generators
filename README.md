@@ -5,8 +5,6 @@
 This package can generate code in any language. You can think of it as search
 and replace pattern, just a bit more advanced.
 
----
-
 Here's an example of how it can be used.
 
 ```php
@@ -27,10 +25,9 @@ first 2ND third 4th
 
 Under the hood a simple search and replace routine will take place.
 
----
+## Advanced usage
 
-Refer to the [advanced guide](docs/advanced-guide.md) for more advanced usage
-examples.
+Refer to the [advanced usage guide](docs/advanced-usage.md).
 
 ## Changelog
 

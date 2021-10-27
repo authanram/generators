@@ -20,6 +20,8 @@ interface Passable
 
     public function withTemplate(string $template): self;
 
+    public function useTemplate(string $template): self;
+
     /** @return array<string> */
     public function input(): array;
 

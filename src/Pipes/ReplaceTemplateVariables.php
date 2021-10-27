@@ -20,7 +20,7 @@ final class ReplaceTemplateVariables implements Pipe
                 $passable->template(),
             );
 
-            $passable->withTemplate($template);
+            $passable->useTemplate($template);
         }
 
         return $next($passable);

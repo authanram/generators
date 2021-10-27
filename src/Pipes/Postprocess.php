@@ -15,6 +15,6 @@ final class Postprocess implements Pipe
         $template = (string) Str::of($passable->template())
             ->replace("\n\n\n", "\n");
 
-        return $next($passable->withTemplate($template));
+        return $next($passable->useTemplate($template));
     }
 }

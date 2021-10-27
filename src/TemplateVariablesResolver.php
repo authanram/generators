@@ -22,4 +22,11 @@ final class TemplateVariablesResolver
 
         return $matches[1];
     }
+
+    public static function hasTemplateVariables(
+        string $template,
+        string $pattern
+    ): bool {
+        return count(self::resolve($template, $pattern)) > 0;
+    }
 }

@@ -13,12 +13,8 @@ it('throws if input is not a key value map', function (): void {
 })->expectExceptionMessage(Assert::message(Assert::NOT_EMPTY_MAP, '$input'));
 
 it('throws if input key not exists', function (): void {
-    generator(false)->withInput(['second' => '2nd'])->generate();
+    generator()
+        ->withFillCallback(__fillCallback())
+        ->withInput(['second' => '2nd'])
+        ->generate();
 })->expectExceptionMessage(Assert::message(Assert::KEY_EXISTS, 'fourth'));
-
-it('generates with descriptor', function (): void {
-    expect(generator()->withInput([
-        'second' => '2nd',
-        'fourth' => '4th',
-    ])->template())->toBe('first 2nd third 4TH');
-});
