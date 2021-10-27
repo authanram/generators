@@ -7,13 +7,14 @@ namespace Authanram\Generators\Tests\TestClasses;
 use Authanram\Generators\Descriptor;
 use Authanram\Generators\Input;
 
-class TestDescriptor extends Descriptor
+final class TestDescriptor extends Descriptor
 {
     public static function path(): string
     {
         return __DIR__.'/../stubs/test.stub';
     }
 
+    /** @return array<string> */
     public static function fill(Input $data): array
     {
         return [
