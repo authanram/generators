@@ -1,11 +1,10 @@
 # Language independent code generation
 
-... __in next to no time__!!
+This package can generate code in any language, __in next to no time__!!^1
 
-This package can generate code in any language. You can think of it as search
-and replace pattern, just a bit more advanced.
+## Basic usage example
 
-Here's an example of how it can be used.
+Here's an example of how it can be used in a very basic way:
 
 ```php
 Authanram\Generators\Generator::make()
@@ -23,11 +22,45 @@ This will lead to the following output:
 first 2ND third 4th
 ```
 
-Under the hood a simple search and replace routine will take place.
+Under the hood all data given to the generator like the template, input and so
+on, will be passed through a pipeline, what can be extended easily, according
+to your needs.
 
-## Advanced usage
+## Installation
 
-Refer to the [advanced usage guide](docs/advanced-usage.md).
+You can install the package via composer:
+
+```shell
+composer require authanram/generators
+```
+
+I kept the code pretty flat and focused on extensibility over features. I think
+i did a kind job. Feel free to start a discussion, tell me your critics and for
+sure i would love if you start to contribute.
+
+### Requirements
+
+This package requires PHP 8.0 or higher.
+
+## Usage
+
+Further usage instructions can be found at the [documentation](docs/usage.md).
+
+## Testing & Insights
+
+Run the tests with:
+
+```shell
+composer test &&
+```
+
+## Insights
+
+To audit the code quality, complexity, architecture and style, run: 
+
+```shell
+composer insights
+```
 
 ## Changelog
 
