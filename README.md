@@ -51,7 +51,7 @@ Further usage instructions can be found at the [documentation](docs/usage.md).
 Run the tests with:
 
 ```shell
-composer test &&
+composer test
 ```
 
 ## Insights
