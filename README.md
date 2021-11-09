@@ -1,29 +1,28 @@
-# Introduction
-
-- [Package Description](#package-description)
-- [Basic usage example](#basic-usage-example)
-- [Changelog](#changelog)
-- [Contributing](#contributing)
-- [Security Vulnerabilities](#security-vulnerabilities)
-- [Credits](#credits)
-- [License](#license)
-
-## Package Description
+# Generators
 
 This package is about __language independent code generation__, in next to no
 time.
 
-## Basic usage example
+## Installation
+
+You can install the package via composer.
+
+```shell
+composer require authanram/generators
+```
+
+## Basic Usage Example
 
 Here's an example of how it can be used in a very basic way:
 
 ```php
 (new Authanram\Generators\Generator())
     ->withTemplate('first {{ second }} third {{ fourth }}')
-    ->withInput(['second' => '2nd', 'fourth' => '4th']);
+    ->withInput(['second' => '2nd', 'fourth' => '4th'])
+    ->get();
 ```
 
-This will lead to the following output:
+This will lead to the following result:
 
 ```shell
 first 2nd third 4th
@@ -31,8 +30,7 @@ first 2nd third 4th
 
 ## Documentation
 
-You will find full documentation on the dedicated
-[documentation](https://authanram.com/docs/generators) site.
+To learn all about this package, head over to the [documentation](https://authanram.com/docs/generators).
 
 ## Changelog
 
@@ -41,7 +39,7 @@ more information on what has changed recently.
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/authanram/generators/blob/master/.github/CONTRIBUTING.md)
+Please see the [contribution guide](https://github.com/authanram/generators/blob/master/.github/CONTRIBUTING.md)
 for details.
 
 ## Security Vulnerabilities
@@ -52,7 +50,7 @@ on how to report security vulnerabilities.
 ## Credits
 
 - [Daniel Seuffer](https://github.com/authanram)
-- [and Contributors](https://github.com/authanram/generators/graphs/contributors)
+- [and Contributors](https://github.com/authanram/generators/graphs/contributors) &nbsp;❤️
 
 ## License
 
