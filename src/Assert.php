@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert as WebmozartAssert;
 final class Assert extends WebmozartAssert
 {
     public const CONTAINS = '{%s} must contain [%s].';
-    public const FILE = '[%s] be a file.';
+    public const FILE = '[%s] must be a file.';
     public const FILE_NOT_FOUND = 'File [%s] not found.';
     public const IMPLEMENTS_INTERFACE = '[%s] must implement [%s].';
     public const KEY_EXISTS = 'Undefined array key [%s].';

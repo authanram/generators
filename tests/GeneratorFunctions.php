@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpDocSignatureIsNotCompleteInspection */
 
 declare(strict_types=1);
 
@@ -18,7 +18,7 @@ function __descriptor(
 ): HigherOrderMessage|Expectation|MockInterface|ExpectationInterface {
     return mock(Descriptor::class)->allows(array_merge([
         'fill' => (__fillCallback())(new Input(__input())),
-        'path' => __inputPath(),
+        'path' => __DIR__.'/stubs/test.stub',
         'pattern' => __pattern(),
     ], $merge));
 }
@@ -39,33 +39,6 @@ function __input(): array
         'second' => '2nd',
         'fourth' => '4th',
     ];
-}
-
-function __install(
-    int $chmod,
-    string $path,
-    bool $passable = false,
-): Generator|Passable {
-    shell_exec('install -m '.$chmod.' /dev/null '.$path);
-
-    return $passable ? passable() : generator();
-}
-
-function __inputPath(bool $tmp = false): string
-{
-    return $tmp === false
-        ? __DIR__.'/stubs/test.stub'
-        : __DIR__.'/../../not-readable.stub';
-}
-
-function __inputPathWithPattern(): string
-{
-    return __DIR__.'/stubs/test-with-pattern.stub';
-}
-
-function __outputPath(): string
-{
-    return __DIR__.'/../../generator-result.txt';
 }
 
 function __pattern(): string
@@ -90,7 +63,7 @@ function __pipes(array $merge = []): array
 
 function generator(): Generator
 {
-    return Generator::make();
+    return new Generator();
 }
 
 function passable(): Passable

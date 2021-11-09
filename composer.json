@@ -33,6 +33,7 @@
         }
     },
     "scripts": {
+        "act": "act -P ubuntu-latest=shivammathur/node:latest",
         "coverage": "@php ./vendor/bin/pest --coverage",
         "coverage:setup": "pecl install pcov",
         "fix": "export PHPINSIGHTS_ENV= && $PHP_INTERPRETER ./vendor/bin/phpinsights --fix",

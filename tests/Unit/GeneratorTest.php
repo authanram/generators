@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
-afterAll(function (): void {
-    file_exists(__outputPath()) ? unlink(__outputPath()) : null;
+$inputPath = __DIR__.'/../stubs/test.stub';
+$outputPath = __DIR__.'/result.txt';
+
+beforeEach(function () use ($inputPath) {
+    $this->inputPath = $inputPath;
 });
 
 it('generates', function (): void {
@@ -11,7 +14,7 @@ it('generates', function (): void {
         ->withFillCallback(__fillCallback())
         ->withInput(__input())
         ->withPattern(__pattern())
-        ->withInputPath(__inputPath())
+        ->withInputPath($this->inputPath)
         ->generate()
         ->template();
 
@@ -32,30 +35,31 @@ it('generates withInputPath', function (): void {
     $template = generator()
         ->withFillCallback(__fillCallback())
         ->withInput(__input())
-        ->withInputPath(__inputPath())
+        ->withInputPath($this->inputPath)
         ->generate()
         ->template();
 
     expect($template)->toBe('first 2nd third 4TH');
 });
 
-it('generates withOutputPath', function (): void {
+it('generates withOutputPath', function () use ($outputPath): void {
     generator()
         ->withFillCallback(__fillCallback())
         ->withInput(__input())
-        ->withInputPath(__inputPath())
-        ->withOutputPath(__outputPath())
+        ->withInputPath($this->inputPath)
+        ->withOutputPath($outputPath)
         ->generate();
 
-    expect(__outputPath())->toBeReadableFile();
-    expect(file_get_contents(__outputPath()))->toBe('first 2nd third 4TH');
+    expect($outputPath)->toBeReadableFile();
+    expect(file_get_contents($outputPath))->toBe('first 2nd third 4TH');
+    unlink($outputPath);
 });
 
 it('generates withPattern', function (): void {
     $template = generator()
         ->withFillCallback(__fillCallback())
         ->withInput(__input())
-        ->withInputPath(__inputPathWithPattern())
+        ->withInputPath(__DIR__.'/../stubs/test-with-pattern.stub')
         ->withPattern('!!1 %s 2##')
         ->generate()
         ->template();
@@ -67,7 +71,7 @@ it('generates withPipes', function (): void {
     $template = generator()
         ->withFillCallback(__fillCallback())
         ->withInput(__input())
-        ->withInputPath(__inputPath())
+        ->withInputPath($this->inputPath)
         ->withPipes(__pipes())
         ->generate()
         ->template();
