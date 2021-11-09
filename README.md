@@ -20,17 +20,13 @@ Here's an example of how it can be used in a very basic way:
 ```php
 (new Authanram\Generators\Generator())
     ->withTemplate('first {{ second }} third {{ fourth }}')
-    ->withInput(['second' => '2nd', 'fourth' => '4TH'])
-    ->withFillCallback(fn ($input) => [
-        'second' => $input->str('second')->upper(),
-        'fourth' => $input->str('fourth')->lower(),
-    ])->get();
+    ->withInput(['second' => '2nd', 'fourth' => '4th']);
 ```
 
 This will lead to the following output:
 
 ```shell
-first 2ND third 4th
+first 2nd third 4th
 ```
 
 ## Documentation

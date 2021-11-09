@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpDocSignatureIsNotCompleteInspection */
 
 declare(strict_types=1);
 
@@ -132,7 +132,7 @@ final class Generator
     /** @throws GeneratorException */
     public function generate(): Passable
     {
-        Assert::fillCallback($this->fillCallback);
+        //Assert::fillCallback($this->fillCallback);
 
         $this->passable
             ->withInputFilled(($this->fillCallback)(new Input($this->input)))
