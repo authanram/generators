@@ -1,24 +1,26 @@
 {
     "name": "authanram/generators",
     "type": "package",
-    "description": "...",
+    "description": "Language independent code generation",
+    "keywords": [
+        "authanram",
+        "code-generator"
+    ],
+    "homepage": "https://authanram.com/docs/generators",
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
-        "illuminate/container": "^8.68.0",
-        "illuminate/filesystem": "^8.68.0",
-        "illuminate/pipeline": "^8.68.0",
-        "illuminate/support": "^8.68.0",
+        "php": "^8.0",
+        "illuminate/container": "^8.0.0",
+        "illuminate/filesystem": "^8.0.0",
+        "illuminate/pipeline": "^8.0.0",
+        "illuminate/support": "^8.0.0",
         "webmozart/assert": "^1.10.0"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.16.0",
-        "mockery/mockery": "^1.4.4",
         "nunomaduro/phpinsights": "^2.0.1",
         "pestphp/pest": "^1.20.0",
         "pestphp/pest-plugin-mock": "^1.0.3",
-        "pestphp/pest-plugin-watch": "1.x-dev",
-        "spatie/ray": "^1.30.3"
+        "pestphp/pest-plugin-watch": "1.x-dev"
     },
     "autoload": {
         "psr-4": {
