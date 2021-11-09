@@ -135,7 +135,6 @@ final class Generator
         //Assert::fillCallback($this->fillCallback);
 
         $this->passable
-            ->withInputFilled(($this->fillCallback)(new Input($this->input)))
             ->withPattern($this->pattern);
 
         try {
