@@ -60,8 +60,6 @@ final class Generator
 
     public function withFillCallback(callable $fillCallback): self
     {
-        Assert::isCallable($fillCallback);
-
         $this->fillCallback = $fillCallback;
 
         return $this;
@@ -132,9 +130,12 @@ final class Generator
     /** @throws GeneratorException */
     public function generate(): Passable
     {
-        //Assert::fillCallback($this->fillCallback);
+        $input = $this->fillCallback
+            ? ($this->fillCallback)(new Input($this->input))
+            : $this->input;
 
         $this->passable
+            ->withInputFilled($input)
             ->withPattern($this->pattern);
 
         try {

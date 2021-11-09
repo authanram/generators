@@ -42,13 +42,6 @@ final class Assert extends WebmozartAssert
         self::nullOrSubclassOf($value, Descriptor::class, $message);
     }
 
-    public static function fillCallback(Closure|null $value): void
-    {
-        $message = self::message(self::NOT_EMPTY, '$fillCallback');
-
-        self::isCallable($value, $message);
-    }
-
     /** @param array<string> $value */
     public static function input(array $value): void
     {
