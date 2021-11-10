@@ -53,4 +53,4 @@ jobs:
         run: vendor/bin/pest
 
       - name: Execute Insights
-        run: vendor/bin/phpinsights
+        run: vendor/bin/phpinsights --summary
