@@ -1,3 +1,4 @@
 /vendor
+/workflow
 .phpunit.result.cache
 composer.lock

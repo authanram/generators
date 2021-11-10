@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Authanram\Generators;
 
 use Authanram\Generators\Contracts\Pipe;
-use Closure;
+use Exception;
 use Webmozart\Assert\Assert as WebmozartAssert;
 
 final class Assert extends WebmozartAssert
@@ -62,6 +62,7 @@ final class Assert extends WebmozartAssert
         self::isNonEmptyMap($value, $message);
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public static function inputPath(string $value): void
     {
         $message = self::message(self::NOT_EMPTY, '$inputPath');
@@ -74,9 +75,10 @@ final class Assert extends WebmozartAssert
 
         $message = self::message(self::READABLE, $value);
 
-        self::readable($value, $message);
+        self::isReadableWithFOpen($value, $message);
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public static function outputPath(string $value): void
     {
         $message = self::message(self::NOT_EMPTY, '$outputPath');
@@ -93,7 +95,7 @@ final class Assert extends WebmozartAssert
 
         $message = self::message(self::WRITEABLE, $value);
 
-        self::writable($value, $message);
+        self::isWriteableWithFOpen($value, $message);
     }
 
     public static function pattern(string $value): void
@@ -154,5 +156,33 @@ final class Assert extends WebmozartAssert
         $message = self::message(self::VARIABLE, '$template');
 
         self::true($hasTemplateVariables, $message);
+    }
+
+    /** @noinspection PhpUnhandledExceptionInspection */
+    private static function isReadableWithFOpen(
+        string $value,
+        string $message
+    ): void {
+        self::readable($value, $message);
+
+        try {
+            fclose(fopen($value, 'rb'));
+        } catch (Exception) {
+            throw new Exception($message);
+        }
+    }
+
+    /** @noinspection PhpUnhandledExceptionInspection */
+    private static function isWriteableWithFOpen(
+        string $value,
+        string $message
+    ): void {
+        self::writable($value, $message);
+
+        try {
+            fclose(fopen($value, 'wb'));
+        } catch (Exception) {
+            throw new Exception($message);
+        }
     }
 }

@@ -30,7 +30,9 @@ first 2nd third 4th
 
 ## Documentation
 
-To learn all about this package, head over to the [documentation](https://authanram.com/docs/generators).
+To learn all about this package, head over to the [documentation](https://authanram.com/f27aec6e-4516-4e70-bf00-c15ab72b2e71).
+
+_(Note: The documentation is currently under construction.)_
 
 ## Changelog
 

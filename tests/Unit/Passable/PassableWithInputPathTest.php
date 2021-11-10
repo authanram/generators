@@ -6,12 +6,13 @@ use Authanram\Generators\Assert;
 
 $path = __DIR__.'/../../stubs/not-readable.stub';
 
-beforeAll(function () use ($path) {
+beforeAll(function () use ($path): void {
+    touch($path);
     chmod($path, 0333);
 });
 
-afterAll(function () use ($path) {
-    chmod($path, 0755);
+afterAll(function () use ($path): void {
+    unlink($path);
 });
 
 it('throws if inputPath is empty', function (): void {

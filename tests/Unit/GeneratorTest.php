@@ -5,7 +5,7 @@ declare(strict_types=1);
 $inputPath = __DIR__.'/../stubs/test.stub';
 $outputPath = __DIR__.'/result.txt';
 
-beforeEach(function () use ($inputPath) {
+beforeEach(function () use ($inputPath): void {
     $this->inputPath = $inputPath;
 });
 
