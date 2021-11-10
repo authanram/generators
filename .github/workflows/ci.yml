@@ -51,3 +51,6 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/pest
+
+      - name: Execute Insights
+        run: vendor/bin/phpinsights
