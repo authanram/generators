@@ -9,9 +9,15 @@ use Illuminate\Support\Stringable;
 
 final class Input
 {
-    /** @param array<string> $input */
+    /** @param array<string, string> $input */
     public function __construct(private array $input)
     {
+    }
+
+    /** @return array<string, string> */
+    public function all(): array
+    {
+        return $this->input;
     }
 
     public function get(string $key): string
