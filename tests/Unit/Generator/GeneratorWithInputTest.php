@@ -18,3 +18,10 @@ it('throws if input key not exists', function (): void {
         ->withInput(['second' => '2nd'])
         ->generate();
 })->expectExceptionMessage(Assert::message(Assert::KEY_EXISTS, 'fourth'));
+
+it('throws if input is not consistent', function (): void {
+    generator()
+        ->withTemplate('first {{ second }} third {{ fourth }}')
+        ->withInput(['second' => '2nd'])
+        ->generate();
+})->expectExceptionMessage(Assert::message(Assert::DIFF, 'fourth', '$input'));
