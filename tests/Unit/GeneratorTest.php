@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Authanram\Generators\Tests\TestClasses;
+
 $inputPath = __DIR__.'/../stubs/test.stub';
 $outputPath = __DIR__.'/result.txt';
 
@@ -23,12 +25,12 @@ it('generates', function (): void {
 
 it('generates withDescriptor', function (): void {
     $template = generator()
-        ->withDescriptor(__descriptor())
+        ->withDescriptor(TestClasses\TestDescriptorA::class)
         ->withInput(__input())
         ->generate()
         ->template();
 
-    expect($template)->toBe('first 2nd third 4TH');
+    expect($template)->toBe('first 2nd third 4th');
 });
 
 it('generates withInputPath', function (): void {

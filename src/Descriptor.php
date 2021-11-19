@@ -13,7 +13,10 @@ abstract class Descriptor
     abstract public static function path(): string;
 
     /** @return array<string, Stringable|string> */
-    abstract public static function fill(Input $input): array;
+    public static function fill(Input $input): array
+    {
+        return $input->all();
+    }
 
     public static function pattern(): string
     {

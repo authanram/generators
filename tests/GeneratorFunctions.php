@@ -2,33 +2,17 @@
 
 declare(strict_types=1);
 
-use Authanram\Generators\Descriptor;
 use Authanram\Generators\Generator;
 use Authanram\Generators\Input;
 use Authanram\Generators\Passable;
 use Authanram\Generators\Pipes;
-use Mockery\Expectation;
-use Mockery\ExpectationInterface;
-use Mockery\HigherOrderMessage;
-use Mockery\MockInterface;
-
-/** @param array<string> $merge */
-function __descriptor(
-    array $merge = [],
-): HigherOrderMessage|Expectation|MockInterface|ExpectationInterface {
-    return mock(Descriptor::class)->allows(array_merge([
-        'fill' => (__fillCallback())(new Input(__input())),
-        'path' => __DIR__.'/stubs/test.stub',
-        'pattern' => __pattern(),
-    ], $merge));
-}
 
 function __fillCallback(): Closure
 {
     /** @return array<string> */
-    return static fn (Input $data) => [
-        'second' => $data->str('second')->lower(),
-        'fourth' => $data->str('fourth')->upper(),
+    return static fn (Input $input) => [
+        'second' => $input->str('second')->lower(),
+        'fourth' => $input->str('fourth')->upper(),
     ];
 }
 

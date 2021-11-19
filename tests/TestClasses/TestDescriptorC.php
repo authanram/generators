@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpDocSignatureIsNotCompleteInspection */
 
 declare(strict_types=1);
 
@@ -7,7 +7,7 @@ namespace Authanram\Generators\Tests\TestClasses;
 use Authanram\Generators\Descriptor;
 use Authanram\Generators\Input;
 
-final class TestDescriptor extends Descriptor
+final class TestDescriptorC extends Descriptor
 {
     public static function path(): string
     {
@@ -15,11 +15,11 @@ final class TestDescriptor extends Descriptor
     }
 
     /** @return array<string> */
-    public static function fill(Input $data): array
+    public static function fill(Input $input): array
     {
         return [
-            'second' => $data->str('second')->lower(),
-            'fourth' => $data->str('fourth')->upper(),
+            'second' => $input->str('second')->lower(),
+            'fourth' => $input->str('fourth')->upper(),
         ];
     }
 }
