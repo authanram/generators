@@ -20,8 +20,17 @@ final class Input
         return $this->input;
     }
 
-    public function get(string $key): string
+    public function has(string $key): bool
     {
+        return array_key_exists($key, $this->input);
+    }
+
+    public function get(string $key, array|string $default = ''): array|string
+    {
+        if ($default !== '') {
+            return $this->input[$key] ?? $default;
+        }
+
         $message = Assert::message(Assert::KEY_EXISTS, $key);
 
         Assert::keyExists($this->input, $key, $message);
