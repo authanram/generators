@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Authanram\Generators\Pipes;
 
-use Authanram\Generators\Assert;
 use Authanram\Generators\Contracts\Passable;
 use Authanram\Generators\Contracts\Pipe;
 use Authanram\Generators\TemplateVariablesResolver;
@@ -18,16 +17,16 @@ final class ResolveTemplateVariables implements Pipe
             $passable->pattern(),
         );
 
-        Assert::diffInput(array_unique(array_diff(
-            $templateVariables,
-            array_keys($passable->input()),
-        )));
-
         $templateVariables = array_combine(
+            $templateVariables,
+            $templateVariables
+        );
+
+        $input = array_merge(
             $templateVariables,
             $passable->input(),
         );
 
-        return $next($passable->withInput($templateVariables));
+        return $next($passable->withInput($input));
     }
 }

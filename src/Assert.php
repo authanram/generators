@@ -11,7 +11,6 @@ use Webmozart\Assert\Assert as WebmozartAssert;
 final class Assert extends WebmozartAssert
 {
     public const CONTAINS = '{%s} must contain [%s].';
-    public const DIFF = '{%s} are missing at [%s].';
     public const FILE = '[%s] must be a file.';
     public const FILE_NOT_FOUND = 'File [%s] not found.';
     public const IMPLEMENTS_INTERFACE = '[%s] must implement [%s].';
@@ -41,13 +40,6 @@ final class Assert extends WebmozartAssert
         $message = self::message(self::SUBCLASS_OF, $value, Descriptor::class);
 
         self::nullOrSubclassOf($value, Descriptor::class, $message);
-    }
-
-    public static function diffInput(array $value): void
-    {
-        $message = self::message(self::DIFF, implode(', ', $value), '$input');
-
-        self::isEmpty($value, $message);
     }
 
     /** @param array<string> $value */
