@@ -13,7 +13,8 @@ final class Postprocess implements Pipe
     public static function handle(Passable $passable, callable $next): Passable
     {
         $template = (string) Str::of($passable->template())
-            ->replace("\n\n\n", "\n");
+            ->replace("\n\n\n", "\n")
+            ->append("\n");
 
         return $next($passable->useTemplate($template));
     }
