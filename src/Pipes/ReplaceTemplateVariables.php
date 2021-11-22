@@ -28,11 +28,9 @@ final class ReplaceTemplateVariables implements Pipe
 
     private static function value(Stringable|array|string $subject): string
     {
-        $fn = static fn ($item) => is_callable($item)
-            ? $item($item)
-            : $item;
-
-        return self::toCollection($subject)->map($fn)->implode("\n");
+        return self::toCollection($subject)
+            ->map(static fn ($item) => $item)
+            ->implode("\n");
     }
 
     private static function toCollection(
