@@ -29,5 +29,5 @@ it('generates', function (): void {
         ->generate()
         ->template();
 
-    expect($template)->toBe('first 2nd third 4TH');
+    expect($template)->toBe("first 2nd third 4TH\n");
 });

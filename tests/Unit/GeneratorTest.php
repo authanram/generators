@@ -11,6 +11,10 @@ beforeEach(function () use ($inputPath): void {
     $this->inputPath = $inputPath;
 });
 
+afterEach(function () use ($outputPath): void {
+    file_exists($outputPath) ? unlink($outputPath) : null;
+});
+
 it('generates', function (): void {
     $template = generator()
         ->withFillCallback(__fillCallback())
@@ -20,7 +24,7 @@ it('generates', function (): void {
         ->generate()
         ->template();
 
-    expect($template)->toBe('first 2nd third 4TH');
+    expect($template)->toBe("first 2nd third 4TH\n");
 });
 
 it('generates withDescriptor', function (): void {
@@ -30,7 +34,7 @@ it('generates withDescriptor', function (): void {
         ->generate()
         ->template();
 
-    expect($template)->toBe('first 2nd third 4th');
+    expect($template)->toBe("first 2nd third 4th\n");
 });
 
 it('generates withInputPath', function (): void {
@@ -41,7 +45,7 @@ it('generates withInputPath', function (): void {
         ->generate()
         ->template();
 
-    expect($template)->toBe('first 2nd third 4TH');
+    expect($template)->toBe("first 2nd third 4TH\n");
 });
 
 it('generates withOutputPath', function () use ($outputPath): void {
@@ -53,8 +57,7 @@ it('generates withOutputPath', function () use ($outputPath): void {
         ->generate();
 
     expect($outputPath)->toBeReadableFile();
-    expect(file_get_contents($outputPath))->toBe('first 2nd third 4TH');
-    unlink($outputPath);
+    expect(file_get_contents($outputPath))->toBe("first 2nd third 4TH\n");
 });
 
 it('generates withPattern', function (): void {
@@ -66,7 +69,7 @@ it('generates withPattern', function (): void {
         ->generate()
         ->template();
 
-    expect($template)->toBe('first 2nd third 4TH');
+    expect($template)->toBe("first 2nd third 4TH\n");
 });
 
 it('generates withPipes', function (): void {
@@ -78,7 +81,7 @@ it('generates withPipes', function (): void {
         ->generate()
         ->template();
 
-    expect($template)->toBe('first 2nd third 4TH');
+    expect($template)->toBe("first 2nd third 4TH\n");
 });
 
 it('generates withTemplate', function (): void {
@@ -89,5 +92,5 @@ it('generates withTemplate', function (): void {
         ->generate()
         ->template();
 
-    expect($template)->toBe('first 2nd third 4TH');
+    expect($template)->toBe("first 2nd third 4TH\n");
 });
