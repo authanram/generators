@@ -130,12 +130,8 @@ final class Generator
     /** @throws GeneratorException */
     public function generate(): Passable
     {
-        $input = $this->fillCallback
-            ? ($this->fillCallback)(new Input($this->input))
-            : $this->input;
-
         $this->passable
-            ->withInputFilled($input)
+            ->withInputFilled($this->fill($this->fillCallback))
             ->withPattern($this->pattern);
 
         try {
@@ -152,5 +148,14 @@ final class Generator
     public function get(): string
     {
         return $this->generate()->template();
+    }
+
+    private function fill(?callable $callback): array
+    {
+        $filled = ($callback ?? fn ($input) => $input)(
+            new Input($this->input),
+        );
+
+        return array_merge($this->input, $filled);
     }
 }
