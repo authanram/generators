@@ -6,7 +6,6 @@ namespace Authanram\Generators;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
-use InvalidArgumentException;
 
 final class Input
 {
@@ -15,7 +14,7 @@ final class Input
     {
     }
 
-    /** @return array<string, mixed> */
+    /** @return array<string, string> */
     public function all(): array
     {
         return $this->input;
@@ -26,7 +25,7 @@ final class Input
         return array_key_exists($key, $this->input);
     }
 
-    public function get(string $key, array|string $default = ''): mixed
+    public function get(string $key, array|string $default = ''): array|string
     {
         if ($default !== '') {
             return $this->input[$key] ?? $default;
@@ -41,14 +40,6 @@ final class Input
 
     public function str(string $key): Stringable
     {
-        $value = $this->get($key);
-
-        if (is_string($value)) {
-            return Str::of($value);
-        }
-
-        throw new InvalidArgumentException(
-            'Expected string, got: '.gettype($value),
-        );
+        return Str::of($this->get($key));
     }
 }
