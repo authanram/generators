@@ -27,15 +27,17 @@ final class Input
 
     public function get(string $key, array|string $default = ''): array|string
     {
-        if ($default !== '') {
-            return $this->input[$key] ?? $default;
-        }
-
         $message = Assert::message(Assert::KEY_EXISTS, $key);
 
         Assert::keyExists($this->input, $key, $message);
 
-        return $this->input[$key];
+        $value = $this->input[$key];
+
+        if ($default !== '') {
+            $value = $value ?? $default;
+        }
+
+        return $value;
     }
 
     public function str(string $key): Stringable

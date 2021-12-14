@@ -16,7 +16,7 @@ it('resolves if key exists', function (): void {
 });
 
 it('resolves with default value', function (): void {
-    expect((new Input([]))->get('first', []))->toEqual([]);
+    expect((new Input(['first' => null]))->get('first', []))->toEqual([]);
 });
 
 it('resolves', function (): void {
