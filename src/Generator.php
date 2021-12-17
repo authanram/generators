@@ -156,6 +156,8 @@ final class Generator
             new Input($this->input),
         );
 
-        return array_merge($this->input, $filled);
+        return is_array($filled)
+            ? array_merge($this->input, $filled)
+            : $this->input;
     }
 }
